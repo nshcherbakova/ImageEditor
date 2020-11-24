@@ -1,0 +1,7 @@
+#pragma once
+#ifndef IMAGEEDITOR_CORE_COMPONENET_H
+#define IMAGEEDITOR_CORE_COMPONENET_H
+#include <boost/di.hpp>
+
+#endif //IMAGEEDITOR_CORE_COMPONENET_H
+

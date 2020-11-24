@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{8ff18ab3-d7ae-4acf-837c-ac5c47c9b3cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{c513ac93-93a5-4918-99f3-a8de899aa248}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Gears">
+      <UniqueIdentifier>{ea19cd6a-0061-4b1e-b799-deadf75062c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Gears\StdAfx">
+      <UniqueIdentifier>{f4518794-a90b-46b8-9652-98937168b943}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Filters">
+      <UniqueIdentifier>{bf971e53-3a18-4f14-bf01-31a70b4420aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Frames">
+      <UniqueIdentifier>{ecff3176-aacb-468a-be33-a3c988e27b0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Image">
+      <UniqueIdentifier>{e0d87bac-40e6-49bd-9ccf-0fb34b4698c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Modules">
+      <UniqueIdentifier>{32d0a476-7a23-4328-a901-5dac3b9b0181}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\FiltersFrame">
+      <UniqueIdentifier>{af075e10-4982-4a83-9dca-bbf4c3a4a2c1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Core/Gears/StdAfx/stdafx.cpp">
+      <Filter>Core\Gears\StdAfx</Filter>
+    </ClCompile>
+    <ClCompile Include="UI/main.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Filters\Filters.cpp">
+      <Filter>Core\Filters</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Image\Image.cpp">
+      <Filter>Core\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\FiltersFrame\FiltersFrame.cpp">
+      <Filter>Modules\FiltersFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIImageEditor.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Frames\UIFiltersFrame.cpp">
+      <Filter>UI\Frames</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Core/Gears/StdAfx/stdafx.h">
+      <Filter>Core\Gears\StdAfx</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Gears\Module.h">
+      <Filter>Core\Gears</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Frames\Module.h">
+      <Filter>UI\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Image\Module.h">
+      <Filter>Core\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Filters\Module.h">
+      <Filter>Core\Filters</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Filters\IFilter.h">
+      <Filter>Core\Filters</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Image\IImage.h">
+      <Filter>Core\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Image\Image.h">
+      <Filter>Core\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Filters\Filters.h">
+      <Filter>Core\Filters</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\FiltersFrame\FiltersFrame.h">
+      <Filter>Modules\FiltersFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\FiltersFrame\Module.h">
+      <Filter>Modules\FiltersFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\Tags.h">
+      <Filter>Core\Filters</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\IFrame.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Frames\IUIFrame.h">
+      <Filter>UI\Frames</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="Modules\IControl.h">
+      <Filter>Modules</Filter>
+    </QtMoc>
+    <QtMoc Include="UI\Frames\UIFiltersFrame.h">
+      <Filter>UI\Frames</Filter>
+    </QtMoc>
+    <QtMoc Include="UI\UIImageEditor.h">
+      <Filter>UI</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="UI/ImageEditor.ui">
+      <Filter>UI</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="UI/ImageEditor.qrc">
+      <Filter>UI</Filter>
+    </QtRcc>
+  </ItemGroup>
+</Project>
