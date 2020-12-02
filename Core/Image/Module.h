@@ -1,15 +1,15 @@
 #pragma once
 #ifndef IMAGEEDITOR_CORE_IMAGE_MODULE_H
 #define IMAGEEDITOR_CORE_IMAGE_MODULE_H
-#include <Core/Gears/Module.h>
+#include <Core/Gears/Injector.h>
 #include <Core/Image/Image.h>
 
-namespace ImageEditor::Core::Image
+namespace ImageEditor::Core
 {
-    auto InitModule()
+    inline auto InitModule()
     {
-        auto injector = boost::ext::di::make_injector(
-            boost::ext::di::bind<IImage, Image>.in(boost::ext::di::shared)
+        auto injector = boost::di::make_injector(
+            boost::di::bind<IImage>().to<Image>().in(boost::di::singleton)
         );
         return injector;
     }

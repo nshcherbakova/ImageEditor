@@ -1,15 +1,17 @@
 #pragma once
 #ifndef IMAGEEDITOR_CORE_FILTER_MODULE_H
 #define IMAGEEDITOR_CORE_FILTER_MODULE_H
-#include <Core/Gears/Module.h>
-#include <Core/Filters/Filters.h>
+#include <Core/Gears/Injector.h>
+#include <Core/Filters/StubFilter.h>
+#include <Core/Filters/FiltersContainer.h>
 
-namespace ImageEditor::Core::Filters
+namespace ImageEditor::Core
 {
-    auto InitModule()
+    inline auto InitFiltersModule()
     {
-        auto injector = boost::ext::di::make_injector(
-            boost::ext::di::bind<IFilter, Filter>.in(boost::ext::di::shared)
+        auto injector = boost::di::make_injector(
+            boost::di::bind<IFilter>().to<StubFilter>().in(boost::di::singleton),
+            boost::di::bind<IFiltersContainer>().to<FiltersContainer>().in(boost::di::singleton)
         );
         return injector;
     }

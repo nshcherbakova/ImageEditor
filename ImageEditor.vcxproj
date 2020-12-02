@@ -44,6 +44,7 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IMAGE_EDITOR_THIRDPARTY)/fruit-3.6.0/include/</IncludePath>
+    <SourcePath>$(VC_SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IMAGE_EDITOR_THIRDPARTY)/fruit-3.6.0/include/</IncludePath>
@@ -112,8 +113,32 @@
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Modules\FiltersFrame\FiltersFrame.cpp" />
-    <ClCompile Include="UI\Frames\UIFiltersFrame.cpp">
+    <ClCompile Include="Core\Filters\FiltersContainer.cpp" />
+    <ClCompile Include="Core\Filters\StubFilter.cpp" />
+    <ClCompile Include="UI\Widgets\FiltersWidget.cpp" />
+    <ClInclude Include="Core\Filters\FiltersContainer.h" />
+    <ClInclude Include="Core\Filters\IFiltersContainer.h" />
+    <ClInclude Include="Core\Filters\StubFilter.h" />
+    <ClInclude Include="Core\Gears\Asserts.h" />
+    <ClInclude Include="Core\types.h" />
+    <ClInclude Include="Modules\EditableImage\EditableImage.h" />
+    <ClInclude Include="Modules\EditableImage\IEditableImage.h" />
+    <ClInclude Include="Modules\EditableImage\Module.h" />
+    <ClInclude Include="Modules\Frames\FiltersFrame.h" />
+    <ClInclude Include="Modules\Frames\IControl.h" />
+    <ClInclude Include="Modules\Frames\IFrame.h" />
+    <ClInclude Include="Modules\Frames\Module.h" />
+    <ClInclude Include="Modules\Frames\Tags.h" />
+    <ClInclude Include="Modules\types.h" />
+    <ClInclude Include="UI\types.h" />
+    <ClInclude Include="UI\UIString.h" />
+    <ClCompile Include="Modules\Frames\FiltersFrame.cpp">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
+    </ClCompile>
+    <ClCompile Include="Modules\EditableImage\EditableImage.cpp">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
@@ -130,21 +155,14 @@
     <ClInclude Include="Core\Filters\IFilter.h" />
     <ClInclude Include="Core\Filters\Module.h" />
     <ClInclude Include="Core\Image\Module.h" />
-    <ClInclude Include="Modules\FiltersFrame\FiltersFrame.h" />
-    <ClInclude Include="Modules\FiltersFrame\Module.h" />
-    <QtMoc Include="Modules\IControl.h" />
-    <ClInclude Include="Modules\IFrame.h" />
-    <ClInclude Include="Modules\Tags.h" />
-    <ClInclude Include="UI\Frames\Module.h" />
-    <ClInclude Include="UI\Frames\IUIFrame.h" />
-    <QtMoc Include="UI\Frames\UIFiltersFrame.h" />
-    <ClInclude Include="Core\Filters\Filters.h" />
-    <ClInclude Include="Core\Gears\Module.h" />
+    <ClInclude Include="Core\Gears\Injector.h" />
+    <ClInclude Include="UI\Widgets\IWidget.h" />
+    <ClInclude Include="UI\Widgets\Module.h" />
+    <QtMoc Include="UI\Widgets\FiltersWidget.h" />
     <QtRcc Include="UI/ImageEditor.qrc" />
     <QtUic Include="UI/ImageEditor.ui" />
-    <QtMoc Include="UI\UIImageEditor.h" />
-    <ClCompile Include="Core\Filters\Filters.cpp" />
-    <ClCompile Include="UI\UIImageEditor.cpp" />
+    <QtMoc Include="UI\MainWindow.h" />
+    <ClCompile Include="UI\MainWindow..cpp" />
     <ClCompile Include="UI/main.cpp" />
     <ClInclude Include="Core/Gears/StdAfx/stdafx.h" />
     <ClCompile Include="Core/Gears/StdAfx/stdafx.cpp">

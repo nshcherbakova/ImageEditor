@@ -21,9 +21,6 @@
     <Filter Include="Core\Filters">
       <UniqueIdentifier>{bf971e53-3a18-4f14-bf01-31a70b4420aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\Frames">
-      <UniqueIdentifier>{ecff3176-aacb-468a-be33-a3c988e27b0b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Image">
       <UniqueIdentifier>{e0d87bac-40e6-49bd-9ccf-0fb34b4698c2}</UniqueIdentifier>
     </Filter>
@@ -34,8 +31,14 @@
     <Filter Include="Modules">
       <UniqueIdentifier>{32d0a476-7a23-4328-a901-5dac3b9b0181}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Modules\FiltersFrame">
+    <Filter Include="Modules\Frames">
       <UniqueIdentifier>{af075e10-4982-4a83-9dca-bbf4c3a4a2c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\EditableImage">
+      <UniqueIdentifier>{8e31700a-d2fc-4090-bf4f-a1389dec23d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Widgets">
+      <UniqueIdentifier>{cc06ed19-41c0-4e3f-a2ec-7e3b99966b8f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -45,31 +48,31 @@
     <ClCompile Include="UI/main.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Filters\Filters.cpp">
-      <Filter>Core\Filters</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Image\Image.cpp">
       <Filter>Core\Image</Filter>
     </ClCompile>
-    <ClCompile Include="Modules\FiltersFrame\FiltersFrame.cpp">
-      <Filter>Modules\FiltersFrame</Filter>
+    <ClCompile Include="Modules\EditableImage\EditableImage.cpp">
+      <Filter>Modules\EditableImage</Filter>
     </ClCompile>
-    <ClCompile Include="UI\UIImageEditor.cpp">
+    <ClCompile Include="Modules\Frames\FiltersFrame.cpp">
+      <Filter>Modules\Frames</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Widgets\FiltersWidget.cpp">
+      <Filter>UI\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Filters\FiltersContainer.cpp">
+      <Filter>Core\Filters</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Filters\StubFilter.cpp">
+      <Filter>Core\Filters</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\MainWindow..cpp">
       <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\Frames\UIFiltersFrame.cpp">
-      <Filter>UI\Frames</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core/Gears/StdAfx/stdafx.h">
       <Filter>Core\Gears\StdAfx</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Gears\Module.h">
-      <Filter>Core\Gears</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\Frames\Module.h">
-      <Filter>UI\Frames</Filter>
     </ClInclude>
     <ClInclude Include="Core\Image\Module.h">
       <Filter>Core\Image</Filter>
@@ -86,33 +89,69 @@
     <ClInclude Include="Core\Image\Image.h">
       <Filter>Core\Image</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Filters\Filters.h">
+    <ClInclude Include="Core\Gears\Injector.h">
+      <Filter>Core\Gears</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIString.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\Frames\FiltersFrame.h">
+      <Filter>Modules\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\Frames\IControl.h">
+      <Filter>Modules\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\Frames\IFrame.h">
+      <Filter>Modules\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\Frames\Module.h">
+      <Filter>Modules\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\Frames\Tags.h">
+      <Filter>Modules\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\EditableImage\EditableImage.h">
+      <Filter>Modules\EditableImage</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\EditableImage\IEditableImage.h">
+      <Filter>Modules\EditableImage</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\EditableImage\Module.h">
+      <Filter>Modules\EditableImage</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Gears\Asserts.h">
+      <Filter>Core\Gears</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Widgets\IWidget.h">
+      <Filter>UI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Widgets\Module.h">
+      <Filter>UI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Filters\FiltersContainer.h">
       <Filter>Core\Filters</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\FiltersFrame\FiltersFrame.h">
-      <Filter>Modules\FiltersFrame</Filter>
-    </ClInclude>
-    <ClInclude Include="Modules\FiltersFrame\Module.h">
-      <Filter>Modules\FiltersFrame</Filter>
-    </ClInclude>
-    <ClInclude Include="Modules\Tags.h">
+    <ClInclude Include="Core\Filters\IFiltersContainer.h">
       <Filter>Core\Filters</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\IFrame.h">
+    <ClInclude Include="Core\Filters\StubFilter.h">
+      <Filter>Core\Filters</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\types.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\types.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="UI\Frames\IUIFrame.h">
-      <Filter>UI\Frames</Filter>
+    <ClInclude Include="Core\types.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="Modules\IControl.h">
-      <Filter>Modules</Filter>
+    <QtMoc Include="UI\Widgets\FiltersWidget.h">
+      <Filter>UI\Widgets</Filter>
     </QtMoc>
-    <QtMoc Include="UI\Frames\UIFiltersFrame.h">
-      <Filter>UI\Frames</Filter>
-    </QtMoc>
-    <QtMoc Include="UI\UIImageEditor.h">
+    <QtMoc Include="UI\MainWindow.h">
       <Filter>UI</Filter>
     </QtMoc>
   </ItemGroup>

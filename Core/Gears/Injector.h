@@ -1,0 +1,7 @@
+#pragma once
+#ifndef IMAGEEDITOR_CORE_GEARS_INJECTOR_H
+#define IMAGEEDITOR_CORE_GEARS_INJECTOR_H
+#include <boost/di.hpp>
+
+#endif //IMAGEEDITOR_CORE_GEARS_INJECTOR_H
+

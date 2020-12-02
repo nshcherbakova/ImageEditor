@@ -1,18 +1,13 @@
 #pragma once
 #ifndef IMAGEEDITOR_CORE_IMAGE_IIMAGE_H
 #define IMAGEEDITOR_CORE_IMAGE_IIMAGE_H
-#include <memory>
+#include <Core/types.h>
 
-namespace ImageEditor::Core::Image
+namespace ImageEditor::Core
 {
-	struct IImage;
-	using IImagePtr = std::shared_ptr<IImage>;
-
 	struct IImage
 	{
-	public:
 		virtual ~IImage() {}
-	private:
 	};
 }
 
