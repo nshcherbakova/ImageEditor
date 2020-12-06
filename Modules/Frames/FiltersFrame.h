@@ -11,7 +11,13 @@ namespace ImageEditor::Modules
 	class FiltersFrame final: public IFrame
 	{
 	public:
-		 FiltersFrame(IEditableImagePtr image, Core::IFiltersContainerPtr filters);
+		struct Parameters
+		{
+			IEditableImagePtr image;
+			Core::IFilterPtrArr filters;
+		};
+
+		FiltersFrame(Parameters parameters);
 	
 	public: // IFrame
 		virtual const IControlsMapPtr Controls() const override final;

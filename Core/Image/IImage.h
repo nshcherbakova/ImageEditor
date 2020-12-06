@@ -7,6 +7,12 @@ namespace ImageEditor::Core
 {
 	struct IImage
 	{
+		virtual const std::vector<uchar>& Data() const = 0;
+		virtual unsigned int Width() const = 0;
+		virtual unsigned int Height() const = 0;
+		virtual unsigned int BytesPerLine() const = 0;
+		virtual unsigned int Format() const = 0;
+		
 		virtual ~IImage() {}
 	};
 }

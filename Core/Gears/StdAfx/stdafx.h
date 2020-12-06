@@ -1,11 +1,10 @@
 #include <cstddef>
 
+#include <QImage>
+#include <QHBoxLayout>
+#include <QPushButton>
 #include <QtWidgets>
 #include <QtWidgets/QApplication>
-#include <QGridLayout>
-#include <QPushButton>
-#include <QHBoxLayout>
-#include <QListView>
 
 #include <Core/Image/Module.h>
 #include <Core/Filters/Module.h>

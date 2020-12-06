@@ -113,11 +113,8 @@
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Core\Filters\FiltersContainer.cpp" />
     <ClCompile Include="Core\Filters\StubFilter.cpp" />
     <ClCompile Include="UI\Widgets\FiltersWidget.cpp" />
-    <ClInclude Include="Core\Filters\FiltersContainer.h" />
-    <ClInclude Include="Core\Filters\IFiltersContainer.h" />
     <ClInclude Include="Core\Filters\StubFilter.h" />
     <ClInclude Include="Core\Gears\Asserts.h" />
     <ClInclude Include="Core\types.h" />

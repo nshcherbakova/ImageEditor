@@ -7,5 +7,6 @@ namespace ImageEditor::UI
         : QMainWindow(parent)
     {
         ui.setupUi(this);
+        delete ui.mainToolBar;
     }
 }

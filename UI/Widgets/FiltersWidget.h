@@ -14,10 +14,32 @@ namespace ImageEditor::UI
     {
         Q_OBJECT
     public:
-        FiltersWidget(QWidget& parent, Modules::IFramePtr frame);
+        struct Parameters
+        {
+            QWidget& parent;
+            Modules::IFramePtr filters_frame;
+            Modules::IEditableImagePtr image;
+        };
 
-    public slots: // IWidget
+        FiltersWidget(Parameters parameters);
+
+    public: // IWidget
         virtual void onShow(const bool visible) override final;
+
+    public slots: 
+        void OnSignalOpenImage(QString path);
+        void OnSignalSaveImage(QString path);
+
+    private: // QWidget
+        virtual void paintEvent(QPaintEvent* event) override final;
+
+    private:
+        void CreateMenuButton(Modules::IControlsMapPtr controls);
+        void CreateFilterButtons(Modules::IControlsMapPtr controls);
+
+    private:
+        Modules::IEditableImagePtr editable_image_;
+        std::shared_ptr<QImage> image_;
     };
 
     class UICommand final : public QObject
@@ -25,8 +47,10 @@ namespace ImageEditor::UI
         Q_OBJECT
     public:
         explicit UICommand(QObject* parent, Modules::IControlPtr control);
+
     public slots:
         void OnButtonClicked();
+
     private:
         const Modules::IControlPtr control_;
     };

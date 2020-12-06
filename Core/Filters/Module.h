@@ -3,15 +3,13 @@
 #define IMAGEEDITOR_CORE_FILTER_MODULE_H
 #include <Core/Gears/Injector.h>
 #include <Core/Filters/StubFilter.h>
-#include <Core/Filters/FiltersContainer.h>
 
 namespace ImageEditor::Core
 {
     inline auto InitFiltersModule()
     {
         auto injector = boost::di::make_injector(
-            boost::di::bind<IFilter>().to<StubFilter>().in(boost::di::singleton),
-            boost::di::bind<IFiltersContainer>().to<FiltersContainer>().in(boost::di::singleton)
+            boost::di::bind<IFilter>().to<StubFilter>().in(boost::di::singleton)
         );
         return injector;
     }

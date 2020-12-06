@@ -8,7 +8,29 @@ namespace ImageEditor::Core
 	class Image final: public IImage
 	{
 	public:
-		Image();
+		struct Parameters
+		{
+			std::vector<uchar> data;
+			unsigned int width;
+			unsigned int height;
+			unsigned int bytes_per_line;
+			unsigned int format;
+		};
+		Image(Parameters parameters);
+
+	public: // IImage
+		virtual const std::vector<uchar>& Data() const final override;
+		virtual unsigned int Width() const final override;
+		virtual unsigned int Height()  const final override;
+		virtual unsigned int BytesPerLine() const final override;
+		virtual unsigned int Format() const final override;
+
+	private:
+		const std::vector<uchar> data_;
+		unsigned int width_;
+		unsigned int height_;
+		unsigned int bytes_per_line_;
+		unsigned int format_;
 	};
 }
 

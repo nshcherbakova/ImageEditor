@@ -60,9 +60,6 @@
     <ClCompile Include="UI\Widgets\FiltersWidget.cpp">
       <Filter>UI\Widgets</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Filters\FiltersContainer.cpp">
-      <Filter>Core\Filters</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Filters\StubFilter.cpp">
       <Filter>Core\Filters</Filter>
     </ClCompile>
@@ -127,12 +124,6 @@
     </ClInclude>
     <ClInclude Include="UI\Widgets\Module.h">
       <Filter>UI\Widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Filters\FiltersContainer.h">
-      <Filter>Core\Filters</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Filters\IFiltersContainer.h">
-      <Filter>Core\Filters</Filter>
     </ClInclude>
     <ClInclude Include="Core\Filters\StubFilter.h">
       <Filter>Core\Filters</Filter>

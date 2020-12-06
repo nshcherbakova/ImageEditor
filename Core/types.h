@@ -8,9 +8,6 @@ namespace ImageEditor::Core
 {
 	struct IFilter;
 	using IFilterPtr = std::shared_ptr<IFilter>;
-
-	struct IFiltersContainer;
-	using IFiltersContainerPtr = std::shared_ptr<IFiltersContainer>;
 	using IFilterPtrArr = std::vector<IFilterPtr>;
 
 	struct IImage;

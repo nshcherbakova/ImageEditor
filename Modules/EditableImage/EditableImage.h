@@ -14,6 +14,7 @@ namespace ImageEditor::Modules
 	
 	private:
 		Core::IImagePtr image_;
+		std::string path_;
 	};
 }
 

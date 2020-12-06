@@ -22,11 +22,13 @@ namespace
 		{
 			return Modules::Frames::FILTER_BUTTON_TAG;
 		}*/
+
 		virtual const  std::string Parameters() const override final
 		{
 			core::return_if_check(!filter_);
 			return filter_->Description();
 		}
+
 		virtual void Activate(std::string paramerts) override final
 		{
 			core::return_if_check(!image_);
@@ -37,21 +39,21 @@ namespace
 	private:
 		const Core::IFilterPtr filter_;
 		IEditableImagePtr image_;
+
 	};
 }
 
 namespace ImageEditor::Modules
 {
-	FiltersFrame::FiltersFrame(IEditableImagePtr image, Core::IFiltersContainerPtr filters)
+	FiltersFrame::FiltersFrame(Parameters parameters)
 	{
-		core::return_if_check(!image);
-		core::return_if_check(!filters);
+		core::return_if_check(!parameters.image);
 
 		controls_ = std::make_shared<IControlsMap>();
-		for (auto& filter: filters->Filters())
+		for (auto& filter: parameters.filters)
 		{
 			core::return_if_check(!filter);
-			IControlPtr control = std::make_shared<Control>(filter, image);
+			IControlPtr control = std::make_shared<Control>(filter, parameters.image);
 			controls_->emplace(std::make_pair(Modules::FILTER_BUTTON_TAG, std::move(control)));
 		}
 	}

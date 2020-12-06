@@ -2,19 +2,19 @@
 #ifndef IMAGEEDITOR_MODULES_FRAMES_MODULE_H
 #define IMAGEEDITOR_MODULES_FRAMES_MODULE_H
 #include <Core/Gears/Injector.h>
-#include <Core/Filters/IFiltersContainer.h>
 #include <Modules/Frames/FiltersFrame.h>
-#include <Modules/EditableImage/IEditableImage.h>
+#include <Core/types.h>
+#include <Modules/types.h>
 
 namespace ImageEditor::Modules
 {
-    inline auto InitFramesModule(IEditableImagePtr image, Core::IFiltersContainerPtr filters)
+    inline auto InitFramesModule(IEditableImagePtr image, Core::IFilterPtrArr filters)
     {
         auto injector = boost::di::make_injector(
-            boost::di::bind<Modules::IFrame>().to<Modules::FiltersFrame>().in(boost::di::singleton),
-            boost::di::bind<IEditableImage>.to(image),
-            boost::di::bind<Core::IFiltersContainer>.to(filters)
+            boost::di::bind<IFrame>().to<FiltersFrame>().in(boost::di::singleton),
+            boost::di::bind<FiltersFrame::Parameters>.to(FiltersFrame::Parameters({ image, std::move(filters) }))
         );
+
         return injector;
     }
 }
