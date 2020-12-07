@@ -9,6 +9,8 @@ namespace ImageEditor::Core
 	{
 	public:
 		StubFilter();
+		StubFilter(const StubFilter&) = delete;
+		StubFilter& operator= (const StubFilter&) = delete;
 
 	public: // IFilter
 		virtual IImagePtr Apply(const IImagePtr image, const std::string& parameters) const override final;

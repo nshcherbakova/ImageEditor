@@ -11,7 +11,7 @@ namespace ImageEditor::UI
         : QWidget(&(parameters.parent))
         , editable_image_(parameters.image)
     {
-        core::return_if_check(!parameters.filters_frame);
+        UNI_ENSURE_RETURN(parameters.filters_frame);
 
         setContentsMargins(0, 0, 0, 0);
         setGeometry(parameters.parent.geometry());
@@ -24,7 +24,7 @@ namespace ImageEditor::UI
 
     void FiltersWidget::CreateMenuButton(Modules::IControlsMapPtr controls)
     {
-        core::return_if_check(!controls);
+        UNI_ENSURE_RETURN(controls);
         
         QRect parent_rect = geometry();
         int button_width = parent_rect.height() / 5;
@@ -45,7 +45,7 @@ namespace ImageEditor::UI
 
     void FiltersWidget::CreateFilterButtons(Modules::IControlsMapPtr controls)
     {
-        core::return_if_check(!controls);
+        UNI_ENSURE_RETURN(controls);
         
         QRect parent_rect = geometry();
         int button_width = parent_rect.height() / 5;
@@ -68,7 +68,7 @@ namespace ImageEditor::UI
             while (buttons_it != controls->end() && buttons_it->first == Modules::FILTER_BUTTON_TAG)
             {
                 auto control = buttons_it->second;
-                core::return_if_check(!control);
+                UNI_ENSURE_RETURN(control);
 
                 // create buttons
                 const auto button = new QPushButton(UIString(control->Parameters()), filter_buttons_widget);
@@ -92,7 +92,7 @@ namespace ImageEditor::UI
     {
         QImage loaded_image;
         if (!loaded_image.load(path))
-            core::return_if_check(false);
+            UNI_ENSURE_RETURN(false);
 
         auto new_image_height = geometry().size().height();
        
@@ -114,14 +114,18 @@ namespace ImageEditor::UI
 
     void FiltersWidget::OnSignalSaveImage(QString path)
     {
-        core::return_if_check(!image_);
-
+        UNI_ENSURE_RETURN(image_);
+        /*QImage(editable_image_->Image()->Data().data(),
+            (int)editable_image_->Image()->Width(),
+            (int)editable_image_->Image()->Height(),
+            (int)editable_image_->Image()->BytesPerLine(),
+            (QImage::Format)editable_image_->Image()->Format()).save(path);*/
         image_->save(path);
     }
 
     void FiltersWidget::paintEvent(QPaintEvent* event)
     {
-        core::return_if_check(!image_);
+        UNI_ENSURE_RETURN(image_);
         
         QPainter painter(this);
         QRect dirty_rect = event->rect();
@@ -135,6 +139,7 @@ namespace ImageEditor::UI
         OnSignalOpenImage("C:\\Users\\npopl\\OneDrive\\Desktop\\pexels-photo-2103864.jpeg");
         setEnabled(visible);
         //setVisible(visible);
+        //OnSignalSaveImage("C:\\Users\\npopl\\OneDrive\\Desktop\\test_image_editor2.jpeg");
     }
 }
 
@@ -142,20 +147,12 @@ namespace ImageEditor::UI
 {
     UICommand::UICommand(QObject* parent, Modules::IControlPtr control) : QObject(parent), control_(control)
     {
-        core::return_if_check(!control_);
-        if (!control_)
-        {
-            // todo log here
-        }
+        UNI_ENSURE_RETURN(control_);
     }
 
     void UICommand::OnButtonClicked()
     {
-        core::return_if_check(!control_);
-        assert(control_);
-        if (control_)
-        {
-            control_->Activate(control_->Parameters());
-        }
+        UNI_ENSURE_RETURN(control_);
+        control_->Activate(control_->Parameters());
     }
 }     

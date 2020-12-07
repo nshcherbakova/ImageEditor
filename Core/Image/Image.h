@@ -16,7 +16,8 @@ namespace ImageEditor::Core
 			unsigned int bytes_per_line;
 			unsigned int format;
 		};
-		Image(Parameters parameters);
+		explicit Image(Parameters parameters);
+		Image& operator= (const Image&) = delete;
 
 	public: // IImage
 		virtual const std::vector<uchar>& Data() const final override;

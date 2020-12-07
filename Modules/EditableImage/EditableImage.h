@@ -8,6 +8,11 @@ namespace ImageEditor::Modules
 {
 	class EditableImage final: public IEditableImage
 	{
+	public:
+		explicit EditableImage();
+		EditableImage(const EditableImage&) = delete;
+		EditableImage& operator= (const EditableImage&) = delete;
+
 	public: // IEditableImage
 		virtual void UpdateImage(Core::IImagePtr image) override final;
 		virtual Core::IImagePtr Image() const override final;

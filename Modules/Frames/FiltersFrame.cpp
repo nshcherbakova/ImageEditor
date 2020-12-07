@@ -13,8 +13,8 @@ namespace
 		Control::Control(Core::IFilterPtr filter, IEditableImagePtr image)
 			: filter_(filter), image_(image)
 		{
-			core::return_if_check(!filter_);
-			core::return_if_check(!image_);
+			UNI_ENSURE_RETURN(filter_);
+			UNI_ENSURE_RETURN(image_);
 		}
 
 	public:
@@ -25,14 +25,14 @@ namespace
 
 		virtual const  std::string Parameters() const override final
 		{
-			core::return_if_check(!filter_);
+			UNI_ENSURE_RETURN(filter_, std::string());
 			return filter_->Description();
 		}
 
 		virtual void Activate(std::string paramerts) override final
 		{
-			core::return_if_check(!image_);
-			core::return_if_check(!filter_);
+			UNI_ENSURE_RETURN(image_);
+			UNI_ENSURE_RETURN(filter_);
 			image_->UpdateImage(filter_->Apply(image_->Image(), paramerts));
 		}
 
@@ -47,12 +47,12 @@ namespace ImageEditor::Modules
 {
 	FiltersFrame::FiltersFrame(Parameters parameters)
 	{
-		core::return_if_check(!parameters.image);
+		UNI_ENSURE_RETURN(parameters.image);
 
 		controls_ = std::make_shared<IControlsMap>();
 		for (auto& filter: parameters.filters)
 		{
-			core::return_if_check(!filter);
+			UNI_ENSURE_RETURN(filter);
 			IControlPtr control = std::make_shared<Control>(filter, parameters.image);
 			controls_->emplace(std::make_pair(Modules::FILTER_BUTTON_TAG, std::move(control)));
 		}

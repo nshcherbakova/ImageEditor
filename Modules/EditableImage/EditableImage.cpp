@@ -4,7 +4,11 @@
 
 namespace ImageEditor::Modules
 {
-	void EditableImage::UpdateImage(Core::IImagePtr image) 
+	EditableImage::EditableImage() 
+	{
+	}
+
+	void EditableImage::UpdateImage(Core::IImagePtr image)
 	{
 		image_ = image;
 	}

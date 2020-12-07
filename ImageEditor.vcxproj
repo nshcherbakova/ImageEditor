@@ -47,11 +47,11 @@
     <SourcePath>$(VC_SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IMAGE_EDITOR_THIRDPARTY)/fruit-3.6.0/include/</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);$(ProjectDir);$(ProjectDir)/Core/Gears/StdAfx/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);$(ProjectDir);$(ProjectDir)/Core/Gears/StdAfx/;$(IMAGE_EDITOR_THIRDPARTY)/uniassert/include/</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -59,7 +59,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);$(ProjectDir);$(ProjectDir)/Core/Gears/StdAfx/;$(IMAGE_EDITOR_THIRDPARTY)/Boost/;$(IMAGE_EDITOR_THIRDPARTY)/googletest-1.10.0/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);$(ProjectDir);$(ProjectDir)/Core/Gears/StdAfx/;$(IMAGE_EDITOR_THIRDPARTY)/Boost/;$(IMAGE_EDITOR_THIRDPARTY)/googletest-1.10.0/;$(IMAGE_EDITOR_THIRDPARTY)/uniassert/include/</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>

@@ -17,8 +17,9 @@ namespace ImageEditor::Modules
 			Core::IFilterPtrArr filters;
 		};
 
-		FiltersFrame(Parameters parameters);
-	
+		explicit FiltersFrame(Parameters parameters);
+		FiltersFrame& operator= (const FiltersFrame&) = delete;
+
 	public: // IFrame
 		virtual const IControlsMapPtr Controls() const override final;
 	

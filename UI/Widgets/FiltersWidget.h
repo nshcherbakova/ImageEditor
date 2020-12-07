@@ -21,7 +21,8 @@ namespace ImageEditor::UI
             Modules::IEditableImagePtr image;
         };
 
-        FiltersWidget(Parameters parameters);
+        explicit FiltersWidget(Parameters parameters);
+        FiltersWidget& operator= (const FiltersWidget&) = delete;
 
     public: // IWidget
         virtual void onShow(const bool visible) override final;
@@ -47,6 +48,7 @@ namespace ImageEditor::UI
         Q_OBJECT
     public:
         explicit UICommand(QObject* parent, Modules::IControlPtr control);
+        UICommand& operator= (const UICommand&) = delete;
 
     public slots:
         void OnButtonClicked();

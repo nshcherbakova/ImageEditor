@@ -5,9 +5,9 @@
 
 namespace ImageEditor::UI
 {
-	QString UIString(const std::string& text)
+	inline QString UIString(const std::string& text)
 	{
 		return QString::fromStdString(text);
 	}
 };
-#endif //
+#endif IMAGEEDITOR_UI_UISTRING_H //
