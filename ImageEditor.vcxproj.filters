@@ -66,16 +66,28 @@
     <ClCompile Include="UI\MainWindow..cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="UI\Widgets\MenuDialog.cpp">
+      <Filter>UI\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Filters\FiltersModule.cpp">
+      <Filter>Core\Filters</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Image\ImageModule.cpp">
+      <Filter>Core\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\EditableImage\EditableImageModule.cpp">
+      <Filter>Modules\EditableImage</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\Frames\FramesModule.cpp">
+      <Filter>Modules\Frames</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Widgets\WidgetsModule.cpp">
+      <Filter>UI\Widgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core/Gears/StdAfx/stdafx.h">
       <Filter>Core\Gears\StdAfx</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Image\Module.h">
-      <Filter>Core\Image</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Filters\Module.h">
-      <Filter>Core\Filters</Filter>
     </ClInclude>
     <ClInclude Include="Core\Filters\IFilter.h">
       <Filter>Core\Filters</Filter>
@@ -101,9 +113,6 @@
     <ClInclude Include="Modules\Frames\IFrame.h">
       <Filter>Modules\Frames</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\Frames\Module.h">
-      <Filter>Modules\Frames</Filter>
-    </ClInclude>
     <ClInclude Include="Modules\Frames\Tags.h">
       <Filter>Modules\Frames</Filter>
     </ClInclude>
@@ -113,16 +122,10 @@
     <ClInclude Include="Modules\EditableImage\IEditableImage.h">
       <Filter>Modules\EditableImage</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\EditableImage\Module.h">
-      <Filter>Modules\EditableImage</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Gears\Asserts.h">
       <Filter>Core\Gears</Filter>
     </ClInclude>
     <ClInclude Include="UI\Widgets\IWidget.h">
-      <Filter>UI\Widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\Widgets\Module.h">
       <Filter>UI\Widgets</Filter>
     </ClInclude>
     <ClInclude Include="Core\Filters\StubFilter.h">
@@ -137,6 +140,21 @@
     <ClInclude Include="Core\types.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Filters\FiltersModule.h">
+      <Filter>Core\Filters</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Image\ImageModule.h">
+      <Filter>Core\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\EditableImage\EditableImageModule.h">
+      <Filter>Modules\EditableImage</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\Frames\FramesModule.h">
+      <Filter>Modules\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Widgets\WidgetsModule.h">
+      <Filter>UI\Widgets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="UI\Widgets\FiltersWidget.h">
@@ -144,6 +162,9 @@
     </QtMoc>
     <QtMoc Include="UI\MainWindow.h">
       <Filter>UI</Filter>
+    </QtMoc>
+    <QtMoc Include="UI\Widgets\MenuDialog.h">
+      <Filter>UI\Widgets</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>

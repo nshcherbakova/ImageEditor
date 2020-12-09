@@ -1,5 +1,8 @@
 #include <stdafx.h>
 #include <UI/UIString.h>
+#include <Modules/EditableImage/IEditableImage.h>
+#include <Modules/Frames/IFrame.h>
+#include <Modules/Frames/IControl.h>
 #include "FiltersWidget.h"
 
 

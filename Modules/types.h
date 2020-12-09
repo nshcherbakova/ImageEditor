@@ -3,6 +3,7 @@
 #define IMAGEEDITOR_MODULES_TYPES_H
 #include <memory>
 #include <map>
+#include <Core/Gears/Injector.h>
 
 namespace ImageEditor::Modules
 {
@@ -16,5 +17,8 @@ namespace ImageEditor::Modules
 
 	struct IFrame;
 	using IFramePtr = std::shared_ptr<IFrame>;
+
+	using IEditableImageInjector = boost::di::injector<IEditableImagePtr>;
+	using IFrameInjector = boost::di::injector<IFramePtr>;
 }
 #endif //IMAGEEDITOR_MODULES_TYPES_H
