@@ -8,5 +8,10 @@ namespace ImageEditor::UI
     {
         ui.setupUi(this);
         delete ui.mainToolBar;
+        setMaximumSize(size());
+        setMinimumSize(size());
+        setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+        setFixedSize(size());
+        setWindowFlags(Qt::MSWindowsFixedSizeDialogHint);
     }
 }

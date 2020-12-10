@@ -9,7 +9,7 @@
 namespace ImageEditor::UI
 {
     class UICommand;
-
+    class MenuDialog;
     class FiltersWidget final: public QWidget, public IWidget
     {
         Q_OBJECT
@@ -30,6 +30,7 @@ namespace ImageEditor::UI
     public slots: 
         void OnSignalOpenImage(QString path);
         void OnSignalSaveImage(QString path);
+        void OnButtonClicked();
 
     private: // QWidget
         virtual void paintEvent(QPaintEvent* event) override final;
@@ -39,6 +40,8 @@ namespace ImageEditor::UI
         void CreateFilterButtons(Modules::IControlsMapPtr controls);
 
     private:
+        std::optional<MenuDialog*> menu_;
+
         Modules::IEditableImagePtr editable_image_;
         std::shared_ptr<QImage> image_;
     };

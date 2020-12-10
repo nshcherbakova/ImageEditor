@@ -1,5 +1,8 @@
 #include <cstddef>
+#include <optional>
 
+//#include <QDialog>
+#include <QFileDialog>
 #include <QImage>
 #include <QHBoxLayout>
 #include <QPushButton>

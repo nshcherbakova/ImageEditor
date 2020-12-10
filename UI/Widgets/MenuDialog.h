@@ -10,31 +10,35 @@ namespace ImageEditor::UI
 {
     class UICommand;
 
-    class MenuDialog final: public QWidget, public IWidget
+    class MenuDialog final: public QWidget
     {
         Q_OBJECT
     public:
         struct Parameters
         {
-           
+          QWidget* parent;
+          QString image_file_name;
         };
 
-        MenuDialog(Parameters parameters);
+        explicit MenuDialog(Parameters parameters);
         MenuDialog& operator= (const MenuDialog&) = delete;
 
-    public: // IWidget
-       // virtual void onShow(const bool visible) override final;
+    signals: 
+        void SignalOpenImage(QString file_name);
+        void SignalSaveImage(QString file_name);
 
-    public slots: 
-       
-
-    private: // QWidget
-
-    private:
-    
+    private slots: 
+        void OnButtonOpenClicked();
+        void OnButtonSaveClicked();
+        void OnButtonCancelClicked();
 
     private:
-       
+        void CreateMenuButtons();
+        QPushButton* CreateButton(QString name, int button_width);
+
+    private:
+        QString image_file_name_;
+        QPushButton* save_button_ = nullptr;
     };
 }
 #endif // IMAGEEDITOR_UI_WIDGETS_MENUDIALOG_H

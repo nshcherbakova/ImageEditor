@@ -4,6 +4,7 @@
 #include <Modules/Frames/IFrame.h>
 #include <Modules/Frames/IControl.h>
 #include "FiltersWidget.h"
+#include "MenuDialog.h"
 
 
 static const char* c_menu_str = "Menu";
@@ -37,13 +38,18 @@ namespace ImageEditor::UI
         QRect menu_button_rect = QRect(parent_rect.width() - button_width, 0, button_width, button_width);
         menu_button->setGeometry(menu_button_rect);
 
-        // bind button with control
-        auto buttons_it = controls->find(Modules::MENU_BUTTON_TAG);
-        if (buttons_it != controls->end())
+        connect(menu_button, &QPushButton::clicked, this, &FiltersWidget::OnButtonClicked);
+    }
+
+    void FiltersWidget::OnButtonClicked()
+    {
+        if (!menu_)
         {
-            const auto ui_command = new UICommand(this, buttons_it->second);
-            connect(menu_button, &QPushButton::clicked, ui_command, &UICommand::OnButtonClicked);
+            menu_ = new MenuDialog(MenuDialog::Parameters{ this });
+            connect(*menu_, &MenuDialog::SignalOpenImage, this, &FiltersWidget::OnSignalOpenImage);
+            connect(*menu_, &MenuDialog::SignalSaveImage, this, &FiltersWidget::OnSignalSaveImage);
         }
+        (*menu_)->setVisible(true);
     }
 
     void FiltersWidget::CreateFilterButtons(Modules::IControlsMapPtr controls)
@@ -78,6 +84,7 @@ namespace ImageEditor::UI
                 QRect button_rect = QRect(0, 0, button_width, button_width);
                 button->setGeometry(button_rect);
                 button->setMinimumHeight(button_width);
+                button->setMaximumWidth(button_width);
 
                 // bind button with control
                 const auto ui_command = new UICommand(this, control);
@@ -89,6 +96,12 @@ namespace ImageEditor::UI
                 buttons_it++;
             }
         }
+
+        const auto place_holder = new QWidget(filter_buttons_widget);
+        QRect rect = QRect(0, 0, button_width, button_width);
+        place_holder->setGeometry(rect);
+        place_holder->setMinimumHeight(button_width);
+        filter_buttons_layout->addWidget(place_holder);
     }
 
     void FiltersWidget::OnSignalOpenImage(QString path)
@@ -97,10 +110,9 @@ namespace ImageEditor::UI
         if (!loaded_image.load(path))
             UNI_ENSURE_RETURN(false);
 
-        auto new_image_height = geometry().size().height();
        
         image_ = std::make_shared<QImage>();
-        *image_ = loaded_image.scaledToHeight(new_image_height);
+        *image_ = loaded_image;
 
         Core::IImagePtr core_image = Core::InitImageModule(
             std::vector<uchar>(image_->bits(), image_->bits() + image_->sizeInBytes()),
@@ -108,7 +120,6 @@ namespace ImageEditor::UI
             image_->height(),
             image_->bytesPerLine(),
             image_->format()).create<Core::IImagePtr>();
-           
 
         editable_image_->UpdateImage(core_image);
 
@@ -118,31 +129,27 @@ namespace ImageEditor::UI
     void FiltersWidget::OnSignalSaveImage(QString path)
     {
         UNI_ENSURE_RETURN(image_);
-        /*QImage(editable_image_->Image()->Data().data(),
-            (int)editable_image_->Image()->Width(),
-            (int)editable_image_->Image()->Height(),
-            (int)editable_image_->Image()->BytesPerLine(),
-            (QImage::Format)editable_image_->Image()->Format()).save(path);*/
         image_->save(path);
     }
 
     void FiltersWidget::paintEvent(QPaintEvent* event)
     {
-        UNI_ENSURE_RETURN(image_);
-        
-        QPainter painter(this);
-        QRect dirty_rect = event->rect();
-        dirty_rect.setLeft((dirty_rect.width() - image_->rect().width()) / 2);
-        dirty_rect.setWidth(image_->rect().width());
-        painter.drawImage(dirty_rect, *image_, image_->rect());
+        if (image_)
+        {
+            auto new_image_height = geometry().size().height();
+            QImage image = image_->scaledToHeight(new_image_height);
+
+            QPainter painter(this);
+            QRect dirty_rect = event->rect();
+            dirty_rect.setLeft((dirty_rect.width() - image.rect().width()) / 2);
+            dirty_rect.setWidth(image.rect().width());
+            painter.drawImage(dirty_rect, image, image.rect());
+        }
     }
 
     void FiltersWidget::onShow(const bool visible)
     {
-        OnSignalOpenImage("C:\\Users\\npopl\\OneDrive\\Desktop\\pexels-photo-2103864.jpeg");
         setEnabled(visible);
-        //setVisible(visible);
-        //OnSignalSaveImage("C:\\Users\\npopl\\OneDrive\\Desktop\\test_image_editor2.jpeg");
     }
 }
 

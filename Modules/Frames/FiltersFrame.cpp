@@ -20,11 +20,6 @@ namespace
 		}
 
 	public:
-		/*virtual const std::string Tag() const override final
-		{
-			return Modules::Frames::FILTER_BUTTON_TAG;
-		}*/
-
 		virtual const  std::string Parameters() const override final
 		{
 			UNI_ENSURE_RETURN(filter_, std::string());
