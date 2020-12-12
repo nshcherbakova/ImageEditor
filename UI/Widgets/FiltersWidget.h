@@ -30,13 +30,16 @@ namespace ImageEditor::UI
     public slots: 
         void OnSignalOpenImage(QString path);
         void OnSignalSaveImage(QString path);
-        void OnButtonClicked();
+        void OnMenuButtonClicked();
+        void OnCleanButtonClicked();
+        void OnSignalCommandAppyed();
 
     private: // QWidget
         virtual void paintEvent(QPaintEvent* event) override final;
 
     private:
         void CreateMenuButton(Modules::IControlsMapPtr controls);
+        void CreateCleanButton(Modules::IControlsMapPtr controls);
         void CreateFilterButtons(Modules::IControlsMapPtr controls);
 
     private:
@@ -55,6 +58,9 @@ namespace ImageEditor::UI
 
     public slots:
         void OnButtonClicked();
+
+    signals:
+        void SignalCommandAppyed();
 
     private:
         const Modules::IControlPtr control_;

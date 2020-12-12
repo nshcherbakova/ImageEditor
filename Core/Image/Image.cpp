@@ -12,7 +12,7 @@ namespace ImageEditor::Core
 	{
 	}
 
-	const std::vector<uchar>& Image::Data() const
+	ByteArr& Image::Data()
 	{
 		return data_;
 	}

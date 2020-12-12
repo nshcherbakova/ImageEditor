@@ -30,7 +30,7 @@ namespace
 		{
 			UNI_ENSURE_RETURN(image_);
 			UNI_ENSURE_RETURN(filter_);
-			image_->UpdateImage(filter_->Apply(image_->Image(), paramerts));
+			image_->UpdateImage(filter_->Apply(image_->OriginalImage(), paramerts));
 		}
 
 	private:

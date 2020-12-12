@@ -14,8 +14,9 @@ namespace ImageEditor::Core
 	struct IImage;
 	using IImagePtr = std::shared_ptr<IImage>;
 
-	using IFilterInjector = boost::di::injector<IFilterPtr>;
+	using IFilterInjector = boost::di::injector<IFilterPtrArr>;
 	using IImageinjector = boost::di::injector<IImagePtr>;
-	
+
+	using ByteArr = std::vector<uchar>;
 }
 #endif //IMAGEEDITOR_CORE_TYPES_H

@@ -17,4 +17,14 @@ namespace ImageEditor::Modules
 	{
 		return image_;
 	}
+
+	void EditableImage::SetOriginalImage(Core::IImagePtr image)
+	{
+		original_image_ = image;
+		UpdateImage(image);
+	}
+	Core::IImagePtr EditableImage::OriginalImage() const
+	{
+		return original_image_;
+	}
 }

@@ -5,14 +5,21 @@
 using namespace ImageEditor;
 using namespace UI;
 
+static const char* c_org_str = "natshch";
+static const char* c_app_str = "ImageEditor";
+
 int main(int argc, char* argv[])
 {
 	QApplication a(argc, argv);
+
+	QCoreApplication::setOrganizationName(c_org_str);
+	QCoreApplication::setApplicationName(c_app_str);
+
 	MainWindow main_window;
 
 	auto image = Modules::InitEditableImageModule().create<Modules::IEditableImagePtr>();
-	auto filter = Core::InitFiltersModule().create<Core::IFilterPtr>();
-	auto filters_frame = Modules::InitFramesModule(image, Core::IFilterPtrArr({filter})).create<Modules::IFramePtr>();
+	auto filters = Core::InitFiltersModule().create<Core::IFilterPtrArr>();
+	auto filters_frame = Modules::InitFramesModule(image, std::move(filters)).create<Modules::IFramePtr>();
 	auto filters_widget = UI::InitWidgetsModule(main_window, std::move(filters_frame), image).create<IWidget*>();
 
 	main_window.show();

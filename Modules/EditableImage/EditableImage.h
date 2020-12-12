@@ -16,10 +16,12 @@ namespace ImageEditor::Modules
 	public: // IEditableImage
 		virtual void UpdateImage(Core::IImagePtr image) override final;
 		virtual Core::IImagePtr Image() const override final;
-	
+		virtual void SetOriginalImage(Core::IImagePtr image) override final;
+		virtual Core::IImagePtr OriginalImage() const override final;
+
 	private:
+		Core::IImagePtr original_image_;
 		Core::IImagePtr image_;
-		std::string path_;
 	};
 }
 

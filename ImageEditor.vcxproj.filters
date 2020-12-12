@@ -60,9 +60,6 @@
     <ClCompile Include="UI\Widgets\FiltersWidget.cpp">
       <Filter>UI\Widgets</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Filters\StubFilter.cpp">
-      <Filter>Core\Filters</Filter>
-    </ClCompile>
     <ClCompile Include="UI\MainWindow..cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -83,6 +80,27 @@
     </ClCompile>
     <ClCompile Include="UI\Widgets\WidgetsModule.cpp">
       <Filter>UI\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Filters\SmoothFilter.cpp">
+      <Filter>Core\Filters</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Filters\TessFilter.cpp">
+      <Filter>Core\Filters</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\QtConverts.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Filters\FilterBase.cpp">
+      <Filter>Core\Filters</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Filters\WatercolorFilter.cpp">
+      <Filter>Core\Filters</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Filters\GrayFilter.cpp">
+      <Filter>Core\Filters</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Filters\SepiaFilter.cpp">
+      <Filter>Core\Filters</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -128,9 +146,6 @@
     <ClInclude Include="UI\Widgets\IWidget.h">
       <Filter>UI\Widgets</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Filters\StubFilter.h">
-      <Filter>Core\Filters</Filter>
-    </ClInclude>
     <ClInclude Include="UI\types.h">
       <Filter>UI</Filter>
     </ClInclude>
@@ -154,6 +169,27 @@
     </ClInclude>
     <ClInclude Include="UI\Widgets\WidgetsModule.h">
       <Filter>UI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Filters\SmoothFilter.h">
+      <Filter>Core\Filters</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Filters\TessFilter.h">
+      <Filter>Core\Filters</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\QtConverts.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Filters\FilterBase.h">
+      <Filter>Core\Filters</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Filters\WatercolorFilter.h">
+      <Filter>Core\Filters</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Filters\GrayFilter.h">
+      <Filter>Core\Filters</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Filters\SepiaFilter.h">
+      <Filter>Core\Filters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

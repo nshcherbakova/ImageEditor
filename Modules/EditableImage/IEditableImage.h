@@ -8,6 +8,8 @@ namespace ImageEditor::Modules
 	class IEditableImage
 	{
 	public:
+		virtual void SetOriginalImage(Core::IImagePtr image) = 0;
+		virtual Core::IImagePtr OriginalImage() const = 0;
 		virtual void UpdateImage(Core::IImagePtr image) = 0;
 		virtual Core::IImagePtr Image() const = 0;
 

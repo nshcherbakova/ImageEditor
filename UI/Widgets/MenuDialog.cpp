@@ -5,10 +5,11 @@
 
 static const char* c_open_str = "Open";
 static const char* c_save_str = "Save";
-static const char* c_cancel_str = "Canel";
+static const char* c_cancel_str = "Cancel";
 static const char* c_open_image_str = "Open Image";
 static const char* c_save_image_str = "Save Image";
 static const char* c_file_types_str = "Image Files (*.png *.jpg *.jpeg *.bmp)";
+static const char* c_last_opend_dir = "last_opend_dir";
 
 namespace ImageEditor::UI
 {
@@ -71,17 +72,26 @@ namespace ImageEditor::UI
 
     void MenuDialog::OnButtonOpenClicked()
     {
+        QString path = image_file_name_;
+        if (path.isEmpty())
+        {
+            QSettings settings;
+            path = settings.value(c_last_opend_dir).toString();
+        }
         QString file_name = QFileDialog::getOpenFileName(this,
             UIString(c_open_image_str),
-            image_file_name_, 
+            path,
             UIString(c_file_types_str));
-
+        
         if (!file_name.isEmpty())
         {
             image_file_name_ = file_name;
             save_button_->setEnabled(!image_file_name_.isEmpty());
             emit SignalOpenImage(file_name);
             setVisible(false);
+
+            QSettings settings;
+            settings.setValue(c_last_opend_dir, QFileInfo(file_name).dir().path());
         }
     }
 

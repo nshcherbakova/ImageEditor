@@ -51,7 +51,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);$(ProjectDir);$(ProjectDir)/Core/Gears/StdAfx/;$(IMAGE_EDITOR_THIRDPARTY)/uniassert/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);$(ProjectDir);$(ProjectDir)/Core/Gears/StdAfx/;$(IMAGE_EDITOR_THIRDPARTY)/uniassert/include/;$(IMAGE_EDITOR_THIRDPARTY)/Boost/</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -113,15 +113,26 @@
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Filters\FilterBase.cpp" />
     <ClCompile Include="Core\Filters\FiltersModule.cpp" />
-    <ClCompile Include="Core\Filters\StubFilter.cpp" />
+    <ClCompile Include="Core\Filters\SepiaFilter.cpp" />
+    <ClCompile Include="Core\Filters\SmoothFilter.cpp" />
+    <ClCompile Include="Core\Filters\GrayFilter.cpp" />
+    <ClCompile Include="Core\Filters\TessFilter.cpp" />
+    <ClCompile Include="Core\Filters\WatercolorFilter.cpp" />
     <ClCompile Include="Core\Image\ImageModule.cpp" />
     <ClCompile Include="Modules\EditableImage\EditableImageModule.cpp" />
     <ClCompile Include="Modules\Frames\FramesModule.cpp" />
+    <ClCompile Include="UI\QtConverts.cpp" />
     <ClCompile Include="UI\Widgets\FiltersWidget.cpp" />
     <ClCompile Include="UI\Widgets\MenuDialog.cpp" />
     <ClCompile Include="UI\Widgets\WidgetsModule.cpp" />
-    <ClInclude Include="Core\Filters\StubFilter.h" />
+    <ClInclude Include="Core\Filters\FilterBase.h" />
+    <ClInclude Include="Core\Filters\SepiaFilter.h" />
+    <ClInclude Include="Core\Filters\SmoothFilter.h" />
+    <ClInclude Include="Core\Filters\GrayFilter.h" />
+    <ClInclude Include="Core\Filters\TessFilter.h" />
+    <ClInclude Include="Core\Filters\WatercolorFilter.h" />
     <ClInclude Include="Core\Gears\Asserts.h" />
     <ClInclude Include="Core\types.h" />
     <ClInclude Include="Modules\EditableImage\EditableImage.h" />
@@ -133,6 +144,7 @@
     <ClInclude Include="Modules\Frames\FramesModule.h" />
     <ClInclude Include="Modules\Frames\Tags.h" />
     <ClInclude Include="Modules\types.h" />
+    <ClInclude Include="UI\QtConverts.h" />
     <ClInclude Include="UI\types.h" />
     <ClInclude Include="UI\UIString.h" />
     <ClCompile Include="Modules\Frames\FiltersFrame.cpp">

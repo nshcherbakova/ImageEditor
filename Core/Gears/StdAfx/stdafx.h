@@ -2,10 +2,13 @@
 #include <optional>
 
 //#include <QDialog>
+#include <QDir>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QImage>
 #include <QHBoxLayout>
 #include <QPushButton>
+#include <QSettings>
 #include <QtWidgets>
 #include <QtWidgets/QApplication>
 

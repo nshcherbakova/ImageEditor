@@ -3,11 +3,15 @@
 #include <Modules/EditableImage/IEditableImage.h>
 #include <Modules/Frames/IFrame.h>
 #include <Modules/Frames/IControl.h>
+#include <Core/Image/IImage.h>
+#include <UI/QtConverts.h>
 #include "FiltersWidget.h"
 #include "MenuDialog.h"
 
 
 static const char* c_menu_str = "Menu";
+static const char* c_clean_str = "Clean";
+static const char* c_last_opend_file_str = "last_opend_file";
 
 namespace ImageEditor::UI
 {
@@ -21,6 +25,7 @@ namespace ImageEditor::UI
         setGeometry(parameters.parent.geometry());
         
         CreateMenuButton(parameters.filters_frame->Controls());
+        CreateCleanButton(parameters.filters_frame->Controls());
         CreateFilterButtons(parameters.filters_frame->Controls());
         
         onShow(false);
@@ -38,18 +43,43 @@ namespace ImageEditor::UI
         QRect menu_button_rect = QRect(parent_rect.width() - button_width, 0, button_width, button_width);
         menu_button->setGeometry(menu_button_rect);
 
-        connect(menu_button, &QPushButton::clicked, this, &FiltersWidget::OnButtonClicked);
+        connect(menu_button, &QPushButton::clicked, this, &FiltersWidget::OnMenuButtonClicked);
     }
 
-    void FiltersWidget::OnButtonClicked()
+    void FiltersWidget::OnMenuButtonClicked()
     {
         if (!menu_)
         {
-            menu_ = new MenuDialog(MenuDialog::Parameters{ this });
+            QSettings settings;
+            QString last_file = settings.value(c_last_opend_file_str).toString();
+            menu_ = new MenuDialog(MenuDialog::Parameters{ this, last_file });
             connect(*menu_, &MenuDialog::SignalOpenImage, this, &FiltersWidget::OnSignalOpenImage);
             connect(*menu_, &MenuDialog::SignalSaveImage, this, &FiltersWidget::OnSignalSaveImage);
         }
         (*menu_)->setVisible(true);
+    }
+
+    void FiltersWidget::CreateCleanButton(Modules::IControlsMapPtr controls)
+    {
+        UNI_ENSURE_RETURN(controls);
+
+        QRect parent_rect = geometry();
+        int button_width = parent_rect.height() / 5;
+
+        // create button
+        QPushButton* button = new QPushButton(UIString(c_clean_str), this);
+        QRect button_rect = QRect(parent_rect.width() - button_width, button_width, button_width, button_width);
+        button->setGeometry(button_rect);
+
+        connect(button, &QPushButton::clicked, this, &FiltersWidget::OnCleanButtonClicked);
+    }
+
+    void FiltersWidget::OnCleanButtonClicked()
+    {
+        UNI_ENSURE_RETURN(editable_image_ && editable_image_->Image());
+
+        editable_image_->UpdateImage(editable_image_->OriginalImage());
+        OnSignalCommandAppyed();
     }
 
     void FiltersWidget::CreateFilterButtons(Modules::IControlsMapPtr controls)
@@ -89,6 +119,7 @@ namespace ImageEditor::UI
                 // bind button with control
                 const auto ui_command = new UICommand(this, control);
                 connect(button, &QPushButton::clicked, ui_command, &UICommand::OnButtonClicked);
+                connect(ui_command, &UICommand::SignalCommandAppyed, this, &FiltersWidget::OnSignalCommandAppyed);
 
                 //add button to layout
                 filter_buttons_layout->addWidget(button);
@@ -106,23 +137,17 @@ namespace ImageEditor::UI
 
     void FiltersWidget::OnSignalOpenImage(QString path)
     {
-        QImage loaded_image;
-        if (!loaded_image.load(path))
-            UNI_ENSURE_RETURN(false);
+        QSettings settings;
+        settings.setValue(c_last_opend_file_str, path);
 
-       
         image_ = std::make_shared<QImage>();
-        *image_ = loaded_image;
+        if (!image_->load(path))
+        {
+            UNI_ENSURE_RETURN(false);
+        }
 
-        Core::IImagePtr core_image = Core::InitImageModule(
-            std::vector<uchar>(image_->bits(), image_->bits() + image_->sizeInBytes()),
-            image_->width(),
-            image_->height(),
-            image_->bytesPerLine(),
-            image_->format()).create<Core::IImagePtr>();
-
-        editable_image_->UpdateImage(core_image);
-
+        editable_image_->SetOriginalImage(QtImageToIImage(*image_));
+        
         update();
     }
 
@@ -130,6 +155,15 @@ namespace ImageEditor::UI
     {
         UNI_ENSURE_RETURN(image_);
         image_->save(path);
+    }
+
+    void FiltersWidget::OnSignalCommandAppyed()
+    {
+        UNI_ENSURE_RETURN(editable_image_ && editable_image_->Image());
+
+        image_ = std::make_shared<QImage>(IImageToQtImage(editable_image_->Image()));
+
+        update();
     }
 
     void FiltersWidget::paintEvent(QPaintEvent* event)
@@ -149,6 +183,12 @@ namespace ImageEditor::UI
 
     void FiltersWidget::onShow(const bool visible)
     {
+        QSettings settings;
+        QString last_file = settings.value(c_last_opend_file_str).toString();
+        if (!last_file.isEmpty())
+        {
+            OnSignalOpenImage(last_file);
+        }
         setEnabled(visible);
     }
 }
@@ -164,5 +204,6 @@ namespace ImageEditor::UI
     {
         UNI_ENSURE_RETURN(control_);
         control_->Activate(control_->Parameters());
+        emit SignalCommandAppyed();
     }
 }     
