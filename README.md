@@ -1,6 +1,6 @@
 ImageEditor
 
-![App main window](Imagess/flowers_aqua.png)
+![App main window](Images/flowers_aqua.png)
 
 Simple cross-platform image editor. 
 ImageEditor allows to apply some graphics filters to images.
