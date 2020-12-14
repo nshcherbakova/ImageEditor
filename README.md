@@ -1,5 +1,8 @@
 ImageEditor
 
+
+
+
 Simple cross-platform image editor. 
 
 ![App main window](Images/flowers_aqua.png)
@@ -8,12 +11,13 @@ ImageEditor allows to apply some graphics filters to images.
 
 ![WALL.E](Images/WALL.E.png) ![Sepia](Images/WALL.E_sepia.png) ![Impression](Images/WALL.E_imp.png)
 
-Simple cross-platform image editor. 
+ 
+
 
 Goals of this project are to train my skills in:
 
 1. making project from idea to full value comfy GUI app, threw several steps: 
-- UI concept 
+- UI concept ![Main Sacreen](Images/ui_concep_Filters_screen.png) ![Dialog Sacreen](Images/ui_concept_Menu.png)
 - app architect
 - choosing technologies and frameworks
 - breaking to tasks and milestones
@@ -27,6 +31,8 @@ Goals of this project are to train my skills in:
 8. dividing GU code ang logic code to have a chance to use logic in with out using QT with native controls, for example for IOS.
 9. to have a fun paling with bitmap pixels while appealing simple filter from my university Machine Graphics classes
 
+
+
 Upcoming features:
 1. compile to android
 2. covering with tests
@@ -39,6 +45,8 @@ Upcoming features:
 9. add image editing tools and more complexed filters like Old Style Photo
 
 ![Kids](Images/kids1.png) ![Aqua](Images/kids_aqua.png)  ![Smooth](Images/kids_smooth.png) 
+
+
 
 Dependences:
 - C++ 17 
