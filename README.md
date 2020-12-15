@@ -25,7 +25,7 @@ There are several goals of this project:
 - making app architecture
 - choosing technologies and frameworks
 - breaking to tasks and milestones
-- making code
+- writing code
 2. to train design skills: programming design patterns like Dependency Injection, Command
 3. to make QT based customized GUI
 4. to have a fun playing with bitmaps pixels while making simple filters from my university Machine Graphics classes
@@ -41,9 +41,9 @@ Upcoming features:
 4. translations
 5. QML
 6. UI animations
-7. uploading images to cloud
-8. integration with social networks to uploading and downloading photos
-9. add image editing tools and more complexed filters like Vintage Photo
+7. uploading images to the cloud
+8. integration with social networks to uploading and downloading photos from/to there
+9. add image editing tools and more complicated filters like Vintage Photo
 
 
 
