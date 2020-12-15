@@ -1,16 +1,12 @@
 <RCC>
     <qresource prefix="/ImageEditor">
-        <file alias="round_button_menu">Images/round_button_80_80_menu.png</file>
-        <file alias="button_undo">Images/round_button_80_80_undo.png</file>
-        <file alias="round_button">Images/round_button_80_80_2.png</file>
-        <file alias="background">Images/background.png</file>
         <file alias="buttons_font">Fonts/Typo_Round_Regular_Demo.otf</file>
-        <file alias="round_button_g">Images/round_button_80_80_menu_green.png</file>
-        <file alias="round_button_b">Images/round_button_80_80_menu_blue.png</file>
-        <file alias="round_button_r">Images/round_button_80_80_menu_red.png</file>
-        <file alias="round_button_v">Images/round_button_80_80_menu_viol.png</file>
-        <file alias="round_button_y">Images/round_button_80_80_menu_yellow.png</file>
-        <file alias="round_button_menu_hover">Images/round_button_menu_hover.png</file>
-        <file alias="button_undo_hover">Images/round_button_undo_hover.png</file>
+        <file alias="widget_background">Images/background.png</file>
+        <file alias="menu_button">Images/menu_button.png</file>
+        <file alias="menu_button_pressed">Images/menu_button_pressed.png</file>
+        <file alias="round_button">Images/round_button.png</file>
+        <file alias="undo_button">Images/undo_button.png</file>
+        <file alias="undo_button_pressed">Images/undo_button_pressed.png</file>
+        <file alias="round_button_pressed">Images/round_button_pressed.png</file>
     </qresource>
 </RCC>

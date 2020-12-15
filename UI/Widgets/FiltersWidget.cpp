@@ -8,62 +8,50 @@
 #include "FiltersWidget.h"
 #include "MenuDialog.h"
 
-
-static const char* c_menu_str = "";
-static const char* c_clean_str = "";
+// widget settings
 static const char* c_last_opend_file_str = "last_opened_file";
-static const QColor c_background_color = QColor(250, 250, 248);
-static const QColor c_frame_pen_color = QColor(Qt::white);
-static const int c_frame_pen_width = 3;
-static const int c_image_top_margin = 20;
+static const QColor c_widget_background_color = QColor(250, 250, 248);
+static const QColor c_widget_pen_color = QColor(Qt::white);
+static const int c_widget_pen_width = 3;
+static const int c_widget_image_top_margin = 20;
+static const char* c_widget_background_image_str = ":/ImageEditor/widget_background";
+// buttons settings
 static const int c_button_width = 100;
-static const char* c_filter_button_style_str = "QPushButton{ "
+
+static const char* c_filter_button_style_template_str = "QPushButton{ "
 "background-image: url(:/ImageEditor/round_button);"
 "background-color: rgba(255, 255, 255, 0); "
 "font-size: 21px; "
-"font-family: Typo Round Regular Demo;";
+"font-family: Typo Round Regular Demo;"
+"color: %1;}"
+"QPushButton:hover{background-image: url(:/ImageEditor/round_button_pressed); color: rgb(70, 70, 70);}"
+"QPushButton:pressed{background-image: url(:/ImageEditor/round_button_pressed); color: rgb(70, 70, 70);}";
 
-static const char* c_color_str_arr[] = {
-    "color: rgb(150, 95, 95); }",
-    "color: #D1854F; }",
-    "color: #6F9B00; }",
-    "color: #308BB2; }",
-    "color: #8E2DB7; }"};
+static const char* c_filter_buttons_text_color_str_arr[] = {
+    "rgb(95, 120, 180)", // first button color
+    "#D1854F", // second button color
+    "#6F9B00", // third button color
+    "#308BB2", // fourth button color
+    "#8E2DB7" // fifth button color
+};
 
-static const char* c_hover_str_arr[] = {
-    "QPushButton:hover{background-image: url(:/ImageEditor/round_button_r); color: rgb(70, 70, 70);}",
-    "QPushButton:hover{background-image: url(:/ImageEditor/round_button_y); color: rgb(70, 70, 70);}",
-    "QPushButton:hover{background-image: url(:/ImageEditor/round_button_g); color: rgb(70, 70, 70);}",
-    "QPushButton:hover{background-image: url(:/ImageEditor/round_button_b); color: rgb(70, 70, 70);}",
-    "QPushButton:hover{background-image: url(:/ImageEditor/round_button_v); color: rgb(70, 70, 70);}" };
-
-static const char* c_pressed_str_arr[] = { 
-    "QPushButton:pressed{background-image: url(:/ImageEditor/round_button_r); color: rgb(70, 70, 70);}", 
-    "QPushButton:pressed{background-image: url(:/ImageEditor/round_button_y); color: rgb(70, 70, 70);}",
-    "QPushButton:pressed{background-image: url(:/ImageEditor/round_button_g); color: rgb(70, 70, 70);}", 
-    "QPushButton:pressed{background-image: url(:/ImageEditor/round_button_b); color: rgb(70, 70, 70);}", 
-    "QPushButton:pressed{background-image: url(:/ImageEditor/round_button_v); color: rgb(70, 70, 70);}" };
-
-static const char* c_menu_button_style_str = "QPushButton{ background-image: "
-"url(:/ImageEditor/round_button_menu); "
+static const char* c_image_button_style_template_str = "QPushButton{ "
+"background-image: "
+"url(:/ImageEditor/%1_button); "
 "background-color: rgba(255, 255, 255, 0);}"
-"QPushButton:hover{background-image: url(:/ImageEditor/round_button_menu_hover); color: rgb(70, 70, 70);} "
-"QPushButton:pressed{background-image: url(:/ImageEditor/round_button_menu_hover); color: rgb(70, 70, 70); }";
+"QPushButton:hover{background-image: url(:/ImageEditor/%1_button_pressed)} "
+"QPushButton:pressed{background-image: url(:/ImageEditor/%1_button_pressed)}";
 
-static const char* c_undo_button_style_str = "QPushButton{ background-image: "
-"url(:/ImageEditor/button_undo); "
-"background-color: rgba(255, 255, 255, 0);}"
-"QPushButton:hover{background-image: url(:/ImageEditor/button_undo_hover); color: rgb(70, 70, 70);} "
-"QPushButton:pressed{background-image: url(:/ImageEditor/button_undo_hover); color: rgb(70, 70, 70);}";
+static const char* c_menu_button_image_prefix_str = "menu";
+static const char* c_undo_button_image_prefix_str = "undo";
 
-static const char* c_background_image_str = ":/ImageEditor/background";
 
 namespace ImageEditor::UI
 {
     FiltersWidget::FiltersWidget(Parameters parameters)
         : QWidget(&(parameters.parent))
         , editable_image_(parameters.image)
-        , background_image_(c_background_image_str)
+        , background_image_(c_widget_background_image_str)
     {
         UNI_ENSURE_RETURN(parameters.filters_frame);
 
@@ -71,9 +59,8 @@ namespace ImageEditor::UI
         setGeometry(parameters.parent.geometry());
         setAutoFillBackground(true);
         auto palette = QWidget::palette();
-        palette.setColor(QPalette::Window, c_background_color);
+        palette.setColor(QPalette::Window, c_widget_background_color);
         setPalette(palette);
-        //setStyleSheet(c_widget_style_str);
 
         CreateMenuButton(parameters.filters_frame->Controls());
         CreateCleanButton(parameters.filters_frame->Controls());
@@ -90,7 +77,7 @@ namespace ImageEditor::UI
         const int button_width = c_button_width;
 
         // create button
-        QPushButton* menu_button = new Button(UIString(c_menu_str), this);
+        QPushButton* menu_button = new Button("", this);
         QRect menu_button_rect = QRect(parent_rect.width() - button_width, 0, button_width, button_width);
         menu_button->setFlat(true);
         menu_button->setGeometry(menu_button_rect);
@@ -99,7 +86,7 @@ namespace ImageEditor::UI
         menu_button->setMinimumHeight(button_width);
         menu_button->setMaximumHeight(button_width);
         menu_button->setMaximumWidth(button_width);
-        menu_button->setStyleSheet(c_menu_button_style_str);
+        menu_button->setStyleSheet(QString(c_image_button_style_template_str).arg(c_menu_button_image_prefix_str));
 
         connect(menu_button, &QPushButton::clicked, this, &FiltersWidget::OnMenuButtonClicked);
     }
@@ -125,7 +112,7 @@ namespace ImageEditor::UI
         int button_width = c_button_width;
 
         // create button
-        QPushButton* button = new Button(UIString(c_clean_str), this);
+        QPushButton* button = new Button("", this);
         const QRect button_rect = QRect(0, 0, button_width, button_width);
         button->setGeometry(button_rect);
         button->setFlat(true);
@@ -134,7 +121,7 @@ namespace ImageEditor::UI
         button->setMinimumHeight(button_width);
         button->setMaximumHeight(button_width);
         button->setMaximumWidth(button_width);
-        button->setStyleSheet(c_undo_button_style_str);
+        button->setStyleSheet(QString(c_image_button_style_template_str).arg(c_undo_button_image_prefix_str));
 
         connect(button, &QPushButton::clicked, this, &FiltersWidget::OnCleanButtonClicked);
     }
@@ -185,11 +172,10 @@ namespace ImageEditor::UI
                 button->setMaximumWidth(button_width);
                 button->setFlat(true);
                 
-                int index = num % std::size(c_hover_str_arr);
-                QString pressed(c_pressed_str_arr[index]);
-                QString hover(c_hover_str_arr[index]);
-                QString color(c_color_str_arr[index]);
-                button->setStyleSheet(QString(c_filter_button_style_str) + color + hover + pressed);
+                int index = num % std::size(c_filter_buttons_text_color_str_arr);
+                QString style_template(c_filter_button_style_template_str);
+                QString style_with_args = style_template.arg(c_filter_buttons_text_color_str_arr[index]);
+                button->setStyleSheet(style_with_args);
               
                 // bind button with control
                 const auto ui_command = new UICommand(this, control);
@@ -203,12 +189,6 @@ namespace ImageEditor::UI
                 num++;
             }
         }
-
-        //const auto place_holder = new QWidget(filter_buttons_widget);
-       /* const QRect rect = QRect(0, 0, button_width, button_width);
-        place_holder->setGeometry(rect);
-        place_holder->setMinimumHeight(button_width);
-        filter_buttons_layout->addWidget(place_holder);*/
     }
 
     void FiltersWidget::OnSignalOpenImage(QString path)
@@ -250,16 +230,16 @@ namespace ImageEditor::UI
 
         if (image_)
         {
-            const auto new_image_height = geometry().size().height() - c_image_top_margin;
+            const auto new_image_height = geometry().size().height() - c_widget_image_top_margin;
             QImage image = image_->scaledToHeight(new_image_height);
 
             dirty_rect.setLeft((dirty_rect.width() - image.rect().width()) / 2);
-            dirty_rect.setTop(c_image_top_margin / 2);
+            dirty_rect.setTop(c_widget_image_top_margin / 2);
             dirty_rect.setWidth(image.rect().width());
             dirty_rect.setHeight(image.rect().height());
             auto pen = painter.pen();
-            pen.setColor(c_frame_pen_color);
-            pen.setWidth(c_frame_pen_width);
+            pen.setColor(c_widget_pen_color);
+            pen.setWidth(c_widget_pen_width);
             painter.setPen(pen);
             painter.drawRect(dirty_rect);
             painter.drawImage(dirty_rect, image, image.rect());
