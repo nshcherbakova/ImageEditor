@@ -9,7 +9,7 @@ Simple cross-platform image editor.
 
 ImageEditor allows to apply some graphics filters to images.
 
-![WALL.E](Images/WALL.E.png) ![Impression](Images/WALL.E_imp.png) ![Sepia](Images/WALL.E_sepia.png)
+![WALL.E](Images/WALL.E.png)![Impression](Images/WALL.E_imp.png)![Sepia](Images/WALL.E_sepia.png)
 
  
 
@@ -18,7 +18,7 @@ There are several goals of this project:
 
 1. to make project from idea to full value comfy GUI app through several steps: 
 - making UI concept 
-![Main Sacreen](Images/ui_concep_Filters_screen.png) ![Dialog Sacreen](Images/ui_concept_Menu.png) ![Dialog Sacreen](Images/menu.png)
+![Main Sacreen](Images/ui_concep_Filters_screen.png)![Dialog Sacreen](Images/ui_concept_Menu.png)![Dialog Sacreen](Images/menu.png)
 - making app architecture
 - choosing technologies and frameworks
 - breaking to tasks and milestones
@@ -28,7 +28,7 @@ There are several goals of this project:
 4. to have a fun playing with bitmaps pixels while making simple filters from my university Machine Graphics classes
 
 
-![Kids](Images/kids1.png) ![Smooth](Images/kids_smooth.png) ![Aqua](Images/kids_aqua.png)
+![Kids](Images/kids1.png)![Smooth](Images/kids_smooth.png)![Aqua](Images/kids_aqua.png)
 
 
 Upcoming features:
