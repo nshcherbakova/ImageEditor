@@ -2,6 +2,8 @@
 #include <Core/Image/IImage.h>
 #include "GrayFilter.h"
 
+static const char* c_filter_name_str = "Gray";
+
 namespace ImageEditor::Core
 {
 	GrayFilter::GrayFilter() {}
@@ -11,7 +13,7 @@ namespace ImageEditor::Core
 		for (uint64_t i = 0; i < arr.size(); i++)
 		{
 			for (uint64_t j = 0; j < arr[i].size(); j++) {
-				int summ = int(0.2989 * (arr[i][j].r) + 0.5870 * (arr[i][j].g) + 0.1140 * (arr[i][j].b));
+				const int summ = int(0.2989 * (arr[i][j].r) + 0.5870 * (arr[i][j].g) + 0.1140 * (arr[i][j].b));
 				arr[i][j] = bgra(
 					summ,
 					summ,
@@ -24,6 +26,6 @@ namespace ImageEditor::Core
 
 	const std::string GrayFilter::Description() const
 	{
-		return "gray";
+		return c_filter_name_str;
 	}
 }

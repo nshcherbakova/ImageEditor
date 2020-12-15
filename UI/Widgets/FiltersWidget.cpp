@@ -9,25 +9,40 @@
 #include "MenuDialog.h"
 
 
-static const char* c_menu_str = "Menu";
-static const char* c_clean_str = "Clean";
-static const char* c_last_opend_file_str = "last_opend_file";
+static const char* c_menu_str = "";
+static const char* c_clean_str = "";
+static const char* c_last_opend_file_str = "last_opened_file";
+static const QColor c_background_color = QColor(250, 250, 248);
+static const QColor c_frame_pen_color = QColor(Qt::white);
+static const int c_frame_pen_width = 3;
+static const int c_image_top_margin = 20;
+static const int c_button_width = 100;
+static const char* c_filter_button_style_str = "QPushButton{ background-image: url(:/ImageEditor/round_button); background-color: rgba(255, 255, 255, 0); color: rgb(100, 100, 100); font-size: 21px; font-family: Typo Round Regular Demo;}";
+static const char* c_menu_button_style_str = "QPushButton{ background-image: url(:/ImageEditor/round_button_menu); background-color: rgba(255, 255, 255, 0);}";
+static const char* c_undo_button_style_str = "QPushButton{ background-image: url(:/ImageEditor/button_undo); background-color: rgba(255, 255, 255, 0);}";
+static const char* c_background_image_str = ":/ImageEditor/background";
 
 namespace ImageEditor::UI
 {
     FiltersWidget::FiltersWidget(Parameters parameters)
         : QWidget(&(parameters.parent))
         , editable_image_(parameters.image)
+        , background_image_(c_background_image_str)
     {
         UNI_ENSURE_RETURN(parameters.filters_frame);
 
         setContentsMargins(0, 0, 0, 0);
         setGeometry(parameters.parent.geometry());
-        
+        setAutoFillBackground(true);
+        auto palette = QWidget::palette();
+        palette.setColor(QPalette::Window, c_background_color);
+        setPalette(palette);
+        //setStyleSheet(c_widget_style_str);
+
         CreateMenuButton(parameters.filters_frame->Controls());
         CreateCleanButton(parameters.filters_frame->Controls());
         CreateFilterButtons(parameters.filters_frame->Controls());
-        
+
         onShow(false);
     }
 
@@ -36,12 +51,19 @@ namespace ImageEditor::UI
         UNI_ENSURE_RETURN(controls);
         
         QRect parent_rect = geometry();
-        int button_width = parent_rect.height() / 5;
+        const int button_width = c_button_width;
 
         // create button
-        QPushButton* menu_button = new QPushButton(UIString(c_menu_str), this);
+        QPushButton* menu_button = new Button(UIString(c_menu_str), this);
         QRect menu_button_rect = QRect(parent_rect.width() - button_width, 0, button_width, button_width);
+        menu_button->setFlat(true);
         menu_button->setGeometry(menu_button_rect);
+        menu_button->setContentsMargins(0, 0, 0, 0);
+        menu_button->setMinimumWidth(button_width);
+        menu_button->setMinimumHeight(button_width);
+        menu_button->setMaximumHeight(button_width);
+        menu_button->setMaximumWidth(button_width);
+        menu_button->setStyleSheet(c_menu_button_style_str);
 
         connect(menu_button, &QPushButton::clicked, this, &FiltersWidget::OnMenuButtonClicked);
     }
@@ -51,7 +73,7 @@ namespace ImageEditor::UI
         if (!menu_)
         {
             QSettings settings;
-            QString last_file = settings.value(c_last_opend_file_str).toString();
+            const QString last_file = settings.value(c_last_opend_file_str).toString();
             menu_ = new MenuDialog(MenuDialog::Parameters{ this, last_file });
             connect(*menu_, &MenuDialog::SignalOpenImage, this, &FiltersWidget::OnSignalOpenImage);
             connect(*menu_, &MenuDialog::SignalSaveImage, this, &FiltersWidget::OnSignalSaveImage);
@@ -63,13 +85,20 @@ namespace ImageEditor::UI
     {
         UNI_ENSURE_RETURN(controls);
 
-        QRect parent_rect = geometry();
-        int button_width = parent_rect.height() / 5;
+        const  QRect parent_rect = geometry();
+        int button_width = c_button_width;
 
         // create button
-        QPushButton* button = new QPushButton(UIString(c_clean_str), this);
-        QRect button_rect = QRect(parent_rect.width() - button_width, button_width, button_width, button_width);
+        QPushButton* button = new Button(UIString(c_clean_str), this);
+        const QRect button_rect = QRect(0, 0, button_width, button_width);
         button->setGeometry(button_rect);
+        button->setFlat(true);
+        button->setContentsMargins(0, 0, 0, 0);
+        button->setMinimumWidth(button_width);
+        button->setMinimumHeight(button_width);
+        button->setMaximumHeight(button_width);
+        button->setMaximumWidth(button_width);
+        button->setStyleSheet(c_undo_button_style_str);
 
         connect(button, &QPushButton::clicked, this, &FiltersWidget::OnCleanButtonClicked);
     }
@@ -86,8 +115,8 @@ namespace ImageEditor::UI
     {
         UNI_ENSURE_RETURN(controls);
         
-        QRect parent_rect = geometry();
-        int button_width = parent_rect.height() / 5;
+        const QRect parent_rect = geometry();
+        int button_width = c_button_width;
 
         // buttons widget
         QWidget* filter_buttons_widget = new QWidget(this);
@@ -110,12 +139,16 @@ namespace ImageEditor::UI
                 UNI_ENSURE_RETURN(control);
 
                 // create buttons
-                const auto button = new QPushButton(UIString(control->Parameters()), filter_buttons_widget);
+                const auto button = new Button(UIString(control->Parameters()), filter_buttons_widget);
                 QRect button_rect = QRect(0, 0, button_width, button_width);
                 button->setGeometry(button_rect);
+                button->setMinimumWidth(button_width);
                 button->setMinimumHeight(button_width);
+                button->setMaximumHeight(button_width);
                 button->setMaximumWidth(button_width);
-
+                button->setFlat(true);
+                button->setStyleSheet(c_filter_button_style_str);
+              
                 // bind button with control
                 const auto ui_command = new UICommand(this, control);
                 connect(button, &QPushButton::clicked, ui_command, &UICommand::OnButtonClicked);
@@ -128,11 +161,11 @@ namespace ImageEditor::UI
             }
         }
 
-        const auto place_holder = new QWidget(filter_buttons_widget);
-        QRect rect = QRect(0, 0, button_width, button_width);
+        //const auto place_holder = new QWidget(filter_buttons_widget);
+       /* const QRect rect = QRect(0, 0, button_width, button_width);
         place_holder->setGeometry(rect);
         place_holder->setMinimumHeight(button_width);
-        filter_buttons_layout->addWidget(place_holder);
+        filter_buttons_layout->addWidget(place_holder);*/
     }
 
     void FiltersWidget::OnSignalOpenImage(QString path)
@@ -168,15 +201,24 @@ namespace ImageEditor::UI
 
     void FiltersWidget::paintEvent(QPaintEvent* event)
     {
+        QPainter painter(this);
+        QRect dirty_rect = event->rect();
+        painter.drawImage(dirty_rect, background_image_, dirty_rect);
+
         if (image_)
         {
-            auto new_image_height = geometry().size().height();
+            const auto new_image_height = geometry().size().height() - c_image_top_margin;
             QImage image = image_->scaledToHeight(new_image_height);
 
-            QPainter painter(this);
-            QRect dirty_rect = event->rect();
             dirty_rect.setLeft((dirty_rect.width() - image.rect().width()) / 2);
+            dirty_rect.setTop(c_image_top_margin / 2);
             dirty_rect.setWidth(image.rect().width());
+            dirty_rect.setHeight(image.rect().height());
+            auto pen = painter.pen();
+            pen.setColor(c_frame_pen_color);
+            pen.setWidth(c_frame_pen_width);
+            painter.setPen(pen);
+            painter.drawRect(dirty_rect);
             painter.drawImage(dirty_rect, image, image.rect());
         }
     }
@@ -184,7 +226,7 @@ namespace ImageEditor::UI
     void FiltersWidget::onShow(const bool visible)
     {
         QSettings settings;
-        QString last_file = settings.value(c_last_opend_file_str).toString();
+        const QString last_file = settings.value(c_last_opend_file_str).toString();
         if (!last_file.isEmpty())
         {
             OnSignalOpenImage(last_file);
@@ -205,5 +247,37 @@ namespace ImageEditor::UI
         UNI_ENSURE_RETURN(control_);
         control_->Activate(control_->Parameters());
         emit SignalCommandAppyed();
+    }
+    
+    Button::Button(const QString& text, QWidget* parent)
+        : QPushButton(text, parent)
+    {}
+
+    void Button::mousePressEvent(QMouseEvent* e)
+    {
+        update();
+        parentWidget()->update();
+        QPushButton::mousePressEvent(e);
+    }
+
+    void Button::mouseReleaseEvent(QMouseEvent* e)
+    {
+        update();
+        parentWidget()->update();
+        QPushButton::mouseReleaseEvent(e);
+    }
+
+    void Button::leaveEvent(QEvent* e)
+    {
+        update();
+        parentWidget()->update();
+        QWidget::leaveEvent(e);
+    }
+
+    void Button::enterEvent(QEvent* e)
+    {
+        update();
+        parentWidget()->update();
+        QWidget::enterEvent(e);
     }
 }     

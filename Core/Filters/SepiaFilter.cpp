@@ -2,6 +2,8 @@
 #include <Core/Image/IImage.h>
 #include "SepiaFilter.h"
 
+static const char* c_filter_name_str = "Sepia";
+
 namespace ImageEditor::Core
 {
 	SepiaFilter::SepiaFilter() {}
@@ -37,6 +39,6 @@ namespace ImageEditor::Core
 
 	const std::string SepiaFilter::Description() const
 	{
-		return "sepia";
+		return c_filter_name_str;
 	}
 }

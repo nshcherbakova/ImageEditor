@@ -1,4 +1,9 @@
 <RCC>
-    <qresource prefix="ImageEditor">
+    <qresource prefix="/ImageEditor">
+        <file alias="round_button_menu">Images/round_button_80_80_menu.png</file>
+        <file alias="button_undo">Images/round_button_80_80_undo.png</file>
+        <file alias="round_button">Images/round_button_80_80_2.png</file>
+        <file alias="background">Images/background.png</file>
+        <file alias="buttons_font">Fonts/Typo_Round_Regular_Demo.otf</file>
     </qresource>
 </RCC>

@@ -10,6 +10,8 @@ namespace ImageEditor::UI
 {
     class UICommand;
     class MenuDialog;
+    class Button;
+
     class FiltersWidget final: public QWidget, public IWidget
     {
         Q_OBJECT
@@ -47,6 +49,7 @@ namespace ImageEditor::UI
 
         Modules::IEditableImagePtr editable_image_;
         std::shared_ptr<QImage> image_;
+        QImage background_image_;
     };
 
     class UICommand final : public QObject
@@ -64,6 +67,19 @@ namespace ImageEditor::UI
 
     private:
         const Modules::IControlPtr control_;
+    };
+
+    class Button final : public QPushButton
+    {
+        Q_OBJECT
+    public:
+        Button(const QString& text, QWidget* parent = nullptr);
+
+    protected:
+        void mousePressEvent(QMouseEvent* e) override final;
+        void mouseReleaseEvent(QMouseEvent* e) override final;
+        void enterEvent(QEvent* e) override final;
+        void leaveEvent(QEvent* e) override final;
     };
 }
 #endif // IMAGEEDITOR_UI_WIDGETS_FILTERSWIDGET_H

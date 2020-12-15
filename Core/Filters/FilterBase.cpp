@@ -45,7 +45,7 @@ namespace ImageEditor::Core
 		{
 			for (uint64_t j = 0;  j < image->Width(); j++)
 			{
-				uint64_t line = i * image->BytesPerLine();
+				const uint64_t line = i * image->BytesPerLine();
 				arr[i][j] = bgra{
 					image->Data()[line + j * 4 + 0], 
 					image->Data()[line + j * 4 + 1], 

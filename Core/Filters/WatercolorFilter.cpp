@@ -2,6 +2,8 @@
 #include <Core/Image/IImage.h>
 #include "WatercolorFilter.h"
 
+static const char* c_filter_name_str = "Aqua";
+
 namespace ImageEditor::Core
 {
 	WatercolorFilter::WatercolorFilter()
@@ -115,6 +117,6 @@ namespace ImageEditor::Core
 
 	const std::string WatercolorFilter::Description() const
 	{
-		return "aqua";
+		return c_filter_name_str;
 	}
 }

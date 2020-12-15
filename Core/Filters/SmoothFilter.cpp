@@ -2,6 +2,8 @@
 #include <Core/Image/IImage.h>
 #include "SmoothFilter.h"
 
+static const char* c_filter_name_str = "Smooth";
+
 namespace ImageEditor::Core
 {
 	SmoothFilter::SmoothFilter()
@@ -46,6 +48,6 @@ namespace ImageEditor::Core
 
 	const std::string SmoothFilter::Description() const
 	{
-		return "smooth";
+		return c_filter_name_str;
 	}
 }

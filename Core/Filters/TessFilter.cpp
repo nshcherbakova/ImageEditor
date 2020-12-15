@@ -2,6 +2,8 @@
 #include <Core/Image/IImage.h>
 #include "TessFilter.h"
 
+static const char* c_filter_name_str = "Imp";
+
 namespace ImageEditor::Core
 {
 	TessFilter::TessFilter()
@@ -52,6 +54,6 @@ namespace ImageEditor::Core
 
 	const std::string TessFilter::Description() const
 	{
-		return "imp";
+		return c_filter_name_str;
 	}
 }

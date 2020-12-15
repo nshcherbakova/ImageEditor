@@ -7,6 +7,7 @@ using namespace UI;
 
 static const char* c_org_str = "natshch";
 static const char* c_app_str = "ImageEditor";
+static const char* c_font_str = ":/ImageEditor/buttons_font";
 
 int main(int argc, char* argv[])
 {
@@ -14,6 +15,9 @@ int main(int argc, char* argv[])
 
 	QCoreApplication::setOrganizationName(c_org_str);
 	QCoreApplication::setApplicationName(c_app_str);
+	
+	auto res = QFontDatabase::addApplicationFont(c_font_str);
+	UNI_ASSERT(res != -1);
 
 	MainWindow main_window;
 
