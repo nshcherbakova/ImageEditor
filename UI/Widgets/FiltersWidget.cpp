@@ -24,7 +24,7 @@ static const char* c_filter_button_style_str = "QPushButton{ "
 "font-family: Typo Round Regular Demo;";
 
 static const char* c_color_str_arr[] = {
-    "color: #D6200C; }",
+    "color: rgb(150, 95, 95); }",
     "color: #D1854F; }",
     "color: #6F9B00; }",
     "color: #308BB2; }",
