@@ -17,7 +17,7 @@ ImageEditor allows to apply some graphics filters to images.
 Goals of this project are to train my skills in:
 
 1. making project from idea to full value comfy GUI app, threw several steps: 
-- UI concept ![Main Sacreen](Images/ui_concep_Filters_screen.png) ![Dialog Sacreen](Images/ui_concept_Menu.png)
+- UI concept ![Main Sacreen](Images/ui_concep_Filters_screen.png) ![Dialog Sacreen](Images/ui_concept_Menu.png) ![Dialog Sacreen](Images/menu.png)
 - app architect
 - choosing technologies and frameworks
 - breaking to tasks and milestones
