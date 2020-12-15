@@ -35,7 +35,7 @@ There are several goals of this project:
 
 
 Upcoming features:
-1. compile to android
+1. compile for Android
 2. covering with tests
 3. logging
 4. translations
@@ -43,7 +43,7 @@ Upcoming features:
 6. UI animations
 7. uploading images to cloud
 8. integration with social networks to uploading and downloading photos
-9. add image editing tools and more complexed filters like Old Style Photo
+9. add image editing tools and more complexed filters like Vintage Photo
 
 
 
