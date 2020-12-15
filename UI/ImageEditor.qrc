@@ -5,5 +5,12 @@
         <file alias="round_button">Images/round_button_80_80_2.png</file>
         <file alias="background">Images/background.png</file>
         <file alias="buttons_font">Fonts/Typo_Round_Regular_Demo.otf</file>
+        <file alias="round_button_g">Images/round_button_80_80_menu_green.png</file>
+        <file alias="round_button_b">Images/round_button_80_80_menu_blue.png</file>
+        <file alias="round_button_r">Images/round_button_80_80_menu_red.png</file>
+        <file alias="round_button_v">Images/round_button_80_80_menu_viol.png</file>
+        <file alias="round_button_y">Images/round_button_80_80_menu_yellow.png</file>
+        <file alias="round_button_menu_hover">Images/round_button_menu_hover.png</file>
+        <file alias="button_undo_hover">Images/round_button_undo_hover.png</file>
     </qresource>
 </RCC>

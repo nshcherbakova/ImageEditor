@@ -17,9 +17,39 @@ static const QColor c_frame_pen_color = QColor(Qt::white);
 static const int c_frame_pen_width = 3;
 static const int c_image_top_margin = 20;
 static const int c_button_width = 100;
-static const char* c_filter_button_style_str = "QPushButton{ background-image: url(:/ImageEditor/round_button); background-color: rgba(255, 255, 255, 0); color: rgb(100, 100, 100); font-size: 21px; font-family: Typo Round Regular Demo;}";
-static const char* c_menu_button_style_str = "QPushButton{ background-image: url(:/ImageEditor/round_button_menu); background-color: rgba(255, 255, 255, 0);}";
-static const char* c_undo_button_style_str = "QPushButton{ background-image: url(:/ImageEditor/button_undo); background-color: rgba(255, 255, 255, 0);}";
+static const char* c_filter_button_style_str = "QPushButton{ "
+"background-image: url(:/ImageEditor/round_button);"
+"background-color: rgba(255, 255, 255, 0); "
+"color: rgb(100, 100, 100); "
+"font-size: 21px; "
+"font-family: Typo Round Regular Demo;}";
+
+static const char* c_hover_str_arr[] = {
+    "QPushButton:hover{background-image: url(:/ImageEditor/round_button_r); color: rgb(70, 70, 70);}",
+    "QPushButton:hover{background-image: url(:/ImageEditor/round_button_y); color: rgb(70, 70, 70);}",
+    "QPushButton:hover{background-image: url(:/ImageEditor/round_button_g); color: rgb(70, 70, 70);}",
+    "QPushButton:hover{background-image: url(:/ImageEditor/round_button_b); color: rgb(70, 70, 70);}",
+    "QPushButton:hover{background-image: url(:/ImageEditor/round_button_v); color: rgb(70, 70, 70);}" };
+
+static const char* c_pressed_str_arr[] = { 
+    "QPushButton:pressed{background-image: url(:/ImageEditor/round_button_r); color: rgb(70, 70, 70);}", 
+    "QPushButton:pressed{background-image: url(:/ImageEditor/round_button_y); color: rgb(70, 70, 70);}",
+    "QPushButton:pressed{background-image: url(:/ImageEditor/round_button_g); color: rgb(70, 70, 70);}", 
+    "QPushButton:pressed{background-image: url(:/ImageEditor/round_button_b); color: rgb(70, 70, 70);}", 
+    "QPushButton:pressed{background-image: url(:/ImageEditor/round_button_v); color: rgb(70, 70, 70);}" };
+
+static const char* c_menu_button_style_str = "QPushButton{ background-image: "
+"url(:/ImageEditor/round_button_menu); "
+"background-color: rgba(255, 255, 255, 0);}"
+"QPushButton:hover{background-image: url(:/ImageEditor/round_button_menu_hover); color: rgb(70, 70, 70);} "
+"QPushButton:pressed{background-image: url(:/ImageEditor/round_button_menu_hover); color: rgb(70, 70, 70); }";
+
+static const char* c_undo_button_style_str = "QPushButton{ background-image: "
+"url(:/ImageEditor/button_undo); "
+"background-color: rgba(255, 255, 255, 0);}"
+"QPushButton:hover{background-image: url(:/ImageEditor/button_undo_hover); color: rgb(70, 70, 70);} "
+"QPushButton:pressed{background-image: url(:/ImageEditor/button_undo_hover); color: rgb(70, 70, 70);}";
+
 static const char* c_background_image_str = ":/ImageEditor/background";
 
 namespace ImageEditor::UI
@@ -130,6 +160,7 @@ namespace ImageEditor::UI
         filter_buttons_widget->setLayout(filter_buttons_layout);
 
         // bind button with controls, add to layout
+        int num = 0;
         auto buttons_it = controls->find(Modules::FILTER_BUTTON_TAG);
         if (buttons_it != controls->end())
         {
@@ -147,7 +178,10 @@ namespace ImageEditor::UI
                 button->setMaximumHeight(button_width);
                 button->setMaximumWidth(button_width);
                 button->setFlat(true);
-                button->setStyleSheet(c_filter_button_style_str);
+                int index = num % std::size(c_hover_str_arr);
+                QString pressed(c_pressed_str_arr[index]);
+                QString hover(c_hover_str_arr[index]);
+                button->setStyleSheet(QString(c_filter_button_style_str) + hover + pressed);
               
                 // bind button with control
                 const auto ui_command = new UICommand(this, control);
@@ -158,6 +192,7 @@ namespace ImageEditor::UI
                 filter_buttons_layout->addWidget(button);
 
                 buttons_it++;
+                num++;
             }
         }
 
