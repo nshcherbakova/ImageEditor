@@ -20,9 +20,15 @@ static const int c_button_width = 100;
 static const char* c_filter_button_style_str = "QPushButton{ "
 "background-image: url(:/ImageEditor/round_button);"
 "background-color: rgba(255, 255, 255, 0); "
-"color: rgb(100, 100, 100); "
 "font-size: 21px; "
-"font-family: Typo Round Regular Demo;}";
+"font-family: Typo Round Regular Demo;";
+
+static const char* c_color_str_arr[] = {
+    "color: #D6200C; }",
+    "color: #D1854F; }",
+    "color: #6F9B00; }",
+    "color: #308BB2; }",
+    "color: #8E2DB7; }"};
 
 static const char* c_hover_str_arr[] = {
     "QPushButton:hover{background-image: url(:/ImageEditor/round_button_r); color: rgb(70, 70, 70);}",
@@ -178,10 +184,12 @@ namespace ImageEditor::UI
                 button->setMaximumHeight(button_width);
                 button->setMaximumWidth(button_width);
                 button->setFlat(true);
+                
                 int index = num % std::size(c_hover_str_arr);
                 QString pressed(c_pressed_str_arr[index]);
                 QString hover(c_hover_str_arr[index]);
-                button->setStyleSheet(QString(c_filter_button_style_str) + hover + pressed);
+                QString color(c_color_str_arr[index]);
+                button->setStyleSheet(QString(c_filter_button_style_str) + color + hover + pressed);
               
                 // bind button with control
                 const auto ui_command = new UICommand(this, control);
