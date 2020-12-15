@@ -76,10 +76,14 @@ namespace ImageEditor::UI
         Button(const QString& text, QWidget* parent = nullptr);
 
     protected:
-        void mousePressEvent(QMouseEvent* e) override final;
-        void mouseReleaseEvent(QMouseEvent* e) override final;
-        void enterEvent(QEvent* e) override final;
-        void leaveEvent(QEvent* e) override final;
+        virtual void keyPressEvent(QKeyEvent*) override final;
+        virtual void focusInEvent(QFocusEvent*) override final;
+        virtual void focusOutEvent(QFocusEvent*) override final;
+        virtual void mouseMoveEvent(QMouseEvent* e) override final;
+        virtual void mousePressEvent(QMouseEvent* e) override final;
+        virtual void mouseReleaseEvent(QMouseEvent* e) override final;
+        virtual void enterEvent(QEvent* e) override final;
+        virtual void leaveEvent(QEvent* e) override final;
     };
 }
 #endif // IMAGEEDITOR_UI_WIDGETS_FILTERSWIDGET_H

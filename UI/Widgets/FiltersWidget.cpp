@@ -253,6 +253,27 @@ namespace ImageEditor::UI
         : QPushButton(text, parent)
     {}
 
+    void Button::keyPressEvent(QKeyEvent* e)
+    {
+        update();
+        parentWidget()->update();
+        QPushButton::keyPressEvent(e);
+    }
+
+    void Button::focusInEvent(QFocusEvent* e)
+    {
+        update();
+        parentWidget()->update();
+        QPushButton::focusInEvent(e);
+    }
+
+    void Button::focusOutEvent(QFocusEvent* e)
+    {
+        update();
+        parentWidget()->update();
+        QPushButton::focusOutEvent(e);
+    }
+
     void Button::mousePressEvent(QMouseEvent* e)
     {
         update();
@@ -265,6 +286,13 @@ namespace ImageEditor::UI
         update();
         parentWidget()->update();
         QPushButton::mouseReleaseEvent(e);
+    }
+
+    void Button::mouseMoveEvent(QMouseEvent* e)
+    {
+        update();
+        parentWidget()->update();
+        QPushButton::mouseMoveEvent(e);
     }
 
     void Button::leaveEvent(QEvent* e)
