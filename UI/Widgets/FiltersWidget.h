@@ -31,7 +31,7 @@ namespace ImageEditor::UI
     public: // IWidget
         virtual void onShow(const bool visible) override final;
 
-    public slots: 
+    public slots:
         void OnSignalOpenImage(QString path);
         void OnSignalSaveImage(QString path);
         void OnMenuButtonClicked();
@@ -45,6 +45,8 @@ namespace ImageEditor::UI
         void CreateMenuButton(Modules::IControlsMapPtr controls);
         void CreateCleanButton(Modules::IControlsMapPtr controls);
         void CreateFilterButtons(Modules::IControlsMapPtr controls);
+
+        void UpdateImage();
 
     private:
         std::optional<MenuDialog*> menu_;
@@ -71,11 +73,14 @@ namespace ImageEditor::UI
         const Modules::IControlPtr control_;
     };
 
-    class Button final : public QPushButton
+    class ImageButton : public QPushButton
     {
         Q_OBJECT
     public:
-        Button(const QString& text, QWidget* parent = nullptr);
+        ImageButton(const QString& text, QWidget* parent = nullptr);
+
+    public:
+        static void UncheckAll(QWidget* parent);
 
     protected:
         virtual void keyPressEvent(QKeyEvent*) override final;
@@ -86,6 +91,20 @@ namespace ImageEditor::UI
         virtual void mouseReleaseEvent(QMouseEvent* e) override final;
         virtual void enterEvent(QEvent* e) override final;
         virtual void leaveEvent(QEvent* e) override final;
+
+    };
+
+    class RadioButton final : public ImageButton
+    {
+        Q_OBJECT
+    public:
+        RadioButton(const QString& text, const QString& button_group_name, QWidget* parent = nullptr);
+
+    public:
+        static void UncheckAll(QWidget* parent, const QString& button_group_name);
+
+    protected slots:
+        void OnButtonClicked(bool checked);
     };
 }
 #endif // IMAGEEDITOR_UI_WIDGETS_FILTERSWIDGET_H

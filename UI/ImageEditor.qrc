@@ -8,5 +8,6 @@
         <file alias="undo_button">Images/undo_button.png</file>
         <file alias="undo_button_pressed">Images/undo_button_pressed.png</file>
         <file alias="round_button_pressed">Images/round_button_pressed.png</file>
+        <file alias="round_button_checked">Images/round_button_checked.png</file>
     </qresource>
 </RCC>

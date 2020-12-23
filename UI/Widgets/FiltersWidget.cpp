@@ -20,12 +20,14 @@ static const int c_button_width = 100;
 
 static const char* c_filter_button_style_template_str = "QPushButton{ "
 "background-image: url(:/ImageEditor/round_button);"
-"background-color: rgba(255, 255, 255, 0); "
+"background-color: transparent; "
 "font-size: 21px; "
 "font-family: Typo Round Regular Demo;"
 "color: %1;}"
-"QPushButton:hover{background-image: url(:/ImageEditor/round_button_pressed); color: rgb(70, 70, 70);}"
-"QPushButton:pressed{background-image: url(:/ImageEditor/round_button_pressed); color: rgb(70, 70, 70);}";
+"QPushButton:hover{background-image: url(:/ImageEditor/round_button_pressed);}"
+"QPushButton:checked{background-image: url(:/ImageEditor/round_button_checked);}"
+"QPushButton:checked:pressed {background-image: url(:/ImageEditor/round_button_checked);}"
+"QPushButton:pressed{background-image: url(:/ImageEditor/round_button_pressed);}";
 
 static const char* c_filter_buttons_text_color_str_arr[] = {
     "rgb(95, 120, 180)", // first button color
@@ -38,7 +40,7 @@ static const char* c_filter_buttons_text_color_str_arr[] = {
 static const char* c_image_button_style_template_str = "QPushButton{ "
 "background-image: "
 "url(:/ImageEditor/%1_button); "
-"background-color: rgba(255, 255, 255, 0);}"
+"background-color: transparent;}"
 "QPushButton:hover{background-image: url(:/ImageEditor/%1_button_pressed)} "
 "QPushButton:pressed{background-image: url(:/ImageEditor/%1_button_pressed)}";
 
@@ -77,7 +79,7 @@ namespace ImageEditor::UI
         const int button_width = c_button_width;
 
         // create button
-        QPushButton* menu_button = new Button("", this);
+        QPushButton* menu_button = new ImageButton("", this);
         QRect menu_button_rect = QRect(parent_rect.width() - button_width, 0, button_width, button_width);
         menu_button->setFlat(true);
         menu_button->setGeometry(menu_button_rect);
@@ -111,7 +113,7 @@ namespace ImageEditor::UI
         int button_width = c_button_width;
 
         // create button
-        QPushButton* button = new Button("", this);
+        QPushButton* button = new ImageButton("", this);
         const QRect button_rect = QRect(0, 0, button_width, button_width);
         button->setGeometry(button_rect);
         button->setFlat(true);
@@ -130,7 +132,8 @@ namespace ImageEditor::UI
         UNI_ENSURE_RETURN(editable_image_ && editable_image_->Image());
 
         editable_image_->UpdateImage(editable_image_->OriginalImage());
-        OnSignalCommandAppyed();
+        UpdateImage();
+        RadioButton::UncheckAll(this, Modules::FILTER_BUTTON_TAG);
     }
 
     void FiltersWidget::CreateFilterButtons(Modules::IControlsMapPtr controls)
@@ -162,7 +165,7 @@ namespace ImageEditor::UI
                 UNI_ENSURE_RETURN(control);
 
                 // create buttons
-                const auto button = new Button(UIString(control->Parameters()), filter_buttons_widget);
+                const auto button = new RadioButton(UIString(control->Parameters()), Modules::FILTER_BUTTON_TAG, filter_buttons_widget);
                 QRect button_rect = QRect(0, 0, button_width, button_width);
                 button->setGeometry(button_rect);
                 button->setMinimumWidth(button_width);
@@ -170,7 +173,7 @@ namespace ImageEditor::UI
                 button->setMaximumHeight(button_width);
                 button->setMaximumWidth(button_width);
                 button->setFlat(true);
-                
+
                 int index = num % std::size(c_filter_buttons_text_color_str_arr);
                 QString style_template(c_filter_button_style_template_str);
                 QString style_with_args = style_template.arg(c_filter_buttons_text_color_str_arr[index]);
@@ -192,6 +195,8 @@ namespace ImageEditor::UI
 
     void FiltersWidget::OnSignalOpenImage(QString path)
     {
+        RadioButton::UncheckAll(this, Modules::FILTER_BUTTON_TAG);
+
         QSettings settings;
         settings.setValue(c_last_opend_file_str, path);
 
@@ -213,6 +218,11 @@ namespace ImageEditor::UI
     }
 
     void FiltersWidget::OnSignalCommandAppyed()
+    {
+        UpdateImage();
+    }
+
+    void FiltersWidget::UpdateImage()
     {
         UNI_ENSURE_RETURN(editable_image_ && editable_image_->Image());
 
@@ -271,60 +281,104 @@ namespace ImageEditor::UI
         emit SignalCommandAppyed();
     }
     
-    Button::Button(const QString& text, QWidget* parent)
-        : QPushButton(text, parent)
-    {}
+    void RadioButton::UncheckAll(QWidget* parent, const QString& button_group_name)
+    {
+        QList<QPushButton*> buttons = parent->findChildren<QPushButton*>(button_group_name);
+        for (auto& button : buttons)
+        {
+            if (button->isChecked())
+            {
+                button->setChecked(false);
+                button->update();
+                button->parentWidget()->update();
+            }
+        }
+    }
 
-    void Button::keyPressEvent(QKeyEvent* e)
+    RadioButton::RadioButton(const QString& text, const QString& button_group_name, QWidget* parent)
+        : ImageButton(text, parent)
+    {
+        setObjectName(button_group_name);
+        setCheckable(true);
+        connect(this, &QPushButton::clicked, this, &RadioButton::OnButtonClicked);
+    }
+
+    void RadioButton::OnButtonClicked(bool checked)
+    {
+        if (checked)
+        {
+            QList<QPushButton*> buttons = parentWidget()->findChildren<QPushButton*>(objectName());
+            for (auto& button : buttons)
+            {
+                if (button != this && button->isChecked())
+                {
+                    button->setChecked(false);
+                }
+            }
+        }
+        else
+        {
+            QPushButton::setChecked(true);
+        }
+        update();
+        parentWidget()->update();
+    }
+
+    ImageButton::ImageButton(const QString& text, QWidget* parent)
+        : QPushButton(text, parent)
+    {
+    }
+
+    void ImageButton::keyPressEvent(QKeyEvent* e)
     {
         update();
         parentWidget()->update();
         QPushButton::keyPressEvent(e);
     }
 
-    void Button::focusInEvent(QFocusEvent* e)
+    void ImageButton::focusInEvent(QFocusEvent* e)
     {
         update();
         parentWidget()->update();
         QPushButton::focusInEvent(e);
     }
 
-    void Button::focusOutEvent(QFocusEvent* e)
+    void ImageButton::focusOutEvent(QFocusEvent* e)
     {
         update();
         parentWidget()->update();
         QPushButton::focusOutEvent(e);
     }
 
-    void Button::mousePressEvent(QMouseEvent* e)
+    void ImageButton::mousePressEvent(QMouseEvent* e)
     {
         update();
         parentWidget()->update();
         QPushButton::mousePressEvent(e);
     }
 
-    void Button::mouseReleaseEvent(QMouseEvent* e)
+    void ImageButton::mouseReleaseEvent(QMouseEvent* e)
     {
         update();
         parentWidget()->update();
         QPushButton::mouseReleaseEvent(e);
     }
 
-    void Button::mouseMoveEvent(QMouseEvent* e)
+    void ImageButton::mouseMoveEvent(QMouseEvent* e)
     {
         update();
         parentWidget()->update();
         QPushButton::mouseMoveEvent(e);
     }
 
-    void Button::leaveEvent(QEvent* e)
+    void ImageButton::leaveEvent(QEvent* e)
     {
         update();
         parentWidget()->update();
         QWidget::leaveEvent(e);
     }
 
-    void Button::enterEvent(QEvent* e)
+    void ImageButton::enterEvent(QEvent* e)
     {
         update();
         parentWidget()->update();
