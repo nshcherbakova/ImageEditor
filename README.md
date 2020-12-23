@@ -43,7 +43,7 @@ Upcoming features:
 6. UI animations
 7. uploading images to the cloud
 8. integration with social networks to uploading and downloading photos from/to there
-9. add image editing tools and more complicated filters like Vintage Photo
+9. add image editing tools and more complicated filters
 
 
 
