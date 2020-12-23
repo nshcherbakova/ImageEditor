@@ -108,7 +108,6 @@ namespace ImageEditor::UI
     {
         UNI_ENSURE_RETURN(controls);
 
-        const  QRect parent_rect = geometry();
         int button_width = c_button_width;
 
         // create button

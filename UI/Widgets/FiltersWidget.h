@@ -2,6 +2,8 @@
 #ifndef IMAGEEDITOR_UI_WIDGETS_FILTERSWIDGET_H
 #define IMAGEEDITOR_UI_WIDGETS_FILTERSWIDGET_H
 
+#include <QWidget>
+#include <QPushButton>
 #include <Modules/types.h>
 #include <UI/types.h>
 #include <UI/Widgets/IWidget.h>

@@ -1,4 +1,3 @@
-#pragma once
 #include <stdafx.h>
 #include <Modules/EditableImage/EditableImage.h>
 #include "EditableImageModule.h"

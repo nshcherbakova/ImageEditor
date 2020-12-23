@@ -78,7 +78,6 @@ namespace ImageEditor::UI
 
     QPushButton* MenuDialog::CreateButton(QString name, int button_height)
     {
-        const QRect parent_rect = geometry();
         QPushButton* button = new QPushButton(name, this);
         const QRect menu_button_rect = QRect(0, 0, 0, button_height);
         button->setGeometry(menu_button_rect);

@@ -10,4 +10,4 @@ namespace ImageEditor::UI
 		return QString::fromStdString(text);
 	}
 };
-#endif IMAGEEDITOR_UI_UISTRING_H //
+#endif // IMAGEEDITOR_UI_UISTRING_H

@@ -2,10 +2,13 @@
 #ifndef IMAGEEDITOR_UI_WIDGETS_MENUDIALOG_H
 #define IMAGEEDITOR_UI_WIDGETS_MENUDIALOG_H
 
+#include <QWidget>
 #include <Modules/types.h>
 #include <UI/types.h>
 #include <UI/Widgets/IWidget.h>
 
+
+class QPushButton;
 namespace ImageEditor::UI
 {
     class UICommand;

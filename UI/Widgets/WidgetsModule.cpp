@@ -1,4 +1,3 @@
-#pragma once
 #include <stdafx.h>
 #include <Core/Gears/Injector.h>
 #include <UI/Widgets/FiltersWidget.h>

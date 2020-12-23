@@ -1,4 +1,3 @@
-#pragma once
 #include <stdafx.h>
 #include <Core/Filters/SmoothFilter.h>
 #include <Core/Filters/GrayFilter.h>

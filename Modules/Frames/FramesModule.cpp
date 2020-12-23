@@ -1,4 +1,3 @@
-#pragma once
 #include <stdafx.h>
 #include <Core/types.h>
 #include <Modules/Frames/FiltersFrame.h>

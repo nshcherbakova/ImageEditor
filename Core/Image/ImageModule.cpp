@@ -1,4 +1,3 @@
-#pragma once
 #include <stdafx.h>
 #include <Core/Image/Image.h>
 #include "ImageModule.h"

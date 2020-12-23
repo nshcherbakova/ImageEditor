@@ -16,8 +16,8 @@ int main(int argc, char* argv[])
 	QCoreApplication::setOrganizationName(c_org_str);
 	QCoreApplication::setApplicationName(c_app_str);
 	
-	auto res = QFontDatabase::addApplicationFont(c_font_str);
-	UNI_ASSERT(res != -1);
+	QFontDatabase::addApplicationFont(c_font_str);
+	//UNI_ASSERT(res != -1);
 
 	MainWindow main_window;
 

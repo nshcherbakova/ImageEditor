@@ -12,7 +12,7 @@ namespace
 	class Control final: public IControl
 	{
 	public:
-		Control::Control(Core::IFilterPtr filter, IEditableImagePtr image)
+		Control(Core::IFilterPtr filter, IEditableImagePtr image)
 			: filter_(filter), image_(image)
 		{
 			UNI_ENSURE_RETURN(filter_);
