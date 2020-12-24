@@ -117,7 +117,9 @@ namespace ImageEditor::UI
         const QString file_name = QFileDialog::getSaveFileName(this,
            UIString(c_save_image_str),
            image_file_name_,
-           UIString(c_file_types_str));
+           UIString(c_file_types_str),
+           0,
+           QFileDialog::DontUseNativeDialog);
 
        if (!file_name.isEmpty())
        {

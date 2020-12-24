@@ -8,11 +8,17 @@ namespace ImageEditor::UI
     {
         ui.setupUi(this);
         delete ui.mainToolBar;
-       
-        setMaximumSize(size());
-        setMinimumSize(size());
-        setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
-        setFixedSize(size());
-        setWindowFlags(Qt::MSWindowsFixedSizeDialogHint);
+     
+#ifdef Q_OS_ANDROID
+        setWindowState(Qt::WindowFullScreen);
+        showMaximized();
+        QSize window_size(size());
+#elif WIN32
+        QSize window_size(640 , 1136);
+#endif
+        setMaximumSize(window_size);
+        setMinimumSize(window_size);
+        setFixedSize(window_size);
+        setWindowFlags(Qt::Window | Qt::MSWindowsFixedSizeDialogHint);
     }
 }

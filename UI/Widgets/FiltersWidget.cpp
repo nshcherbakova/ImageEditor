@@ -13,7 +13,7 @@ static const char* c_last_opend_file_str = "last_opened_file";
 static const QColor c_widget_background_color = QColor(250, 250, 248);
 static const QColor c_widget_pen_color = QColor(Qt::white);
 static const int c_widget_pen_width = 3;
-static const int c_widget_image_top_margin = 20;
+static const int c_widget_image_top_margin = 30;
 static const char* c_widget_background_image_str = ":/ImageEditor/widget_background";
 // buttons settings
 static const int c_button_width = 100;
@@ -27,7 +27,7 @@ static const char* c_filter_button_style_template_str = "QPushButton{ "
 "QPushButton:hover{background-image: url(:/ImageEditor/round_button_pressed);}"
 "QPushButton:checked{background-image: url(:/ImageEditor/round_button_checked);}"
 "QPushButton:checked:pressed {background-image: url(:/ImageEditor/round_button_checked);}"
-"QPushButton:pressed{background-image: url(:/ImageEditor/round_button_pressed);}";
+"QPushButton:pressed{background-image: url(:/ImageEditor/round_button_checked);}";
 
 static const char* c_filter_buttons_text_color_str_arr[] = {
     "rgb(95, 120, 180)", // first button color
@@ -214,7 +214,22 @@ namespace ImageEditor::UI
     void FiltersWidget::OnSignalSaveImage(QString path)
     {
         UNI_ENSURE_RETURN(image_);
-        image_->save(path);
+
+
+
+         //QDir picDir = QDir(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
+
+
+         //QString filePath = picDir.filePath("test123.jpg");
+
+           image_->save(path);
+
+
+
+      /*   QAndroidJniObject::callStaticMethod<void>("aha/androscanner/AndroScannerInJava",
+                                                    "scanForPicture",
+                                                    "(Ljava/lang/String;)V",
+                                                    QAndroidJniObject::fromString(filePath).object<jstring>());*/
     }
 
     void FiltersWidget::OnSignalCommandAppyed()
