@@ -3,7 +3,7 @@ ImageEditor
 
 
 
-Simple cross-platform image editor. 
+Simple cross-platform image editor wor Windows and Android OS.
 
 ![App main window](Images/main_screen.png)
 
@@ -28,22 +28,22 @@ There are several goals of this project:
 - writing code
 2. to train design skills: programming design patterns like Dependency Injection, Command
 3. to make QT based customized GUI
-4. to have a fun playing with bitmaps pixels while making simple filters from my university Machine Graphics classes
+4. to study how to build an Android app
+5. to have a fun playing with bitmaps pixels while making simple filters from my university Machine Graphics classes
 
 
 ![Kids](Images/kids1.png) ![Smooth](Images/kids_smooth.png) ![Aqua](Images/kids_aqua.png)
 
 
 Upcoming features:
-1. compile for Android
-2. covering with tests
-3. logging
-4. translations
-5. QML
-6. UI animations
-7. uploading images to the cloud
-8. integration with social networks to uploading and downloading photos from/to there
-9. add image editing tools and more complicated filters
+1. covering with tests
+2. logging
+3. translations
+4. QML
+5. UI animations
+6. uploading images to the cloud
+7. integration with social networks to uploading and downloading photos from/to there
+8. add image editing tools and more complicated filters
 
 
 
