@@ -3,7 +3,7 @@ ImageEditor
 
 
 
-Simple cross-platform image editor wor Windows and Android OS.
+The Simple cross-platform image editor for Windows and Android OS.
 
 ![App main window](Images/main_screen.png)
 
@@ -17,12 +17,12 @@ ImageEditor allows to apply some graphics filters to images.
 
 There are several goals of this project:
 
-1. to make project from idea to full value comfy GUI app through several steps: 
-- making UI concept 
+1. to make the project from the idea to full value comfy GUI app through several steps: 
+- making the UI concept 
 
 ![Main Sacreen](Images/ui_concep_Filters_screen.png) ![Dialog Sacreen](Images/ui_concept_Menu.png) ![Dialog Sacreen](Images/menu.png)
 
-- making app architecture
+- making the app architecture
 - choosing technologies and frameworks
 - breaking to tasks and milestones
 - writing code
