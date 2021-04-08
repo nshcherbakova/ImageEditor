@@ -66,14 +66,14 @@ namespace ImageEditor::UI
         save_button_->setStyleSheet(c_button_style_str);
         save_button_->setMaximumHeight(button_height);
 
-        QPushButton* canel_button = CreateButton(UIString(c_cancel_str), button_height);
+       /* QPushButton* canel_button = CreateButton(UIString(c_cancel_str), button_height);
         connect(canel_button, &QPushButton::clicked, this, &MenuDialog::OnButtonCancelClicked);
         canel_button->setStyleSheet(c_button_style_str);
-        canel_button->setMaximumHeight(button_height);
+        canel_button->setMaximumHeight(button_height);*/
 
         filter_buttons_layout->addWidget(open_button);
         filter_buttons_layout->addWidget(save_button_);
-        filter_buttons_layout->addWidget(canel_button);
+        //filter_buttons_layout->addWidget(canel_button);
     }
 
     QPushButton* MenuDialog::CreateButton(QString name, int button_height)
@@ -132,5 +132,11 @@ namespace ImageEditor::UI
     void MenuDialog::OnButtonCancelClicked()
     {
         setVisible(false);
+    }
+    
+    void MenuDialog::mouseReleaseEvent(QMouseEvent* event)
+    {
+        QWidget::mouseReleaseEvent(event);
+        OnButtonCancelClicked();
     }
 }

@@ -30,6 +30,9 @@ namespace ImageEditor::UI
         void SignalOpenImage(QString file_name);
         void SignalSaveImage(QString file_name);
 
+    protected:
+        void mouseReleaseEvent(QMouseEvent* event);
+
     private slots: 
         void OnButtonOpenClicked();
         void OnButtonSaveClicked();
