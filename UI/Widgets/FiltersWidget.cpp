@@ -214,18 +214,10 @@ namespace ImageEditor::UI
     void FiltersWidget::OnSignalSaveImage(QString path)
     {
         UNI_ENSURE_RETURN(image_);
-
-
-
          //QDir picDir = QDir(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
-
-
          //QString filePath = picDir.filePath("test123.jpg");
 
            image_->save(path);
-
-
-
       /*   QAndroidJniObject::callStaticMethod<void>("aha/androscanner/AndroScannerInJava",
                                                     "scanForPicture",
                                                     "(Ljava/lang/String;)V",

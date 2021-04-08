@@ -80,7 +80,7 @@ namespace ImageEditor::Core
 			}
 		}
 
-		Core::IImagePtr new_image = Core::InitImageModule(
+		Core::IImagePtr new_image = Core::ImageModule(
 			new_img_data,
 			arr[0].size(),
 			arr.size(),

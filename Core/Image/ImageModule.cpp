@@ -16,7 +16,7 @@ namespace
 
 namespace ImageEditor::Core
 { 
-    IImageinjector InitImageModule(ByteArr data, unsigned int width, unsigned int height, unsigned int bytes_per_line, unsigned int format)
+    IImageinjector ImageModule(ByteArr data, unsigned int width, unsigned int height, unsigned int bytes_per_line, unsigned int format)
     {
         return boost::di::make_injector(module(std::move(data), width, height, bytes_per_line, format));
     }

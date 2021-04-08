@@ -19,7 +19,7 @@ namespace ImageEditor::UI
 
 	Core::IImagePtr QtImageToIImage(const QImage& image)
 	{
-		Core::IImagePtr core_image = Core::InitImageModule(
+		Core::IImagePtr core_image = Core::ImageModule(
 			Core::ByteArr(
 			image.bits(), image.bits() + image.sizeInBytes()),
 			image.width(),
