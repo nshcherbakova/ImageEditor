@@ -4,6 +4,7 @@
 #include <Modules/Frames/IFrame.h>
 #include <Modules/Frames/IControl.h>
 #include <Core/Image/IImage.h>
+#include <UI/ImageProvider/IImageProvider.h>
 #include <UI/QtConverts.h>
 #include "FiltersWidget.h"
 #include "MenuDialog.h"
@@ -53,7 +54,7 @@ namespace ImageEditor::UI
     FiltersWidget::FiltersWidget(Parameters parameters)
         : QWidget(&(parameters.parent))
         , editable_image_(parameters.image)
-        , background_image_(c_widget_background_image_str)
+        , background_image_(parameters.image_provider->image(c_widget_background_image_str))
     {
         UNI_ENSURE_RETURN(parameters.filters_frame);
 

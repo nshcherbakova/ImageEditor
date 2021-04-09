@@ -6,6 +6,9 @@
 
 namespace ImageEditor::UI
 {
-    IWidgetInjector InitWidgetsModule(QWidget& parent, Modules::IFramePtr frame, Modules::IEditableImagePtr image);
+    IWidgetInjector InitWidgetsModule(QWidget& parent, 
+        Modules::IFramePtr frame, 
+        Modules::IEditableImagePtr image, 
+        IImageProviderPtr image_provider);
 }
 #endif //IMAGEEDITOR_UI_WIDGETS_MODULE_H

@@ -22,3 +22,4 @@
 #include <Modules/Frames/Tags.h>
 
 #include <UI/Widgets/WidgetsModule.h>
+#include <UI/ImageProvider/ImageProviderModule.h>

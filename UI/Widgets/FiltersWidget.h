@@ -23,6 +23,7 @@ namespace ImageEditor::UI
             QWidget& parent;
             Modules::IFramePtr filters_frame;
             Modules::IEditableImagePtr image;
+            IImageProviderPtr image_provider;
         };
 
         explicit FiltersWidget(Parameters parameters);
@@ -52,6 +53,7 @@ namespace ImageEditor::UI
         std::optional<MenuDialog*> menu_;
 
         Modules::IEditableImagePtr editable_image_;
+       // IImageProviderPtr image_provider_;
         std::shared_ptr<QImage> image_;
         QImage background_image_;
     };

@@ -19,12 +19,15 @@ int main(int argc, char* argv[])
 	QFontDatabase::addApplicationFont(c_font_str);
 	//UNI_ASSERT(res != -1);
 
+	//QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
 	MainWindow main_window;
 
 	auto image = Modules::InitEditableImageModule().create<Modules::IEditableImagePtr>();
 	auto filters = Core::InitFiltersModule().create<Core::IFilterPtrArr>();
 	auto filters_frame = Modules::InitFramesModule(image, std::move(filters)).create<Modules::IFramePtr>();
-	auto filters_widget = UI::InitWidgetsModule(main_window, std::move(filters_frame), image).create<IWidget*>();
+	auto image_provider = UI::InitImageProviderModule().create<UI::IImageProviderPtr>();
+	auto filters_widget = UI::InitWidgetsModule(main_window, std::move(filters_frame), std::move(image), std::move(image_provider)).create<IWidget*>();
 
 	main_window.show();
 	filters_widget->onShow(true);
