@@ -5,8 +5,7 @@ ImageEditor
 
 The Simple cross-platform image editor for Windows and Android OS.
 
-![App main window](Images/android_emulator_sm.png)
-![App main window](Images/main_screen.png)
+![App main window](Images/android_emulator_sm.png) ![App main window](Images/main_screen.png)
 
 ImageEditor allows to apply some graphics filters to images.
 
@@ -29,11 +28,14 @@ There are several goals of this project:
 - writing code
 2. to train design skills: programming design patterns like Dependency Injection, Command
 3. to make QT based customized GUI
+
+![WALL.E](Images/WALL.E.png) ![Impression](Images/WALL.E_imp.png) ![Sepia](Images/WALL.E_sepia.png)
+
 4. to study how to build an Android app
 5. to have a fun playing with bitmaps pixels while making simple filters from my university Machine Graphics classes
 
 
-![Kids](Images/kids1.png) ![Smooth](Images/kids_smooth.png) ![Aqua](Images/kids_aqua.png)
+![Kids](Images/screen_no_custom.png) ![Smooth](Images/screen_custom.png)
 
 
 Upcoming features:
