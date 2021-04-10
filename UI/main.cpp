@@ -11,12 +11,14 @@ static const char* c_font_str = ":/Fonts/buttons_font";
 
 int main(int argc, char* argv[])
 {
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // DPI support
 	QApplication a(argc, argv);
 
 	QCoreApplication::setOrganizationName(c_org_str);
 	QCoreApplication::setApplicationName(c_app_str);
 	
 	QFontDatabase::addApplicationFont(c_font_str);
+
 	//UNI_ASSERT(res != -1);
 
 	//QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);

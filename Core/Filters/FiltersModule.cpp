@@ -12,8 +12,8 @@ namespace
     using namespace ImageEditor::Core;
     IFilterInjector module() noexcept {
         return boost::di::make_injector(
-            boost::di::bind<IFilter* []>().to<GrayFilter, SepiaFilter, TessFilter, WatercolorFilter, SmoothFilter>(),
-            boost::di::bind<IFilter>().to<GrayFilter>(),
+            boost::di::bind<IFilter* []>().to</*GrayFilter,*/ SepiaFilter, TessFilter, WatercolorFilter, SmoothFilter>(),
+            //boost::di::bind<IFilter>().to<GrayFilter>(),
             boost::di::bind<IFilter>().named<class SmoothFilter>().to<SmoothFilter>(),
             boost::di::bind<IFilter>().named<class TessFilter>().to<TessFilter>(),
             boost::di::bind<IFilter>().named<class WatercolorFilter>().to<WatercolorFilter>(),

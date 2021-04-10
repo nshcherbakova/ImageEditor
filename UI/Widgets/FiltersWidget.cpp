@@ -247,14 +247,14 @@ namespace ImageEditor::UI
     {
         QPainter painter(this);
         QRect dirty_rect = event->rect();
-        QImage scaled_background_image = background_image_.scaledToWidth(dirty_rect.width());
+        QImage scaled_background_image = background_image_.scaledToWidth(dirty_rect.width(), Qt::SmoothTransformation);
         painter.drawImage(0, dirty_rect.height() - scaled_background_image.height()
             , scaled_background_image);
 
         if (image_)
         {
             const auto new_image_height = geometry().size().height() - c_widget_image_top_margin;
-            QImage image = image_->scaledToHeight(new_image_height);
+            QImage image = image_->scaledToHeight(new_image_height, Qt::SmoothTransformation);
 
             dirty_rect.setLeft((dirty_rect.width() - image.rect().width()) / 2);
             dirty_rect.setTop(c_widget_image_top_margin / 2);
