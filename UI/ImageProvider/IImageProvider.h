@@ -10,7 +10,7 @@ namespace ImageEditor::UI
 
         virtual ~IImageProvider() {}
         virtual const QImage image(const QString& name) const = 0;
-
+        virtual const QString imagesPath() const = 0;
     };
 }
 #endif // IMAGEEDITOR_UI_IIMAGE_PROVIDER_H

@@ -16,7 +16,7 @@ namespace
         return boost::di::make_injector(
             boost::di::bind<IWidget>().to<FiltersWidget>().in(boost::di::unique),
             boost::di::bind<FiltersWidget::Parameters>.
-            to(FiltersWidget::Parameters({ std::move(parent), std::move(frame), std::move(image), std::move(image_provider) }))
+            to(FiltersWidget::Parameters({ parent, std::move(frame), std::move(image), std::move(image_provider) }))
         );
     }
 }
@@ -28,7 +28,7 @@ namespace ImageEditor::UI
         Modules::IEditableImagePtr image,
         IImageProviderPtr image_provider)
     {
-        return boost::di::make_injector(module(std::move(parent), 
+        return boost::di::make_injector(module(parent,
             std::move(frame), std::move(image), std::move(image_provider)));
     }
 }

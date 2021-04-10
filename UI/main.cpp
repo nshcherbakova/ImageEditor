@@ -7,7 +7,7 @@ using namespace UI;
 
 static const char* c_org_str = "natshch";
 static const char* c_app_str = "ImageEditor";
-static const char* c_font_str = ":/ImageEditor/buttons_font";
+static const char* c_font_str = ":/Fonts/buttons_font";
 
 int main(int argc, char* argv[])
 {

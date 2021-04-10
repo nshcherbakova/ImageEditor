@@ -1,13 +1,25 @@
 <RCC>
-    <qresource prefix="/ImageEditor">
+    <qresource prefix="/Images/default">
+        <file alias="widget_background">Images/default/background.png</file>
+        <file alias="menu_button">Images/default/menu_button.png</file>
+        <file alias="menu_button_pressed">Images/default/menu_button_pressed.png</file>
+        <file alias="round_button">Images/default/round_button.png</file>
+        <file alias="round_button_checked">Images/default/round_button_checked.png</file>
+        <file alias="round_button_pressed">Images/default/round_button_pressed.png</file>
+        <file alias="undo_button">Images/default/undo_button.png</file>
+        <file alias="undo_button_pressed">Images/default/undo_button_pressed.png</file>
+    </qresource>
+    <qresource prefix="/Images/2x">
+        <file alias="widget_background">Images/2x/background.png</file>
+        <file alias="menu_button">Images/2x/menu_button.png</file>
+        <file alias="menu_button_pressed">Images/2x/menu_button_pressed.png</file>
+        <file alias="round_button">Images/2x/round_button.png</file>
+        <file alias="round_button_checked">Images/2x/round_button_checked.png</file>
+        <file alias="round_button_pressed">Images/2x/round_button_pressed.png</file>
+        <file alias="undo_button">Images/2x/undo_button.png</file>
+        <file alias="undo_button_pressed">Images/2x/undo_button_pressed.png</file>
+    </qresource>
+    <qresource prefix="/Fonts">
         <file alias="buttons_font">Fonts/Typo_Round_Regular_Demo.otf</file>
-        <file alias="widget_background">Images/background.png</file>
-        <file alias="menu_button">Images/menu_button.png</file>
-        <file alias="menu_button_pressed">Images/menu_button_pressed.png</file>
-        <file alias="round_button">Images/round_button.png</file>
-        <file alias="undo_button">Images/undo_button.png</file>
-        <file alias="undo_button_pressed">Images/undo_button_pressed.png</file>
-        <file alias="round_button_pressed">Images/round_button_pressed.png</file>
-        <file alias="round_button_checked">Images/round_button_checked.png</file>
     </qresource>
 </RCC>

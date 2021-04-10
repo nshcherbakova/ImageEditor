@@ -2,20 +2,24 @@
 #include <UI/QtConverts.h>
 #include "ImageByDPIProvider.h"
 
-static const char* c_2x_suffix_str = "@2x";
-static const char* c_empty_suffix_str = "";
-
+static const char* c_2x_filter_str = ":/Images/2x";
+static const char* c_default_filter_str = ":/Images/default";
 
 namespace ImageEditor::UI
 {
     ImageByDPIProvider::ImageByDPIProvider()
-        :image_suffix_(QGuiApplication::primaryScreen()->devicePixelRatio() >= 2 
-            ? c_2x_suffix_str : c_empty_suffix_str)
+        :image_prefix_(QGuiApplication::primaryScreen()->devicePixelRatio() < 2
+            ? c_2x_filter_str : c_default_filter_str)
     {
     }
 
     const QImage ImageByDPIProvider::image(const QString& name) const
     {
-        return QImage(name + image_suffix_);
+        return QImage(image_prefix_ + "/" + name);
+    }
+
+    const QString ImageByDPIProvider::imagesPath() const
+    {
+        return image_prefix_;
     }
 }

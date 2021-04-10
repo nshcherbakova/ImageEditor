@@ -15,20 +15,20 @@ static const QColor c_widget_background_color = QColor(250, 250, 248);
 static const QColor c_widget_pen_color = QColor(Qt::white);
 static const int c_widget_pen_width = 3;
 static const int c_widget_image_top_margin = 30;
-static const char* c_widget_background_image_str = ":/ImageEditor/widget_background";
+static const char* c_widget_background_image_str = "widget_background";
 // buttons settings
 static const int c_button_width = 100;
 
 static const char* c_filter_button_style_template_str = "QPushButton{ "
-"background-image: url(:/ImageEditor/round_button);"
+"background-image: url(%2/round_button);"
 "background-color: transparent; "
 "font-size: 21px; "
 "font-family: Typo Round Regular Demo;"
 "color: %1;}"
-"QPushButton:hover{background-image: url(:/ImageEditor/round_button_pressed);}"
-"QPushButton:checked{background-image: url(:/ImageEditor/round_button_checked);}"
-"QPushButton:checked:pressed {background-image: url(:/ImageEditor/round_button_checked);}"
-"QPushButton:pressed{background-image: url(:/ImageEditor/round_button_checked);}";
+"QPushButton:hover{background-image: url(%2/round_button_pressed);}"
+"QPushButton:checked{background-image: url(%2/round_button_checked);}"
+"QPushButton:checked:pressed {background-image: url(%2/round_button_checked);}"
+"QPushButton:pressed{background-image: url(%2/round_button_checked);}";
 
 static const char* c_filter_buttons_text_color_str_arr[] = {
     "rgb(95, 120, 180)", // first button color
@@ -40,10 +40,10 @@ static const char* c_filter_buttons_text_color_str_arr[] = {
 
 static const char* c_image_button_style_template_str = "QPushButton{ "
 "background-image: "
-"url(:/ImageEditor/%1_button); "
+"url(%2/%1_button); "
 "background-color: transparent;}"
-"QPushButton:hover{background-image: url(:/ImageEditor/%1_button_pressed)} "
-"QPushButton:pressed{background-image: url(:/ImageEditor/%1_button_pressed)}";
+"QPushButton:hover{background-image: url(%2/%1_button_pressed)} "
+"QPushButton:pressed{background-image: url(%2/%1_button_pressed)}";
 
 static const char* c_menu_button_image_prefix_str = "menu";
 static const char* c_undo_button_image_prefix_str = "undo";
@@ -53,8 +53,9 @@ namespace ImageEditor::UI
 {
     FiltersWidget::FiltersWidget(Parameters parameters)
         : QWidget(&(parameters.parent))
-        , editable_image_(parameters.image)
-        , background_image_(parameters.image_provider->image(c_widget_background_image_str))
+        , editable_image_(std::move(parameters.image))
+        , ui_image_provider_(std::move(parameters.image_provider))
+        , background_image_(ui_image_provider_->image(c_widget_background_image_str))
     {
         UNI_ENSURE_RETURN(parameters.filters_frame);
 
@@ -89,7 +90,8 @@ namespace ImageEditor::UI
         menu_button->setMinimumHeight(button_width);
         menu_button->setMaximumHeight(button_width);
         menu_button->setMaximumWidth(button_width);
-        menu_button->setStyleSheet(QString(c_image_button_style_template_str).arg(c_menu_button_image_prefix_str));
+        menu_button->setStyleSheet(QString(c_image_button_style_template_str).arg(c_menu_button_image_prefix_str)
+            .arg(ui_image_provider_->imagesPath()));
 
         connect(menu_button, &QPushButton::clicked, this, &FiltersWidget::OnMenuButtonClicked);
     }
@@ -123,7 +125,8 @@ namespace ImageEditor::UI
         button->setMinimumHeight(button_width);
         button->setMaximumHeight(button_width);
         button->setMaximumWidth(button_width);
-        button->setStyleSheet(QString(c_image_button_style_template_str).arg(c_undo_button_image_prefix_str));
+        button->setStyleSheet(QString(c_image_button_style_template_str).arg(c_undo_button_image_prefix_str)
+            .arg(ui_image_provider_->imagesPath()));
 
         connect(button, &QPushButton::clicked, this, &FiltersWidget::OnCleanButtonClicked);
     }
@@ -177,7 +180,8 @@ namespace ImageEditor::UI
 
                 int index = num % std::size(c_filter_buttons_text_color_str_arr);
                 QString style_template(c_filter_button_style_template_str);
-                QString style_with_args = style_template.arg(c_filter_buttons_text_color_str_arr[index]);
+                QString style_with_args = style_template.arg(c_filter_buttons_text_color_str_arr[index])
+                    .arg(ui_image_provider_->imagesPath());
                 button->setStyleSheet(style_with_args);
               
                 // bind button with control
@@ -243,7 +247,9 @@ namespace ImageEditor::UI
     {
         QPainter painter(this);
         QRect dirty_rect = event->rect();
-        painter.drawImage(dirty_rect, background_image_, dirty_rect);
+        QImage scaled_background_image = background_image_.scaledToWidth(dirty_rect.width());
+        painter.drawImage(0, dirty_rect.height() - scaled_background_image.height()
+            , scaled_background_image);
 
         if (image_)
         {

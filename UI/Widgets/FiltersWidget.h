@@ -53,7 +53,7 @@ namespace ImageEditor::UI
         std::optional<MenuDialog*> menu_;
 
         Modules::IEditableImagePtr editable_image_;
-       // IImageProviderPtr image_provider_;
+        IImageProviderPtr ui_image_provider_;
         std::shared_ptr<QImage> image_;
         QImage background_image_;
     };

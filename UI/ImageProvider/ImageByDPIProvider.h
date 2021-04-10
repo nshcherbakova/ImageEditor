@@ -20,9 +20,10 @@ namespace ImageEditor::UI
 
     public: // IImageProvider
         virtual const QImage image(const QString& name) const override final;
+        virtual const QString imagesPath() const override final;
 
     private: // 
-        const QString image_suffix_;
+        const QString image_prefix_;
     };
 }
 #endif // IMAGEEDITOR_UI_IIMAGE_PROVIDER_H
