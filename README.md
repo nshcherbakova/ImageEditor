@@ -5,6 +5,7 @@ ImageEditor
 
 The Simple cross-platform image editor for Windows and Android OS.
 
+![App main window](Images/android_emulator_sm.png)
 ![App main window](Images/main_screen.png)
 
 ImageEditor allows to apply some graphics filters to images.
