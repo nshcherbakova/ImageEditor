@@ -29,13 +29,13 @@ There are several goals of this project:
 2. to train design skills: programming design patterns like Dependency Injection, Command
 3. to make QT based customized GUI
 
-![WALL.E](Images/WALL.E.png) ![Impression](Images/WALL.E_imp.png) ![Sepia](Images/WALL.E_sepia.png)
+![Kids](Images/screen_no_custom.png) ![Smooth](Images/screen_custom.png)
 
 4. to study how to build an Android app
 5. to have a fun playing with bitmaps pixels while making simple filters from my university Machine Graphics classes
 
 
-![Kids](Images/screen_no_custom.png) ![Smooth](Images/screen_custom.png)
+![Kids](Images/kids1.png) ![Smooth](Images/kids_smooth.png) ![Aqua](Images/kids_aqua.png)
 
 
 Upcoming features:
