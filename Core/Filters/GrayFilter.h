@@ -16,7 +16,7 @@ namespace ImageEditor::Core
 		virtual const std::string Description() const override final;
 	
 	private: // FilterBase
-		virtual void Transform(FilterBase::bgraMatrix& image) const override final;
+		virtual void Transform(BGRAMatrix& image) const override final;
 	};
 }
 

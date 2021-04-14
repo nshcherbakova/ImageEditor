@@ -3,6 +3,9 @@
 #include "TessFilter.h"
 
 static const char* c_filter_name_str = "Imp";
+static const int H[3][3] = {{0,1,0},
+							{-1,0,1},
+							{0,-1,0}};
 
 namespace ImageEditor::Core
 {
@@ -10,19 +13,13 @@ namespace ImageEditor::Core
 	{
 	}
 
-	void TessFilter::Transform(FilterBase::bgraMatrix& image) const 
+	void TessFilter::Transform(FilterBase::BGRAMatrix& arr) const
 	{
-		UNI_ENSURE_RETURN(image.size() > 1 && image[0].size() > 1);
+		FilterBase::BGRAMatrix arr_src = arr;
 
-		int H[3][3] = { {0,1,0},
-				{-1,0,1},
-				{0,-1,0} };
-
-		FilterBase::bgraMatrix image_src = image;
-		for (uint64_t i = 1; i < image.size()-1; i++)
+		for (uint64_t i = 1; i < arr_src.Height() - 1; i++)
 		{
-			for (uint64_t j = 1; j < image[i].size()-1; j++) {
-
+			for (uint64_t j = 1; j < arr_src.Width() - 1; j++) {
 				int r = 0, g = 0, b = 0;
 
 				for (int k = -1; k < 2; k++)
@@ -31,9 +28,11 @@ namespace ImageEditor::Core
 					{
 						if (H[1 + k][1 + m] != 0)
 						{
-							r += (int)image_src[i + k][j + m].r * H[1 + k][1 + m];
-							g += (int)image_src[i + k][j + m].g * H[1 + k][1 + m];
-							b += (int)image_src[i + k][j + m].b * H[1 + k][1 + m];
+							auto pixel = arr_src.GetPixel(i + k, j + m);
+
+							r += (int)pixel.r * H[1 + k][1 + m];
+							g += (int)pixel.g * H[1 + k][1 + m];
+							b += (int)pixel.b * H[1 + k][1 + m];
 						}
 					}
 				}
@@ -42,16 +41,10 @@ namespace ImageEditor::Core
 				g = int(g + 128) % 255;
 				r = int(r + 128) % 255;
 
-				image[i][j] = bgra(
-					b,
-					g,
-					r,
-					image[i][j].a
-					);
+				arr.GetPixel(i, j).update(b, g, r);
 			}
 		}
 	}
-
 	const std::string TessFilter::Description() const
 	{
 		return c_filter_name_str;

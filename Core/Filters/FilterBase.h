@@ -17,25 +17,45 @@ namespace ImageEditor::Core
 		virtual const std::string Description() const override = 0;
 
 	protected: 
-		struct bgra
+		struct bgra_ref
 		{
-			bgra();
-			bgra(int b, int g, int r, int a);
+			bgra_ref(uchar& ib, uchar& ig, uchar& ir, uchar& ia);
 			
-			uchar b = 0;
-			uchar g = 0;
-			uchar r = 0;
-			uchar a = 0;
+			void update(const int ib, const int ig, const int ir);
+			void update(const int ib, const int ig, const int ir, const int ia);
+			
+			static uchar normalize(int val);
+
+			uchar& b;
+			uchar& g;
+			uchar& r;
+			uchar& a;
 
 		};
-		using bgraMatrix = std::vector<std::vector<bgra>>;
 	
-	protected:
-		virtual void Transform(bgraMatrix& image) const = 0;
+		class BGRAMatrix
+		{
+		public:
+			BGRAMatrix(const ByteArr& data,
+				unsigned int width,
+				unsigned int height,
+				unsigned int bytes_per_line);
 
-	private:
-		bgraMatrix ConvertToRgb(const IImagePtr& image) const;
-		IImagePtr ConvertToIImage(const bgraMatrix& image, unsigned int bytes_per_line, unsigned int format) const;
+			FilterBase::bgra_ref GetPixel(const uint64_t x, const uint64_t y);
+			unsigned int Height();
+			unsigned int Width();
+			ByteArr& Data();
+
+		private:
+			ByteArr data_;
+			unsigned int width_;
+			unsigned int height_;
+			unsigned int bytes_per_line_;
+		};
+
+	protected:
+		virtual void Transform(BGRAMatrix& image) const = 0;
+
 	};
 }
 

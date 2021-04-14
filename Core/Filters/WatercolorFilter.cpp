@@ -3,6 +3,9 @@
 #include "WatercolorFilter.h"
 
 static const char* c_filter_name_str = "Aqua";
+static const int H[3][3] = { {0, -1, 0},
+							 {-1 ,5,-1},
+							 {0, -1, 0} };
 
 namespace ImageEditor::Core
 {
@@ -10,29 +13,42 @@ namespace ImageEditor::Core
 	{
 	}
 
-	void WatercolorFilter::Transform(FilterBase::bgraMatrix& image) const
+	void WatercolorFilter::Transform(FilterBase::BGRAMatrix& arr) const
 	{
-		UNI_ENSURE_RETURN(image.size() > 4 && image[0].size() > 4);
-		FilterBase::bgraMatrix image_src = image;
+		UNI_ENSURE_RETURN(arr.Height() > 4 && arr.Width() > 4);
+		FilterBase::BGRAMatrix arr_copy = arr;
 
-		auto mediana = [](FilterBase::bgraMatrix& image, uint64_t index_i, uint64_t index_j) {
-			FilterBase::bgra pix;
-			std::vector<uchar> r(256, 0);
-			std::vector<uchar> g(256, 0);
-			std::vector<uchar> b(256, 0);
+		struct bgr_holder
+		{
+			int b = 0;
+			int g = 0;
+			int r = 0;
+		};
+		std::vector<uchar> r(256, 0);
+		std::vector<uchar> g(256, 0);
+		std::vector<uchar> b(256, 0);
+		auto mediana = [&](FilterBase::BGRAMatrix& arr, uint64_t index_i, uint64_t index_j) {
+			for (uint64_t i = 0; i < 256; i++)
+			{
+				r[i] = 0;
+				g[i] = 0;
+				b[i] = 0;
+			}
+
 			for (uint64_t i = index_i - 2; i <= index_i + 2; i++)
 			{
 				for (uint64_t j = index_j - 2; j <= index_j + 2; j++)
 				{
-					r[image[i][j].r]++;
-					g[image[i][j].g]++;
-					b[image[i][j].b]++;
+					auto pixel = arr.GetPixel(i, j);
+					r[pixel.r]++;
+					g[pixel.g]++;
+					b[pixel.b]++;
 				}
 			}
 			int r_count = 0;
 			int b_count = 0;
 			int g_count = 0;
-			
+
 			int r_i = -1;
 			int g_i = -1;
 			int b_i = -1;
@@ -52,45 +68,21 @@ namespace ImageEditor::Core
 					break;
 				}
 			}
-			return FilterBase::bgra{ b_i, g_i, r_i, image[index_i][index_j].a };
+			return bgr_holder{ b_i, g_i, r_i};
 		};
 
-		auto mediana2 = [](FilterBase::bgraMatrix& image, uint64_t index_i, uint64_t index_j) {
-			FilterBase::bgra pix;
-			std::vector<uchar> r(25);
-			std::vector<uchar> g(25);
-			std::vector<uchar> b(25);
-			int k = 0;
-			for (uint64_t i = index_i - 2; i <= index_i + 2; i++)
-			{
-				for (uint64_t j = index_j - 2; j <= index_j + 2; j++)
-				{
-					r[k] = (image[i][j].r);
-					g[k] = (image[i][j].g);
-					b[k] = (image[i][j].b);
-					k++;
-				}
-			}
-			std::sort(r.begin(), r.end());
-			std::sort(g.begin(), g.end());
-			std::sort(b.begin(), b.end());
-
-			return FilterBase::bgra{ b[12], g[12], r[12], image[index_i][index_j].a };
-		};
-
-		for (uint64_t i = 2; i < image.size() - 2; i++)
-			for (uint64_t j = 2; j < image[i].size() - 2; j++) {
-				image[i][j] = mediana(image_src, i, j);
-			}
-
-		int H[3][3]={{0,-1,0},
-				{-1,5,-1},
-				{0,-1,0}};
-		
-		image_src = image;
-		for (uint64_t i = 1; i < image.size()-1; i++)
+		for (uint64_t i = 2; i < arr_copy.Height() - 2; i++)
 		{
-			for (uint64_t j = 1; j < image[i].size()-1; j++) 
+			for (uint64_t j = 2; j < arr_copy.Width() - 2; j++) {
+				auto pix = mediana(arr_copy, i, j);
+				arr.GetPixel(i, j).update(pix.b, pix.g, pix.r);
+			}
+		}
+		
+		arr_copy = arr;
+		for (uint64_t i = 1; i < arr.Height() - 1; i++)
+		{
+			for (uint64_t j = 1; j < arr.Width() - 1; j++)
 			{
 				double r = 0, g = 0, b = 0;
 
@@ -98,23 +90,18 @@ namespace ImageEditor::Core
 				{
 					for (int m = -1; m < 2; m++)
 					{
-						r += (int)image_src[i + k][j + m].r * H[1 + k][1 + m];
-						g += (int)image_src[i + k][j + m].g * H[1 + k][1 + m];
-						b += (int)image_src[i + k][j + m].b * H[1 + k][1 + m];
+						auto pixel = arr_copy.GetPixel(i + k, j + m);
+
+						r += pixel.r * H[1 + k][1 + m];
+						g += pixel.g * H[1 + k][1 + m];
+						b += pixel.b * H[1 + k][1 + m];
 					}
 				}
-
-				image[i][j] = bgra(
-					b,
-					g,
-					r,
-					image[i][j].a
-				);
+				arr.GetPixel(i, j).update(b, g, r);
 
 			}
 		}
 	}
-
 	const std::string WatercolorFilter::Description() const
 	{
 		return c_filter_name_str;
