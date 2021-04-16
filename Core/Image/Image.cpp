@@ -17,17 +17,17 @@ namespace ImageEditor::Core
 		return data_;
 	}
 
-	unsigned int Image::Width() const
+	uint64_t Image::Width() const
 	{
 		return width_;
 	}
 
-	unsigned int Image::Height() const
+	uint64_t Image::Height() const
 	{
 		return height_;
 	}
 
-	unsigned int Image::BytesPerLine() const
+	uint64_t Image::BytesPerLine() const
 	{
 		return bytes_per_line_;
 	}

@@ -10,7 +10,7 @@ namespace ImageEditor::Modules
 
 	void EditableImage::UpdateImage(Core::IImagePtr image)
 	{
-		image_ = image;
+		image_ = std::move(image);
 	}
 
 	Core::IImagePtr EditableImage::Image() const
@@ -20,7 +20,7 @@ namespace ImageEditor::Modules
 
 	void EditableImage::SetOriginalImage(Core::IImagePtr image)
 	{
-		original_image_ = image;
+		original_image_ = std::move(image);
 		UpdateImage(image);
 	}
 	Core::IImagePtr EditableImage::OriginalImage() const

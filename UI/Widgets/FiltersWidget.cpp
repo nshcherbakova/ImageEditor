@@ -16,6 +16,7 @@ static const QColor c_widget_pen_color = QColor(Qt::white);
 static const int c_widget_pen_width = 3;
 static const int c_widget_image_top_margin = 30;
 static const char* c_widget_background_image_str = "widget_background";
+
 // buttons settings
 static const int c_button_width = 100;
 
@@ -113,18 +114,16 @@ namespace ImageEditor::UI
     {
         UNI_ENSURE_RETURN(controls);
 
-        int button_width = c_button_width;
-
         // create button
         QPushButton* button = new ImageButton("", this);
-        const QRect button_rect = QRect(0, 0, button_width, button_width);
+        const QRect button_rect = QRect(0, 0, c_button_width, c_button_width);
         button->setGeometry(button_rect);
         button->setFlat(true);
         button->setContentsMargins(0, 0, 0, 0);
-        button->setMinimumWidth(button_width);
-        button->setMinimumHeight(button_width);
-        button->setMaximumHeight(button_width);
-        button->setMaximumWidth(button_width);
+        button->setMinimumWidth(c_button_width);
+        button->setMinimumHeight(c_button_width);
+        button->setMaximumHeight(c_button_width);
+        button->setMaximumWidth(c_button_width);
         button->setStyleSheet(QString(c_image_button_style_template_str).arg(c_undo_button_image_prefix_str)
             .arg(ui_image_provider_->imagesPath()));
 
@@ -198,7 +197,7 @@ namespace ImageEditor::UI
         }
     }
 
-    void FiltersWidget::OnSignalOpenImage(QString path)
+    void FiltersWidget::OnSignalOpenImage(const QString path)
     {
         RadioButton::UncheckAll(this, Modules::FILTER_BUTTON_TAG);
 
@@ -216,7 +215,7 @@ namespace ImageEditor::UI
         update();
     }
 
-    void FiltersWidget::OnSignalSaveImage(QString path)
+    void FiltersWidget::OnSignalSaveImage(const QString path)
     {
         UNI_ENSURE_RETURN(image_);
          //QDir picDir = QDir(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
@@ -317,7 +316,7 @@ namespace ImageEditor::UI
         connect(this, &QPushButton::clicked, this, &RadioButton::OnButtonClicked);
     }
 
-    void RadioButton::OnButtonClicked(bool checked)
+    void RadioButton::OnButtonClicked(const bool checked)
     {
         if (checked)
         {

@@ -37,9 +37,9 @@ namespace ImageEditor::Core
 					}
 				}
 
-				b = int(b + 128) % 255;
-				g = int(g + 128) % 255;
-				r = int(r + 128) % 255;
+				b = int(b + 128) % std::numeric_limits<unsigned char>::max();
+				g = int(g + 128) % std::numeric_limits<unsigned char>::max();
+				r = int(r + 128) % std::numeric_limits<unsigned char>::max();
 
 				arr.GetPixel(i, j).update(b, g, r);
 			}

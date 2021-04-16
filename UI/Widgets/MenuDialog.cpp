@@ -76,7 +76,7 @@ namespace ImageEditor::UI
         //filter_buttons_layout->addWidget(canel_button);
     }
 
-    QPushButton* MenuDialog::CreateButton(QString name, int button_height)
+    QPushButton* MenuDialog::CreateButton(const QString name, const int button_height)
     {
         QPushButton* button = new QPushButton(name, this);
         const QRect menu_button_rect = QRect(0, 0, 0, button_height);

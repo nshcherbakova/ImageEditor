@@ -27,8 +27,8 @@ namespace ImageEditor::UI
         MenuDialog& operator= (const MenuDialog&) = delete;
 
     signals: 
-        void SignalOpenImage(QString file_name);
-        void SignalSaveImage(QString file_name);
+        void SignalOpenImage(const QString file_name);
+        void SignalSaveImage(const QString file_name);
 
     protected:
         void mouseReleaseEvent(QMouseEvent* event);
@@ -40,7 +40,7 @@ namespace ImageEditor::UI
 
     private:
         void CreateMenuButtons();
-        QPushButton* CreateButton(QString name, int button_width);
+        QPushButton* CreateButton(const QString name, const int button_width);
 
     private:
         QString image_file_name_;

@@ -106,7 +106,7 @@ namespace ImageEditor::UI
         static void UncheckAll(QWidget* parent, const QString& button_group_name);
 
     protected slots:
-        void OnButtonClicked(bool checked);
+        void OnButtonClicked(const bool checked);
     };
 }
 #endif // IMAGEEDITOR_UI_WIDGETS_FILTERSWIDGET_H

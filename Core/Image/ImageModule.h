@@ -5,6 +5,6 @@
 
 namespace ImageEditor::Core
 {
-    IImageinjector ImageModule(ByteArr data, unsigned int width, unsigned int height, unsigned int bytes_per_line, unsigned int format);
+    IImageinjector ImageModule(ByteArr data, const uint64_t width, const uint64_t height, const uint64_t bytes_per_line, const unsigned int format);
 }
 #endif //IMAGEEDITOR_CORE_IMAGE_MODULE_H

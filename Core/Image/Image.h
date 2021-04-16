@@ -11,27 +11,27 @@ namespace ImageEditor::Core
 		struct Parameters
 		{
 			ByteArr data;
-			unsigned int width;
-			unsigned int height;
-			unsigned int bytes_per_line;
-			unsigned int format;
+			const uint64_t width;
+			const uint64_t height;
+			const uint64_t bytes_per_line;
+			const unsigned int format;
 		};
 		explicit Image(Parameters parameters);
 		Image& operator= (const Image&) = delete;
 
 	public: // IImage
 		virtual ByteArr& Data() final override;
-		virtual unsigned int Width() const final override;
-		virtual unsigned int Height()  const final override;
-		virtual unsigned int BytesPerLine() const final override;
+		virtual uint64_t Width() const final override;
+		virtual uint64_t Height()  const final override;
+		virtual uint64_t BytesPerLine() const final override;
 		virtual unsigned int Format() const final override;
 
 	private:
 		ByteArr data_;
-		unsigned int width_;
-		unsigned int height_;
-		unsigned int bytes_per_line_;
-		unsigned int format_;
+		const uint64_t width_;
+		const uint64_t height_;
+		const uint64_t bytes_per_line_;
+		const uint64_t format_;
 	};
 }
 

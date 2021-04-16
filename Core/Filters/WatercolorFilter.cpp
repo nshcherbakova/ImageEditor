@@ -24,11 +24,14 @@ namespace ImageEditor::Core
 			int g = 0;
 			int r = 0;
 		};
-		std::vector<uchar> r(256, 0);
-		std::vector<uchar> g(256, 0);
-		std::vector<uchar> b(256, 0);
+
+		const unsigned int c_arr_size = std::numeric_limits<unsigned char>::max() + 1;
+		std::vector<uchar> r(c_arr_size, 0);
+		std::vector<uchar> g(c_arr_size, 0);
+		std::vector<uchar> b(c_arr_size, 0);
+
 		auto mediana = [&](FilterBase::BGRAMatrix& arr, uint64_t index_i, uint64_t index_j) {
-			for (uint64_t i = 0; i < 256; i++)
+			for (uint64_t i = 0; i < c_arr_size; i++)
 			{
 				r[i] = 0;
 				g[i] = 0;
@@ -52,7 +55,7 @@ namespace ImageEditor::Core
 			int r_i = -1;
 			int g_i = -1;
 			int b_i = -1;
-			for (int k = 0; k <= 255; k++)
+			for (int k = 0; k <= std::numeric_limits<unsigned char>::max(); k++)
 			{
 				r_count += r[k];
 				if (r_count >= 12 && r_i == -1)

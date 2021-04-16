@@ -8,9 +8,9 @@ namespace ImageEditor::Core
 	struct IImage
 	{
 		virtual ByteArr& Data() = 0;
-		virtual unsigned int Width() const = 0;
-		virtual unsigned int Height() const = 0;
-		virtual unsigned int BytesPerLine() const = 0;
+		virtual uint64_t Width() const = 0;
+		virtual uint64_t Height() const = 0;
+		virtual uint64_t BytesPerLine() const = 0;
 		virtual unsigned int Format() const = 0;
 		
 		virtual ~IImage() {}
