@@ -25,6 +25,9 @@ namespace ImageEditor::Core
 		virtual uint64_t Height()  const final override;
 		virtual uint64_t BytesPerLine() const final override;
 		virtual unsigned int Format() const final override;
+	
+	private:
+		bool IsValid() const;
 
 	private:
 		ByteArr data_;
