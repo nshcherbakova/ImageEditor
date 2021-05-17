@@ -45,23 +45,31 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IMAGE_EDITOR_THIRDPARTY)/fruit-3.6.0/include/</IncludePath>
     <SourcePath>$(VC_SourcePath)</SourcePath>
+    <LibraryPath>$(IMAGE_EDITOR_THIRDPARTY)\GLFW\lib-vc2019;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>$(IMAGE_EDITOR_THIRDPARTY)\GLFW\lib-vc2019;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(ProjectDir);$(ProjectDir)/Core/Gears/StdAfx/;$(IMAGE_EDITOR_THIRDPARTY)/uniassert/include/;$(IMAGE_EDITOR_THIRDPARTY)/Boost/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(ProjectDir);$(ProjectDir)/Core/Gears/StdAfx/;$(IMAGE_EDITOR_THIRDPARTY)/uniassert/include/;$(IMAGE_EDITOR_THIRDPARTY)/Boost/;$(IMAGE_EDITOR_THIRDPARTY)/googletest-1.10.0/;$(IMAGE_EDITOR_THIRDPARTY)/GLFW/include/;$(IMAGE_EDITOR_THIRDPARTY)/glad/include/</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(Qt_LIBS_);%(AdditionalDependencies);glfw3.lib</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(ProjectDir);$(ProjectDir)/Core/Gears/StdAfx/;$(IMAGE_EDITOR_THIRDPARTY)/Boost/;$(IMAGE_EDITOR_THIRDPARTY)/googletest-1.10.0/;$(IMAGE_EDITOR_THIRDPARTY)/uniassert/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(ProjectDir);$(ProjectDir)/Core/Gears/StdAfx/;$(IMAGE_EDITOR_THIRDPARTY)/googletest-1.10.0/;$(IMAGE_EDITOR_THIRDPARTY)/Boost/;$(IMAGE_EDITOR_THIRDPARTY)/uniassert/include/;$(IMAGE_EDITOR_THIRDPARTY)/GLFW/include/;$(IMAGE_EDITOR_THIRDPARTY)/glad/include/</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(Qt_LIBS_);%(AdditionalDependencies);glfw3.lib </AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>msvc2019_64</QtInstall>
@@ -115,6 +123,9 @@
   <ItemGroup>
     <ClCompile Include="Core\Filters\FilterBase.cpp" />
     <ClCompile Include="Core\Filters\FiltersModule.cpp" />
+    <ClCompile Include="Core\Filters\OpenGL\OpenGLBlurFilter.cpp" />
+    <ClCompile Include="Core\Filters\OpenGL\OpenGLFilterBase.cpp" />
+    <ClCompile Include="Core\Filters\OpenGL\OpenGLGrayFilter.cpp" />
     <ClCompile Include="Core\Filters\SepiaFilter.cpp" />
     <ClCompile Include="Core\Filters\SmoothFilter.cpp" />
     <ClCompile Include="Core\Filters\GrayFilter.cpp" />
@@ -130,6 +141,9 @@
     <ClCompile Include="UI\Widgets\MenuDialog.cpp" />
     <ClCompile Include="UI\Widgets\WidgetsModule.cpp" />
     <ClInclude Include="Core\Filters\FilterBase.h" />
+    <QtMoc Include="Core\Filters\OpenGL\OpenGLBlurFilter.h" />
+    <ClInclude Include="Core\Filters\OpenGL\OpenGLFilterBase.h" />
+    <QtMoc Include="Core\Filters\OpenGL\OpenGLGrayFilter.h" />
     <ClInclude Include="Core\Filters\SepiaFilter.h" />
     <ClInclude Include="Core\Filters\SmoothFilter.h" />
     <ClInclude Include="Core\Filters\GrayFilter.h" />
@@ -183,7 +197,7 @@
     <QtRcc Include="UI/ImageEditor.qrc" />
     <QtUic Include="UI/ImageEditor.ui" />
     <QtMoc Include="UI\MainWindow.h" />
-    <ClCompile Include="UI\MainWindow..cpp" />
+    <ClCompile Include="UI\MainWindow.cpp" />
     <ClCompile Include="UI/main.cpp" />
     <ClInclude Include="Core/Gears/StdAfx/stdafx.h" />
     <ClCompile Include="Core/Gears/StdAfx/stdafx.cpp">

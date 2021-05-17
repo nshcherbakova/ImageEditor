@@ -2,13 +2,14 @@
 #ifndef IMAGEEDITOR_UI_MAINWINDOW_H
 #define IMAGEEDITOR_UI_MAINWINDOW_H
 
-#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QOpenGLWidget>
 #include <UI/Widgets/IWidget.h>
 #include "ui_ImageEditor.h"
 
 namespace ImageEditor::UI
 {
-    class MainWindow : public QMainWindow
+    class MainWindow : public QOpenGLWidget
     {
         Q_OBJECT
 
@@ -16,7 +17,7 @@ namespace ImageEditor::UI
         MainWindow(QWidget* parent = Q_NULLPTR);
 
     private:
-        Ui::ImageEditorClass ui;
+        //Ui::ImageEditorClass ui;
     };
 }
 #endif // IMAGEEDITOR_UI_MAINWINDOW_H

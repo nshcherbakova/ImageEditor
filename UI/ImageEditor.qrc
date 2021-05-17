@@ -22,4 +22,10 @@
     <qresource prefix="/Fonts">
         <file alias="buttons_font">Fonts/Typo_Round_Regular_Demo.otf</file>
     </qresource>
+    <qresource prefix="/Shaders">
+        <file alias="gray_filter_fs">Shaders/gray_filter.fs</file>
+        <file alias="gray_filter_vs">Shaders/gray_filter.vs</file>
+        <file alias="blur_filter_fs">Shaders/blur_filter.fs</file>
+        <file alias="blur_filter_vs">Shaders/blur_filter.vs</file>
+    </qresource>
 </RCC>

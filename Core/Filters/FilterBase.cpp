@@ -31,7 +31,7 @@ namespace ImageEditor::Core
 	{
 	}
 
-	IImagePtr FilterBase::Apply(const IImagePtr image, const std::string& /*parameters*/) const
+	IImagePtr FilterBase::Apply(const IImagePtr image, const std::string& /*parameters*/)
 	{
 		UNI_ENSURE_RETURN(image, nullptr);
 

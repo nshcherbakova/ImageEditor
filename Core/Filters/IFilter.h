@@ -8,7 +8,7 @@ namespace ImageEditor::Core
 {
 	struct IFilter
 	{
-		virtual IImagePtr Apply(const IImagePtr image, const std::string& parameters) const = 0;
+		virtual IImagePtr Apply(const IImagePtr image, const std::string& parameters) = 0;
 		virtual const std::string Description() const = 0;
 
 		virtual ~IFilter() {}

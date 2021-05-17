@@ -17,6 +17,6 @@ namespace ImageEditor::Core
 	using IFilterInjector = boost::di::injector<IFilterPtrArr>;
 	using IImageinjector = boost::di::injector<IImagePtr>;
 
-	using ByteArr = std::vector<uchar>;
+	using ByteArr = std::vector<unsigned char>;
 }
 #endif //IMAGEEDITOR_CORE_TYPES_H
