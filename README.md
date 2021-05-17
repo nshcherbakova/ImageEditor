@@ -3,9 +3,9 @@ ImageEditor
 
 
 
-The Simple cross-platform image editor for Windows and Android OS.
+The Simple cross-platform image editor for Windows and Android OS with OpenGL filters.
 
-![App main window](Images/android_emulator_sm.png) ![App main window](Images/main_screen.png)
+![App main window](Images/opengl_android_bl_sm.png) ![App main window](Images/main_screen.png)
 
 ImageEditor allows to apply some graphics filters to images.
 
@@ -27,12 +27,13 @@ There are several goals of this project:
 - breaking to tasks and milestones
 - writing code
 2. to train design skills: programming design patterns like Dependency Injection, Command
-3. to make QT based customized GUI
+3. to make QT based customized GUI app
 
-![Kids](Images/screen_no_custom.png) ![Smooth](Images/screen_custom.png)
+![Kids](Images/screen_no_custom.png) ![Smooth](Images/opengl_win_bl_sm.png)
 
 4. to study how to build an Android app
-5. to have a fun playing with bitmaps pixels while making simple filters from my university Machine Graphics classes
+5. to touch OpenGL ES shaders
+6. to have a fun playing with bitmaps pixels while making simple filters from my university Machine Graphics classes
 
 
 ![Kids](Images/kids1.png) ![Smooth](Images/kids_smooth.png) ![Aqua](Images/kids_aqua.png)
@@ -57,3 +58,9 @@ Dependences:
 - googletest-1.10.0 (https://github.com/google/googletest)
 - Qt-5.15.2 (https://www.qt.io/download-qt-installer)
 - uniassert (https://github.com/2gis/uniassert)
+
+Photo and pictures:
+Natalya Shcherbakova
+Anton Shcherbakov
+Olga Demidova
+Shutterstock
