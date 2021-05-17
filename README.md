@@ -5,7 +5,7 @@ ImageEditor
 
 The Simple cross-platform image editor for Windows and Android OS with OpenGL filters.
 
-The effect of window with drops. A modified shader from https://www.shadertoy.com/ (Heartfelt from BigWIngs).  
+An effect of a window with drops. A modified shader from https://www.shadertoy.com/ (Heartfelt from BigWIngs).  
 ![App main window](Images/drops.png)![App main window](Images/paraglider.jpg)
 
 ![App main window](Images/opengl_android_bl_sm.png) ![App main window](Images/main_screen.png)
