@@ -60,7 +60,7 @@ Dependences:
 - uniassert (https://github.com/2gis/uniassert)
 
 Photo and pictures:
-Natalya Shcherbakova
-Anton Shcherbakov
-Olga Demidova
-Shutterstock
+- Natalya Shcherbakova 
+- Anton Shcherbakov 
+- Olga Demidova  
+- Shutterstock 
