@@ -124,8 +124,11 @@
     <ClCompile Include="Core\Filters\FilterBase.cpp" />
     <ClCompile Include="Core\Filters\FiltersModule.cpp" />
     <ClCompile Include="Core\Filters\OpenGL\OpenGLBlurFilter.cpp" />
+    <ClCompile Include="Core\Filters\OpenGL\OpenGLDropsFilter.cpp" />
     <ClCompile Include="Core\Filters\OpenGL\OpenGLFilterBase.cpp" />
     <ClCompile Include="Core\Filters\OpenGL\OpenGLGrayFilter.cpp" />
+    <ClCompile Include="Core\Filters\OpenGL\OpenGLTessFilter.cpp" />
+    <ClCompile Include="Core\Filters\OpenGL\OpenGLWatercolorFilter.cpp" />
     <ClCompile Include="Core\Filters\SepiaFilter.cpp" />
     <ClCompile Include="Core\Filters\SmoothFilter.cpp" />
     <ClCompile Include="Core\Filters\GrayFilter.cpp" />
@@ -141,9 +144,12 @@
     <ClCompile Include="UI\Widgets\MenuDialog.cpp" />
     <ClCompile Include="UI\Widgets\WidgetsModule.cpp" />
     <ClInclude Include="Core\Filters\FilterBase.h" />
-    <QtMoc Include="Core\Filters\OpenGL\OpenGLBlurFilter.h" />
-    <ClInclude Include="Core\Filters\OpenGL\OpenGLFilterBase.h" />
-    <QtMoc Include="Core\Filters\OpenGL\OpenGLGrayFilter.h" />
+    <ClInclude Include="Core\Filters\OpenGL\OpenGLBlurFilter.h" />
+    <QtMoc Include="Core\Filters\OpenGL\OpenGLFilterBase.h" />
+    <ClInclude Include="Core\Filters\OpenGL\OpenGLDropsFilter.h" />
+    <ClInclude Include="Core\Filters\OpenGL\OpenGLGrayFilter.h" />
+    <ClInclude Include="Core\Filters\OpenGL\OpenGLTessFilter.h" />
+    <ClInclude Include="Core\Filters\OpenGL\OpenGLWatercolorFilter.h" />
     <ClInclude Include="Core\Filters\SepiaFilter.h" />
     <ClInclude Include="Core\Filters\SmoothFilter.h" />
     <ClInclude Include="Core\Filters\GrayFilter.h" />

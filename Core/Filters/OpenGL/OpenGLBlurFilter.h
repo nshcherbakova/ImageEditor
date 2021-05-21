@@ -17,7 +17,7 @@ namespace ImageEditor::Core
 		virtual const std::string Description() const override final;
 
 	private: // OpenGLFilterBase
-		virtual std::vector<const char*> TransformFilters() const override final;
+		virtual std::vector< std::pair<const char*, const char*> > TransformFilters() const override final;
 	};
 }
 

@@ -6,6 +6,9 @@
 #include <Core/Filters/SepiaFilter.h>
 #include <Core/Filters/OpenGL/OpenGLGrayFilter.h>
 #include <Core/Filters/OpenGL/OpenGLBlurFilter.h>
+#include <Core/Filters/OpenGL/OpenGLDropsFilter.h>
+#include <Core/Filters/OpenGL/OpenGLTessFilter.h>
+#include <Core/Filters/OpenGL/OpenGLWatercolorFilter.h>
 #include "FiltersModule.h"
 
 namespace 
@@ -25,13 +28,15 @@ namespace
 
     IFilterInjector OpenGLmodule() noexcept {
         return boost::di::make_injector(
-            boost::di::bind<IFilter* []>().to<OpenGLGrayFilter, OpenGLBlurFilter, SepiaFilter, SmoothFilter>(),/* OpenGL::TessFilter, OpenGL::WatercolorFilter, OpenGL::SmoothFilter>(),*/
+            boost::di::bind<IFilter* []>().to<OpenGLGrayFilter, OpenGLBlurFilter, OpenGLDropsFilter, OpenGLTessFilter, OpenGLWaterColorFilter>(),/* OpenGL::TessFilter, OpenGL::WatercolorFilter, OpenGL::SmoothFilter>(),*/
             boost::di::bind<IFilter>().to<OpenGLGrayFilter>(),
             boost::di::bind<IFilter>().named<class OpenGLBlurFilter>().to<OpenGLBlurFilter>(),
             /*boost::di::bind<IFilter>().named<class OpenGL::TessFilter>().to<OpenGL::TessFilter>(),
             boost::di::bind<IFilter>().named<class OpenGL::WatercolorFilter>().to<OpenGL::WatercolorFilter>(),*/
-            boost::di::bind<IFilter>().named<class SepiaFilter>().to<SepiaFilter>(),
-            boost::di::bind<IFilter>().named<class SmoothFilter>().to<SmoothFilter>()
+            //boost::di::bind<IFilter>().named<class SepiaFilter>().to<SepiaFilter>(),
+            boost::di::bind<IFilter>().named<class OpenGLTessFilter>().to<OpenGLTessFilter>(),
+            boost::di::bind<IFilter>().named<class OpenGLWaterColorFilter>().to<OpenGLWaterColorFilter>(),
+            boost::di::bind<IFilter>().named<class OpenGLDropsFilter>().to<OpenGLDropsFilter>()
         );
     }
 }

@@ -3,12 +3,8 @@
 
 namespace ImageEditor::UI
 {
-    MainWindow::MainWindow(QWidget* parent)
-        : QOpenGLWidget(parent)
-    {
-        //ui.setupUi(this);
-        //delete ui.mainToolBar;
-     
+    MainWindow::MainWindow()
+    {   
 #ifdef Q_OS_ANDROID
         setWindowState(Qt::WindowFullScreen);
         showMaximized();

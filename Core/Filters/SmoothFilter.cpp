@@ -3,7 +3,9 @@
 #include "SmoothFilter.h"
 
 static const char* c_filter_name_str = "Smooth";
-static const double H[3][3] = { { 0.1, 0.1, 0.1}, { 0.1, 0.2, 0.1}, { 0.1, 0.1, 0.1} };
+static const double H[3][3] = { { 0.1, 0.1, 0.1}, 
+								{ 0.1, 0.2, 0.1}, 
+								{ 0.1, 0.1, 0.1} };
 
 namespace ImageEditor::Core
 {
@@ -15,7 +17,8 @@ namespace ImageEditor::Core
 	{
 		for (uint64_t i = 1; i < arr.Height() - 1; i++)
 		{
-			for (uint64_t j = 1; j < arr.Width() - 1; j++) {
+			for (uint64_t j = 1; j < arr.Width() - 1; j++) 
+			{
 				double r = 0, g = 0, b = 0;
 
 				for (int k = -1; k < 2; k++)

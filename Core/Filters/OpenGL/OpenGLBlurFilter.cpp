@@ -12,10 +12,10 @@ namespace ImageEditor::Core
  
     }
   
-	std::vector<const char*> OpenGLBlurFilter::TransformFilters() const
+	std::vector< std::pair<const char*, const char*> > OpenGLBlurFilter::TransformFilters() const
 	{
        
-        return { c_filter_vs_str , c_filter_fs_str };
+        return { {c_filter_vs_str , c_filter_fs_str} };
 	}
 
 	const std::string OpenGLBlurFilter::Description() const

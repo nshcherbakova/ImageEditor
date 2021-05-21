@@ -1,15 +1,17 @@
 #pragma once
 #ifndef IMAGEEDITOR_CORE_OPEN_GL_FILTERBASE_FILTERS_H
 #define IMAGEEDITOR_CORE_OPEN_GL_FILTERBASE_FILTERS_H
-#include <QOpenGLContext>
+#include <QOpenGLFunctions>
+#include <QImage>
 #include <Core/Filters/IFilter.h>
 
 namespace ImageEditor::Core
 {
-	class OpenGLFilterBase: public QWindow, protected QOpenGLFunctions,  public virtual IFilter
+	class OpenGLFilterBase: public QObject ,  public virtual IFilter
 	{
+		Q_OBJECT
 	public:
-		OpenGLFilterBase() {}
+		OpenGLFilterBase() {};
 		OpenGLFilterBase(const OpenGLFilterBase&) = delete;
 		OpenGLFilterBase& operator= (const OpenGLFilterBase&) = delete;
 	
@@ -18,10 +20,15 @@ namespace ImageEditor::Core
 		virtual const std::string Description() const override = 0;
 
 	protected:
-		virtual std::vector<const char*> TransformFilters() const = 0;
-
+		virtual std::vector< std::pair<const char*, const char*> > TransformFilters() const = 0;
+	
 	private:
-		QOpenGLContext* m_context = nullptr;
+		QImage Apply(const QImage& image, const std::pair<const char*, const char*>& filter, const std::string& /*parameters*/);
+		void InitializeOpenGL();
+
+	protected:
+		static std::unique_ptr<QOpenGLFunctions> ogl_functions_;
+	
 	};
 }
 

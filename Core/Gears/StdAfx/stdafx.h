@@ -2,9 +2,6 @@
 #include <limits>
 #include <optional>
 
-
-
-//#include <QDialog>
 #include <QDir>
 #include <QFileDialog>
 #include <QFileInfo>
@@ -14,6 +11,9 @@
 #include <QSettings>
 #include <QtWidgets>
 #include <QtWidgets/QApplication>
+
+#include <QOpenGLTexture>
+#include <QOpenGLFramebufferObject>
 
 #include <Core/Image/ImageModule.h>
 #include <Core/Filters/FiltersModule.h>

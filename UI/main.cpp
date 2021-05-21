@@ -14,6 +14,10 @@ int main(int argc, char* argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // DPI support
 	QApplication a(argc, argv);
 
+	QSurfaceFormat fmt;
+	fmt.setSamples(16);
+	QSurfaceFormat::setDefaultFormat(fmt);
+
 	QCoreApplication::setOrganizationName(c_org_str);
 	QCoreApplication::setApplicationName(c_app_str);
 	

@@ -27,5 +27,14 @@
         <file alias="gray_filter_vs">Shaders/gray_filter.vs</file>
         <file alias="blur_filter_fs">Shaders/blur_filter.fs</file>
         <file alias="blur_filter_vs">Shaders/blur_filter.vs</file>
+        <file alias="sepia_filter_fs">Shaders/sepia_filter.fs</file>
+        <file alias="sepia_filter_vs">Shaders/sepia_filter.vs</file>
+        <file alias="tess_filter_fs">Shaders/tess_filter.fs</file>
+        <file alias="tess_filter_vs">Shaders/tess_filter.vs</file>
+        <file alias="watercolor_filter_vs">Shaders/watercolor_filter.vs</file>
+        <file alias="drops_filter_fs">Shaders/drops_filter.fs</file>
+        <file alias="drops_filter_vs">Shaders/drops_filter.vs</file>
+        <file alias="watercolor_filter_1_fs">Shaders/watercolor_filter_1.fs</file>
+        <file alias="watercolor_filter_2_fs">Shaders/watercolor_filter_2.fs</file>
     </qresource>
 </RCC>
