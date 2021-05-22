@@ -127,6 +127,7 @@
     <ClCompile Include="Core\Filters\OpenGL\OpenGLDropsFilter.cpp" />
     <ClCompile Include="Core\Filters\OpenGL\OpenGLFilterBase.cpp" />
     <ClCompile Include="Core\Filters\OpenGL\OpenGLGrayFilter.cpp" />
+    <ClCompile Include="Core\Filters\OpenGL\OpenGLSepiaFilter.cpp" />
     <ClCompile Include="Core\Filters\OpenGL\OpenGLTessFilter.cpp" />
     <ClCompile Include="Core\Filters\OpenGL\OpenGLWatercolorFilter.cpp" />
     <ClCompile Include="Core\Filters\SepiaFilter.cpp" />
@@ -148,6 +149,7 @@
     <QtMoc Include="Core\Filters\OpenGL\OpenGLFilterBase.h" />
     <ClInclude Include="Core\Filters\OpenGL\OpenGLDropsFilter.h" />
     <ClInclude Include="Core\Filters\OpenGL\OpenGLGrayFilter.h" />
+    <ClInclude Include="Core\Filters\OpenGL\OpenGLSepiaFilter.h" />
     <ClInclude Include="Core\Filters\OpenGL\OpenGLTessFilter.h" />
     <ClInclude Include="Core\Filters\OpenGL\OpenGLWatercolorFilter.h" />
     <ClInclude Include="Core\Filters\SepiaFilter.h" />

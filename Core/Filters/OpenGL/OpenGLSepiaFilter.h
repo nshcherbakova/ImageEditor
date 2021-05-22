@@ -1,24 +1,24 @@
 #pragma once
-#ifndef IMAGEEDITOR_CORE_OPEN_GL_GRAYFILTER_FILTERS_H
-#define IMAGEEDITOR_CORE_OPEN_GL_GRAYFILTER_FILTERS_H
+#ifndef IMAGEEDITOR_CORE_OPEN_GL_SEPIA_FILTERS_H
+#define IMAGEEDITOR_CORE_OPEN_GL_SEPIA_FILTERS_H
 #include <Core/Filters/OpenGL/OpenGLFilterBase.h>
 
 namespace ImageEditor::Core
 {
-	class OpenGLGrayFilter final :  public  OpenGLFilterBase
+	class OpenGLSepiaFilter final :  public  OpenGLFilterBase
 	{
 	public:
-		OpenGLGrayFilter();
+		OpenGLSepiaFilter();
 
-		OpenGLGrayFilter(const OpenGLGrayFilter&) = delete;
-		OpenGLGrayFilter& operator= (const OpenGLGrayFilter&) = delete;
+		OpenGLSepiaFilter(const OpenGLSepiaFilter&) = delete;
+		OpenGLSepiaFilter& operator= (const OpenGLSepiaFilter&) = delete;
 
 	public: // IFilter
 		virtual const std::string Description() const override final;
 
 	private: // OpenGLFilterBase
-		virtual std::vector<const char*> TransformFilters() const override final;
+		virtual std::vector< std::pair<const char*, const char*> > TransformFilters() const override final;
 	};
 }
 
-#endif // IMAGEEDITOR_CORE_STUBFILTER_FILTERS_H
+#endif // IMAGEEDITOR_CORE_OPEN_GL_SEPIA_FILTERS_H

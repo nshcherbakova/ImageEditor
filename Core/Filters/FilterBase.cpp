@@ -4,6 +4,7 @@
 
 namespace ImageEditor::Core
 {
+
 	FilterBase::bgra_ref::bgra_ref(uchar& ib, uchar& ig, uchar& ir, uchar& ia)
 		:b(ib), g(ig), r(ir), a(ia)
 	{
@@ -19,6 +20,28 @@ namespace ImageEditor::Core
 		b = normalize(ib);
 		g = normalize(ig);
 		r = normalize(ir);
+	}
+
+	void FilterBase::bgra_ref::updateBGR(const ucbgra& color)
+	{
+		b = normalize(color.b);
+		g = normalize(color.g);
+		r = normalize(color.r);
+	}
+
+	void FilterBase::bgra_ref::updateBGR(const dbgra& color)
+	{
+		b = normalize(color.b);
+		g = normalize(color.g);
+		r = normalize(color.r);
+	}
+
+	void FilterBase::bgra_ref::updateBGRA(const ucbgra& color)
+	{
+		b = normalize(color.b);
+		g = normalize(color.g);
+		r = normalize(color.r);
+		a = normalize(color.a);
 	}
 
 	void FilterBase::bgra_ref::update(const int ib, const int ig, const int ir, const int ia)

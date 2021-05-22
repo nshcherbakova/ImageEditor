@@ -18,13 +18,6 @@ namespace ImageEditor::Core
 		UNI_ENSURE_RETURN(arr.Height() > 4 && arr.Width() > 4);
 		FilterBase::BGRAMatrix arr_copy = arr;
 
-		struct bgr_holder
-		{
-			int b = 0;
-			int g = 0;
-			int r = 0;
-		};
-
 		const unsigned int c_arr_size = std::numeric_limits<unsigned char>::max() + 1;
 		std::vector<uchar> r(c_arr_size, 0);
 		std::vector<uchar> g(c_arr_size, 0);
@@ -71,7 +64,7 @@ namespace ImageEditor::Core
 					break;
 				}
 			}
-			return bgr_holder{ b_i, g_i, r_i};
+			return ucbgra( b_i, g_i, r_i, 0);
 		};
 
 		for (uint64_t i = 2; i < arr_copy.Height() - 2; i++)
@@ -87,7 +80,7 @@ namespace ImageEditor::Core
 		{
 			for (uint64_t j = 1; j < arr.Width() - 1; j++)
 			{
-				double r = 0, g = 0, b = 0;
+				dbgra color;
 
 				for (int k = -1; k < 2; k++)
 				{
@@ -95,12 +88,10 @@ namespace ImageEditor::Core
 					{
 						auto pixel = arr_copy.GetPixel(i + k, j + m);
 
-						r += pixel.r * H[1 + k][1 + m];
-						g += pixel.g * H[1 + k][1 + m];
-						b += pixel.b * H[1 + k][1 + m];
+						color += pixel * H[1 + k][1 + m];
 					}
 				}
-				arr.GetPixel(i, j).update(b, g, r);
+				arr.GetPixel(i, j).updateBGR(color);
 
 			}
 		}

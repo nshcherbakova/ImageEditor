@@ -3,7 +3,7 @@
 #include "SmoothFilter.h"
 
 static const char* c_filter_name_str = "Smooth";
-static const double H[3][3] = { { 0.1, 0.1, 0.1}, 
+static const float H[3][3] = { { 0.1, 0.1, 0.1}, 
 								{ 0.1, 0.2, 0.1}, 
 								{ 0.1, 0.1, 0.1} };
 
@@ -19,7 +19,7 @@ namespace ImageEditor::Core
 		{
 			for (uint64_t j = 1; j < arr.Width() - 1; j++) 
 			{
-				double r = 0, g = 0, b = 0;
+				ucbgra color;
 
 				for (int k = -1; k < 2; k++)
 				{
@@ -27,12 +27,11 @@ namespace ImageEditor::Core
 					{
 						auto pixel = arr.GetPixel(i + k, j + m);
 
-						r += (int)pixel.r * H[1 + k][1 + m];
-						g += (int)pixel.g * H[1 + k][1 + m];
-						b += (int)pixel.b * H[1 + k][1 + m];
+						const float h = H[1 + k][1 + m];
+						color += ucbgra(pixel * h);
 					}
 				}
-				arr.GetPixel(i, j).update(b, g, r);
+				arr.GetPixel(i, j).updateBGR(color);
 			}
 		}
 	}

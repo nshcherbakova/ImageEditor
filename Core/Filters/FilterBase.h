@@ -16,23 +16,99 @@ namespace ImageEditor::Core
 		virtual IImagePtr Apply(const IImagePtr image, const std::string& parameters) override final;
 		virtual const std::string Description() const override = 0;
 
-	protected: 
+	public:
+		template<typename T> struct bgra;
+
+		typedef bgra<uchar> ucbgra;
+		typedef bgra<int> ibgra;
+		typedef bgra<float> fbgra;
+		typedef bgra<float> dbgra;
+
+		template<typename T> struct bgra
+		{
+			bgra()
+			{
+
+			}
+
+			bgra(const fbgra& color)
+				: b(color.b), g(color.g), r(color.r), a(color.a)
+			{
+
+			}
+
+			bgra(const ibgra& color)
+				: b(color.b), g(color.g), r(color.r), a(color.a)
+			{
+
+			}
+
+			bgra(const T ib, const  T ig, const  T ir, const  T ia)
+				: b(ib), g(ig), r(ir), a(ia)
+			{
+
+			}
+
+			bgra& operator+=(const float val) 
+			{    
+				b += val;
+				g += val;
+				r += val;
+				a += val;
+				return *this; 
+			}
+
+			bgra& operator+=(const int val) 
+			{
+				b += val;
+				g += val;
+				r += val;
+				a += val;
+				return *this; 
+			}
+
+			bgra& operator+=(const bgra color) 
+			{
+				b += color.b;
+				g += color.g;
+				r += color.r;
+				a += color.a;
+				return *this; 
+			}
+
+			bgra& operator*=(const float val)
+			{
+				b *= val;
+				g *= val;
+				r *= val;
+				a *= val;
+				return *this; 
+			}
+
+			T b = 0;
+			T g = 0;
+			T r = 0;
+			T a = 0;
+		};
+
 		struct bgra_ref
 		{
 			bgra_ref(uchar& ib, uchar& ig, uchar& ir, uchar& ia);
 			
 			void update(const int ib, const int ig, const int ir);
 			void update(const int ib, const int ig, const int ir, const int ia);
-			
+			void updateBGRA(const ucbgra& color);
+			void updateBGR(const ucbgra& color);
+			void updateBGR(const dbgra& color);
+
 			static uchar normalize(int val);
 
 			uchar& b;
 			uchar& g;
 			uchar& r;
 			uchar& a;
-
 		};
-	
+
 		class BGRAMatrix
 		{
 		public:
@@ -57,6 +133,22 @@ namespace ImageEditor::Core
 		virtual void Transform(BGRAMatrix& image) const = 0;
 
 	};
+
+	template<typename T> inline FilterBase::bgra<T> operator * (FilterBase::bgra_ref const& c, const T val)
+	{
+		return FilterBase::bgra<T>(c.b * val, c.g * val, c.r * val, c.a * val);
+	}
+
+	template<typename T> inline FilterBase::bgra<T> operator * (FilterBase::bgra<T> const& c, const float val)
+	{
+		return FilterBase::bgra<T>(c.b * val, c.g * val, c.r * val, c.a * val);
+	}
+
+	template<typename T> inline FilterBase::bgra<T> operator / (FilterBase::bgra_ref const& c, const T val)
+	{
+		UNI_ENSURE_RETURN(val != 0, FilterBase::bgra<T>());
+		return FilterBase::bgra<T>(c.b / val, c.g / val, c.r / val, c.a / val);
+	}
 }
 
 #endif // IMAGEEDITOR_CORE_FILTERBASE_FILTERS_H

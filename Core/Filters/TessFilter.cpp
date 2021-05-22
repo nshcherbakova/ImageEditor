@@ -9,6 +9,11 @@ static const int H[3][3] = {{0,-1,0},
 
 namespace ImageEditor::Core
 {
+	float diff(float val)
+	{
+		return float(val + 0.5) - floor(val + 0.5);
+	}
+
 	TessFilter::TessFilter()
 	{
 	}
@@ -21,31 +26,27 @@ namespace ImageEditor::Core
 		{
 			for (uint64_t j = 1; j < arr_src.Width() - 1; j++) 
 			{
-				float r = 0, g = 0, b = 0;
+				fbgra color;
 
 				for (int k = -1; k < 2; k++)
 				{
 					for (int m = -1; m < 2; m++)
 					{
 						const int h = H[1 + k][1 + m];
-					//	if (h != 0)
+						if (h != 0)
 						{
 							const auto pixel = arr_src.GetPixel(i + k, j + m);
 
-							r += pixel.r / 255.0 * h;
-							g += pixel.g / 255.0 * h;
-							b += pixel.b / 255.0 * h;
+							color += pixel / float(std::numeric_limits<unsigned char>::max()) * h;
 						}
 					}
 				}
 				
-				float max_char = 1.0;
+				color.b = diff(color.b);
+				color.g = diff(color.g);
+				color.r = diff(color.r);
 
-				b = float(b + 0.5) - floor(b + 0.5);
-				g = float(g + 0.5) - floor(g + 0.5);
-				r = float(r + 0.5) - floor(r + 0.5);
-
-				arr.GetPixel(i, j).update(b*255, g*255, r*255);
+				arr.GetPixel(i, j).updateBGR(color * std::numeric_limits<unsigned char>::max());
 			}
 		}
 	}

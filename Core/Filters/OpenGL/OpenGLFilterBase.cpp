@@ -75,6 +75,8 @@ namespace ImageEditor::Core
 
     QImage OpenGLFilterBase::Apply(const QImage& image, const std::pair<const char*, const char*>& filter, const std::string& /*parameters*/)
     {
+        UNI_ENSURE_RETURN(!image.isNull(), QImage());
+
         GLint position_attr = 0;
         GLint texture_attr = 0;
         GLint screen_texture_uniform = 0;

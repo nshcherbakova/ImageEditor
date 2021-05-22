@@ -24,6 +24,10 @@ HEADERS += ./UI/QtConverts.h \
     ./Core/Filters/OpenGL/OpenGLFilterBase.h \
     ./Core/Filters/OpenGL/OpenGLGrayFilter.h \
     ./Core/Filters/OpenGL/OpenGLBlurFilter.h \
+    ./Core/Filters/OpenGL/OpenGLDropsFilter.h \
+    ./Core/Filters/OpenGL/OpenGLWatercolorFilter.h \
+    ./Core/Filters/OpenGL/OpenGLTessFilter.h \
+    ./Core/Filters/OpenGL/OpenGLSepiaFilter.h \
     ./Core/Image/Image.h \
     ./Core/Image/IImage.h \
     ./Core/Image/ImageModule.h \
@@ -55,6 +59,10 @@ SOURCES += ./UI/QtConverts.cpp \
     ./Core/Filters/OpenGL/OpenGLFilterBase.cpp \
     ./Core/Filters/OpenGL/OpenGLGrayFilter.cpp \
     ./Core/Filters/OpenGL/OpenGLBlurFilter.cpp \
+    ./Core/Filters/OpenGL/OpenGLDropsFilter.cpp \
+    ./Core/Filters/OpenGL/OpenGLWatercolorFilter.cpp \
+    ./Core/Filters/OpenGL/OpenGLTessFilter.cpp \
+    ./Core/Filters/OpenGL/OpenGLSepiaFilter.cpp \
     ./Core/Image/ImageModule.cpp \
     ./Core/Image/Image.cpp \
     ./Modules/Frames/FramesModule.cpp \
