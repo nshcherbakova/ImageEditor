@@ -18,7 +18,7 @@ namespace ImageEditor::Core
 		UNI_ENSURE_RETURN(arr.Height() > 4 && arr.Width() > 4);
 		FilterBase::BGRAMatrix arr_copy = arr;
 
-		const unsigned int c_arr_size = std::numeric_limits<unsigned char>::max() + 1;
+		constexpr const auto c_arr_size = std::numeric_limits<unsigned char>::max() + 1;
 		std::vector<uchar> r(c_arr_size, 0);
 		std::vector<uchar> g(c_arr_size, 0);
 		std::vector<uchar> b(c_arr_size, 0);
