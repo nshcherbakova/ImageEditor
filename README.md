@@ -21,8 +21,7 @@ ImageEditor allows to apply some graphics filters to images.
 
 
 
-![App main window](Images/Screenshot2.png)![App main window](Images/Screenshot4.png)![App main window](Images/Screenshot1.png)
-
+![App main window](Images/Screenshot2.png)![App main window](Images/Screenshot1.png)![App main window](Images/Screen1_1.png)
                  
 
            
