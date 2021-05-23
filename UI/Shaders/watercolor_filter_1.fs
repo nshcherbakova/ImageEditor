@@ -2,79 +2,95 @@ uniform sampler2D in_texture;
 uniform highp vec2 in_resolution;
 varying mediump vec2 io_texture_coordinates;
 
-#define COLOR_MAX_VAL 16
-#define COLOR_MAX_VAL_F 16.0
-#define MAX_RAD 6
-#define MIN_RAD 2
-
-lowp int max_val(lowp int l, lowp int r)
+void Sort(inout highp float a, inout highp float b)
 {
-        return l > r ? l : r;
+    if(a > b)
+    {
+        highp float t = a;
+        a = b;
+        b = t;
+    }
 }
 
-lowp vec4 mediana(lowp int radius)
+highp float sort1(highp float a[9]) 
 {
-        mediump int r[COLOR_MAX_VAL + 1];
-        mediump int g[COLOR_MAX_VAL + 1];
-        mediump int b[COLOR_MAX_VAL + 1];
+    Sort(a[1], a[2]); Sort(a[4], a[5]); Sort(a[7], a[8]); 
+    Sort(a[0], a[1]); Sort(a[3], a[4]); Sort(a[6], a[7]);
+    Sort(a[1], a[2]); Sort(a[4], a[5]); Sort(a[7], a[8]); 
+    Sort(a[0], a[3]); Sort(a[5], a[8]); Sort(a[4], a[7]);
+    Sort(a[3], a[6]); Sort(a[1], a[4]); Sort(a[2], a[5]); 
+    Sort(a[4], a[7]); Sort(a[4], a[2]); Sort(a[6], a[4]);
+    Sort(a[4], a[2]);
 
-        for (int i = 0; i <= COLOR_MAX_VAL; i++)
-        {
-                r[i] = 0;
-                g[i] = 0;
-                b[i] = 0;
-        }
-
-        lowp int max_position = 0;
-        for (lowp int i = - radius; i <= radius; i++)
-        {
-                for (lowp int j = -radius; j <= radius; j++)
-                {
-                        mediump vec4 pixel = texture2D(in_texture, io_texture_coordinates + vec2(float(i), float(j))/in_resolution);
-                        lowp ivec4 ipixel = ivec4(pixel*COLOR_MAX_VAL_F);
-
-                        r[ipixel.r]++;
-                        g[ipixel.g]++;
-                        b[ipixel.b]++;
-
-                        max_position = max_val(ipixel.b, max_val(ipixel.g, max_val(max_position, ipixel.r)));
-                }
-        }
-        mediump int r_count = 0;
-        mediump int b_count = 0;
-        mediump int g_count = 0;
-
-        lowp ivec4 res = ivec4(-1, -1, -1, 1);
-        lowp int side = 2*radius + 1;
-        lowp int mediana_pos = int(ceil(float(side*side)/2.0 - 1.0));
-        for (lowp int k = 0; k <= max_position; k++)
-        {
-                r_count += r[k];
-                if (r_count >= mediana_pos && res.r == -1)
-                        res.r = k;
-
-                g_count += g[k];
-                if (g_count >= mediana_pos && res.g == -1)
-                        res.g = k;
-
-                b_count += b[k];
-                if (b_count >= mediana_pos && res.b == -1)
-                        res.b  = k;
-
-                if (r_count >= mediana_pos && g_count >= mediana_pos && b_count >= mediana_pos)
-                {
-                        break;
-                }
-        }
-        return vec4( vec3(res)/COLOR_MAX_VAL_F, 1.0 );
+    return a[4];
 }
 
+lowp vec4 mediana1(lowp vec2 coordinates)
+{
+        highp float r[9];
+	    highp float g[9];
+	    highp float b[9];
+
+        lowp int k = 0;
+        for (lowp int i = - 1; i <= 1; i++)
+        {
+                for (lowp int j = -1; j <= 1; j++)
+                {
+                        mediump vec4 pixel = texture2D(in_texture, coordinates + vec2(float(i), float(j))/in_resolution);
+                       
+                        r[k] =  pixel.r;
+			            g[k] =  pixel.g;
+			            b[k] =  pixel.b;
+			            k++;
+                }
+        }
+        
+        highp float rm = sort1(r);
+	    highp float gm = sort1(g);
+	    highp float bm = sort1(b);
+        return vec4( vec3(rm, gm, bm), 1.0 );
+}
+
+
+lowp vec4 mediana2(lowp vec4 multidim[9])
+{
+        highp float r[9];
+	    highp float g[9];
+	    highp float b[9];
+
+        for (lowp int k = 0; k < 9; k++)
+        {
+               
+                        mediump vec4 pixel = multidim[k];
+                       
+                        r[k] =  pixel.r;
+			            g[k] =  pixel.g;
+			            b[k] =  pixel.b;
+                
+        }
+        
+        highp float rm = sort1(r);
+	    highp float gm = sort1(g);
+	    highp float bm = sort1(b);
+        return vec4( vec3(rm, gm, bm), 1.0 );
+}
+
+lowp vec4 mediana()
+{
+      lowp vec4 multidim[9];
+      int k = 0;
+      for (lowp int i = - 1; i <= 1; i++)
+      {
+            for (lowp int j = -1; j <= 1; j++)
+            {
+                multidim[k++] = mediana1(io_texture_coordinates + vec2(float(i*2), float(j*2))/in_resolution );
+            }
+      }
+
+      return mediana2(multidim);
+}
 
 void main()
 {
-        highp int res = int(in_resolution.x > in_resolution.y ? in_resolution.x : in_resolution.y);
-        mediump int rad = int(res/300);
-        rad = rad > MAX_RAD  ? MAX_RAD : rad;
-        rad = rad < MIN_RAD  ? MIN_RAD : rad;
-        gl_FragColor = mediana(rad);
+        gl_FragColor = mediana();
 }
