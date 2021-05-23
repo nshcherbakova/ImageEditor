@@ -100,9 +100,19 @@ namespace ImageEditor::Core
         UNI_ENSURE_RETURN(screen_texture_uniform != -1, QImage());
         
         screen_resolution_uniform = program.uniformLocation(c_resolution_attr_name_str);
+       
+        auto gl_compatible_img = image.mirrored().convertToFormat(QImage::Format_RGBA8888);
+        QOpenGLTexture texture(gl_compatible_img, QOpenGLTexture::DontGenerateMipMaps);
+        /*QOpenGLTexture texture(QOpenGLTexture::Target2D);
+        texture.setMinMagFilters(QOpenGLTexture::Linear, QOpenGLTexture::Linear);
+        texture.create();
 
+        // given some `width`, `height` and `data_ptr`
+        texture.setSize(gl_compatible_img.width(), gl_compatible_img.height());
+        texture.setFormat(QOpenGLTexture::RGBA8_UNorm);
+        texture.allocateStorage(QOpenGLTexture::RGBA, QOpenGLTexture::UInt8);
+        texture.setData(QOpenGLTexture::RGBA, QOpenGLTexture::UInt8, gl_compatible_img.bits());*/
 
-        QOpenGLTexture texture(image.mirrored());
         program.bind();
         program.setUniformValue(screen_texture_uniform, 0);
 
@@ -132,6 +142,6 @@ namespace ImageEditor::Core
 
         program.release();
 
-        return QImage(fbo.toImage());
+        return QImage(fbo.toImage()).convertToFormat(image.format());
     }
 }

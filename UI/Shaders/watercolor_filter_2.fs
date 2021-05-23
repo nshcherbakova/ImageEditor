@@ -3,9 +3,9 @@ uniform highp vec2 in_resolution;
 varying mediump vec2 io_texture_coordinates;
 
 void main() {
-        mediump mat3 h = mat3(	vec3(0.0, -0.2, 0.0),
-                                vec3(-0.2 ,1.8,-0.2),
-                                vec3(0.0, -0.2, 0.0));
+        mediump mat3 h = mat3(	vec3(0.0, -0.5, 0.0),
+                                vec3(-0.5 , 3.0 ,-0.5),
+                                vec3(0.0, -0.5, 0.0));
 
 	highp vec4 res;
 	for (mediump int i = 0; i < 3; ++i)
