@@ -14,8 +14,7 @@ The Simple cross-platform image editor for **Windows** and **Android OS** with *
              
 **ImageEditor** allows to apply some graphics filters to images.
 
-
-![App main window](Images/Screenshot2.png)![App main window](Images/Screenshot1.png)![App main window](Images/Screen1_1.png)                 
+![App main window](Images/Screenshot2.png)![App main window](Images/Screenshot1.png)![App main window](Images/Screen1_1.png).
 
 *Emboss, sepia and a window with drops (a modified shader from BigWIngs https://www.shadertoy.com/) effects.*
 
