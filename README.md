@@ -27,7 +27,9 @@ ImageEditor allows to apply some graphics filters to images.
            
            
            
-**There are several goals of this project:**
+**Goals**
+
+There are several goals of this project:
 
 1. to make the project from the idea to full value comfy GUI app through several steps: 
 - making the UI concept 
