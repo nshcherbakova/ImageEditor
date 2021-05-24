@@ -13,7 +13,6 @@ namespace ImageEditor::UI
     {
         qDebug("devicePixelRatio is %f", QApplication::primaryScreen()->devicePixelRatio());
         qDebug() << QApplication::primaryScreen()->logicalDotsPerInch();
-
     }
 
     const QImage ImageByDPIProvider::image(const QString& name) const

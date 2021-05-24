@@ -8,8 +8,7 @@ namespace ImageEditor::Core
 	class WatercolorFilter final : public FilterBase
 	{
 	public:
-		WatercolorFilter();
-		WatercolorFilter(const WatercolorFilter&) = delete;
+		explicit WatercolorFilter() = default;
 		WatercolorFilter& operator= (const WatercolorFilter&) = delete;
 
 	public: // IFilter

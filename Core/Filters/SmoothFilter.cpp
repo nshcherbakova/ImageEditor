@@ -1,5 +1,4 @@
 #include <stdafx.h>
-#include <Core/Image/IImage.h>
 #include "SmoothFilter.h"
 
 static const char* c_filter_name_str = "Smooth";
@@ -9,10 +8,6 @@ static const float H[3][3] = { { 0.1, 0.1, 0.1},
 
 namespace ImageEditor::Core
 {
-	SmoothFilter::SmoothFilter()
-	{
-	}
-
 	void SmoothFilter::Transform(FilterBase::BGRAMatrix& arr) const
 	{
 		for (uint64_t i = 1; i < arr.Height() - 1; i++)
@@ -25,7 +20,7 @@ namespace ImageEditor::Core
 				{
 					for (int m = -1; m < 2; m++)
 					{
-						auto pixel = arr.GetPixel(i + k, j + m);
+						const auto pixel = arr.GetPixel(i + k, j + m);
 
 						const float h = H[1 + k][1 + m];
 						color += ucbgra(pixel * h);

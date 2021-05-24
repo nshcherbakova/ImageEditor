@@ -1,7 +1,4 @@
 #include <stdafx.h>
-#include <Core/Gears/Injector.h>
-#include <UI/Widgets/FiltersWidget.h>
-#include <UI/Widgets/IWidget.h>
 #include "WidgetsModule.h"
 
 namespace 

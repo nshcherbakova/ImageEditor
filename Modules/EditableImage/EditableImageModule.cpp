@@ -1,5 +1,5 @@
 #include <stdafx.h>
-#include <Modules/EditableImage/EditableImage.h>
+#include "EditableImage.h"
 #include "EditableImageModule.h"
 
 namespace 

@@ -12,7 +12,7 @@ namespace ImageEditor::Modules
 		virtual void UpdateImage(Core::IImagePtr image) = 0;
 		virtual Core::IImagePtr Image() const = 0;
 
-		virtual ~IEditableImage() {}
+		virtual ~IEditableImage() = default;
 	};
 }
 

@@ -8,8 +8,7 @@ namespace ImageEditor::Core
 	class FilterBase: public virtual IFilter
 	{
 	public:
-		FilterBase();
-		FilterBase(const FilterBase&) = delete;
+		explicit FilterBase() = default;
 		FilterBase& operator= (const FilterBase&) = delete;
 	
 	public: // IFilter

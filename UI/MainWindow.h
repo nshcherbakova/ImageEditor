@@ -13,7 +13,9 @@ namespace ImageEditor::UI
         Q_OBJECT
 
     public:
-        MainWindow();
+
+        explicit MainWindow();
+        MainWindow& operator= (const MainWindow&) = delete;
     };
 }
 #endif // IMAGEEDITOR_UI_MAINWINDOW_H

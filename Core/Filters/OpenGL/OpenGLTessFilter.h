@@ -8,9 +8,7 @@ namespace ImageEditor::Core
 	class OpenGLTessFilter final :  public  OpenGLFilterBase
 	{
 	public:
-		OpenGLTessFilter();
-
-		OpenGLTessFilter(const OpenGLTessFilter&) = delete;
+		explicit OpenGLTessFilter() = default;
 		OpenGLTessFilter& operator= (const OpenGLTessFilter&) = delete;
 
 	public: // IFilter

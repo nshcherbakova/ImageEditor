@@ -3,7 +3,6 @@
 #define IMAGEEDITOR_MODULES_FRAMES_IFRAME_H
 
 #include <Modules/types.h>
-#include <Modules/Frames/IControl.h>
 
 namespace ImageEditor::Modules
 {
@@ -11,7 +10,7 @@ namespace ImageEditor::Modules
 	{
 		virtual const IControlsMapPtr Controls() const = 0;
 
-		virtual ~IFrame() {}
+		virtual ~IFrame() = default;
 	};
 }
 

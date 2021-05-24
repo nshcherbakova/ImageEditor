@@ -8,7 +8,7 @@ namespace ImageEditor::UI
     {
         virtual void onShow(const bool visible) = 0;
 
-        virtual ~IWidget() {}
+        virtual ~IWidget() = default;
     };
 }
 #endif // IMAGEEDITOR_UI_WIDGETS_IWIDGET_H

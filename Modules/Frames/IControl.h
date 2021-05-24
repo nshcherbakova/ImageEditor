@@ -2,7 +2,6 @@
 #define IMAGEEDITOR_MODULES_FRAMES_ICONTROL_H
 
 #include <string>
-#include <Modules/types.h>
 
 namespace ImageEditor::Modules
 {
@@ -12,7 +11,7 @@ namespace ImageEditor::Modules
 		virtual const std::string Parameters() const = 0;
 		virtual void Activate(std::string paramerts) = 0;
 
-		virtual ~IControl() {}
+		virtual ~IControl() = default;
 	};
 }
 

@@ -45,8 +45,8 @@ namespace ImageEditor::Core
 
 	bool Image::IsValid() const
 	{
-		bool is_valide =  data_.empty() && width_ == 0 && height_ == 0 && bytes_per_line_ == 0 ||
-			!data_.empty() && width_ != 0 && height_ != 0 && bytes_per_line_ != 0;
+		const bool is_valide =  (data_.empty() && width_ == 0 && height_ == 0 && bytes_per_line_ == 0) ||
+			(!data_.empty() && width_ != 0 && height_ != 0 && bytes_per_line_ != 0);
 
 		UNI_ASSERT(is_valide);
 

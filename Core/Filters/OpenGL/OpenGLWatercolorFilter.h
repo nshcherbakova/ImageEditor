@@ -8,9 +8,7 @@ namespace ImageEditor::Core
 	class OpenGLWaterColorFilter final :  public  OpenGLFilterBase
 	{
 	public:
-		OpenGLWaterColorFilter();
-
-		OpenGLWaterColorFilter(const OpenGLWaterColorFilter&) = delete;
+		explicit OpenGLWaterColorFilter() = default;
 		OpenGLWaterColorFilter& operator= (const OpenGLWaterColorFilter&) = delete;
 
 	public: // IFilter

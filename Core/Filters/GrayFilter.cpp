@@ -1,13 +1,10 @@
 #include <stdafx.h>
-#include <Core/Image/IImage.h>
 #include "GrayFilter.h"
 
 static const char* c_filter_name_str = "Gray";
 
 namespace ImageEditor::Core
 {
-	GrayFilter::GrayFilter() {}
-
 	void GrayFilter::Transform(FilterBase::BGRAMatrix& arr) const
 	{
 		for (uint64_t i = 0; i < arr.Height(); i++)

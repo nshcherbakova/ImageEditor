@@ -1,5 +1,4 @@
 #include <stdafx.h>
-#include <Core/Image/IImage.h>
 #include "QtConverts.h"
 
 namespace ImageEditor::UI

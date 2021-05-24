@@ -8,8 +8,7 @@ namespace ImageEditor::Core
 	class SepiaFilter final : public  FilterBase
 	{
 	public:
-		SepiaFilter();
-		SepiaFilter(const SepiaFilter&) = delete;
+		explicit SepiaFilter() = default;
 		SepiaFilter& operator= (const SepiaFilter&) = delete;
 
 	public: // IFilter

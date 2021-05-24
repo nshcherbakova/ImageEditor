@@ -8,8 +8,7 @@ namespace ImageEditor::Core
 	class SmoothFilter final : public  FilterBase
 	{
 	public:
-		SmoothFilter();
-		SmoothFilter(const SmoothFilter&) = delete;
+		explicit SmoothFilter() = default;
 		SmoothFilter& operator= (const SmoothFilter&) = delete;
 
 	public: // IFilter

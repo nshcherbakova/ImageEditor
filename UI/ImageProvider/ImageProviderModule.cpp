@@ -1,6 +1,6 @@
 #include <stdafx.h>
-#include <UI/ImageProvider/ImageByDPIProvider.h>
 #include "ImageProviderModule.h"
+#include "ImageByDPIProvider.h"
 
 namespace 
 {

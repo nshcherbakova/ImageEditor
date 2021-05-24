@@ -8,8 +8,7 @@ namespace ImageEditor::Core
 	class GrayFilter final : public  FilterBase
 	{
 	public:
-		GrayFilter();
-		GrayFilter(const GrayFilter&) = delete;
+		explicit GrayFilter() = default;
 		GrayFilter& operator= (const GrayFilter&) = delete;
 
 	public: // IFilter

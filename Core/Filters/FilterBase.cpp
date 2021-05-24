@@ -1,5 +1,4 @@
 #include <stdafx.h>
-#include <Core/Image/IImage.h>
 #include "FilterBase.h"
 
 namespace ImageEditor::Core
@@ -26,10 +25,6 @@ namespace ImageEditor::Core
 	{
 		update(ib, ig, ir);
 		a = normalize(ia);
-	}
-
-	FilterBase::FilterBase()
-	{
 	}
 
 	IImagePtr FilterBase::Apply(const IImagePtr image, const std::string& /*parameters*/)

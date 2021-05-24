@@ -1,6 +1,5 @@
 #include <stdafx.h>
-#include <Core/types.h>
-#include <Modules/Frames/FiltersFrame.h>
+#include "FiltersFrame.h"
 #include "FramesModule.h"
 
 namespace 

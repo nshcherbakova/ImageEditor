@@ -8,9 +8,7 @@ namespace ImageEditor::Core
 	class OpenGLSepiaFilter final :  public  OpenGLFilterBase
 	{
 	public:
-		OpenGLSepiaFilter();
-
-		OpenGLSepiaFilter(const OpenGLSepiaFilter&) = delete;
+		explicit OpenGLSepiaFilter() = default;
 		OpenGLSepiaFilter& operator= (const OpenGLSepiaFilter&) = delete;
 
 	public: // IFilter

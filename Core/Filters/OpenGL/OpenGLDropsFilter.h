@@ -8,7 +8,7 @@ namespace ImageEditor::Core
 	class OpenGLDropsFilter final : public  OpenGLFilterBase
 	{
 	public:
-		OpenGLDropsFilter();
+		explicit OpenGLDropsFilter() = default;;
 
 		OpenGLDropsFilter(const OpenGLDropsFilter&) = delete;
 		OpenGLDropsFilter& operator= (const OpenGLDropsFilter&) = delete;

@@ -33,8 +33,8 @@ namespace ImageEditor::UI
         virtual void onShow(const bool visible) override final;
 
     public slots:
-        void OnSignalOpenImage(QString path);
-        void OnSignalSaveImage(QString path);
+        void OnSignalOpenImage(const QString path);
+        void OnSignalSaveImage(const QString path);
         void OnMenuButtonClicked();
         void OnCleanButtonClicked();
         void OnSignalCommandAppyed();
@@ -43,8 +43,8 @@ namespace ImageEditor::UI
         virtual void paintEvent(QPaintEvent* event) override final;
 
     private:
-        void CreateMenuButton(Modules::IControlsMapPtr controls);
-        void CreateCleanButton(Modules::IControlsMapPtr controls);
+        void CreateMenuButton();
+        void CreateCleanButton();
         void CreateFilterButtons(Modules::IControlsMapPtr controls);
 
         void UpdateImage();

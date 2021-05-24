@@ -8,8 +8,7 @@ namespace ImageEditor::Core
 	class TessFilter final : public FilterBase
 	{
 	public:
-		TessFilter();
-		TessFilter(const TessFilter&) = delete;
+		explicit TessFilter() = default;
 		TessFilter& operator= (const TessFilter&) = delete;
 
 	public: // IFilter

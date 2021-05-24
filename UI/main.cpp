@@ -1,6 +1,5 @@
 #include <stdafx.h>
 #include "MainWindow.h"
-#include <UI/Widgets/WidgetsModule.h>
 
 using namespace ImageEditor;
 using namespace UI;
@@ -22,8 +21,6 @@ int main(int argc, char* argv[])
 	QCoreApplication::setApplicationName(c_app_str);
 	
 	QFontDatabase::addApplicationFont(c_font_str);
-
-	//UNI_ASSERT(res != -1);
 
 	//QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 

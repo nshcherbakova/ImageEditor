@@ -1,5 +1,4 @@
 #include <stdafx.h>
-#include <UI/UIString.h>
 #include "MenuDialog.h"
 
 
@@ -21,7 +20,7 @@ static const int c_buttons_vmargin = 20;
 
 namespace ImageEditor::UI
 {
-    MenuDialog::MenuDialog(Parameters parameters)
+    MenuDialog::MenuDialog(const Parameters parameters)
        : QWidget(parameters.parent)
        , image_file_name_(parameters.image_file_name)
     {
@@ -92,7 +91,7 @@ namespace ImageEditor::UI
         QString path = image_file_name_;
         if (path.isEmpty())
         {
-            QSettings settings;
+            const QSettings settings;
             path = settings.value(c_last_opend_dir).toString();
         }
         const QString file_name = QFileDialog::getOpenFileName(this,

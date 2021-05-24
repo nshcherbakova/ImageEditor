@@ -13,7 +13,7 @@ namespace ImageEditor::Core
 		virtual uint64_t BytesPerLine() const = 0;
 		virtual unsigned int Format() const = 0;
 		
-		virtual ~IImage() {}
+		virtual ~IImage() = default;
 	};
 }
 

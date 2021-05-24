@@ -8,9 +8,7 @@ namespace ImageEditor::Core
 	class OpenGLGrayFilter final :  public  OpenGLFilterBase
 	{
 	public:
-		OpenGLGrayFilter();
-
-		OpenGLGrayFilter(const OpenGLGrayFilter&) = delete;
+		explicit OpenGLGrayFilter() = default;
 		OpenGLGrayFilter& operator= (const OpenGLGrayFilter&) = delete;
 
 	public: // IFilter

@@ -1,11 +1,4 @@
 #include <stdafx.h>
-#include <UI/UIString.h>
-#include <Modules/EditableImage/IEditableImage.h>
-#include <Modules/Frames/IFrame.h>
-#include <Modules/Frames/IControl.h>
-#include <Core/Image/IImage.h>
-#include <UI/ImageProvider/IImageProvider.h>
-#include <UI/QtConverts.h>
 #include "FiltersWidget.h"
 #include "MenuDialog.h"
 
@@ -56,9 +49,11 @@ namespace ImageEditor::UI
         : QWidget(&(parameters.parent))
         , editable_image_(std::move(parameters.image))
         , ui_image_provider_(std::move(parameters.image_provider))
-        , background_image_(ui_image_provider_->image(c_widget_background_image_str))
     {
-        UNI_ENSURE_RETURN(parameters.filters_frame);
+        UNI_ENSURE_RETURN(parameters.filters_frame && editable_image_ && ui_image_provider_);
+
+        background_image_ = ui_image_provider_->image(c_widget_background_image_str);
+
 
         setContentsMargins(0, 0, 0, 0);
         setGeometry(parameters.parent.geometry());
@@ -67,17 +62,15 @@ namespace ImageEditor::UI
         palette.setColor(QPalette::Window, c_widget_background_color);
         setPalette(palette);
 
-        CreateMenuButton(parameters.filters_frame->Controls());
-        CreateCleanButton(parameters.filters_frame->Controls());
+        CreateMenuButton();
+        CreateCleanButton();
         CreateFilterButtons(parameters.filters_frame->Controls());
 
         onShow(false);
     }
 
-    void FiltersWidget::CreateMenuButton(Modules::IControlsMapPtr controls)
-    {
-        UNI_ENSURE_RETURN(controls);
-        
+    void FiltersWidget::CreateMenuButton()
+    {  
         QRect parent_rect = geometry();
         const int button_width = c_button_width;
 
@@ -110,10 +103,8 @@ namespace ImageEditor::UI
         (*menu_)->setVisible(true);
     }
 
-    void FiltersWidget::CreateCleanButton(Modules::IControlsMapPtr controls)
+    void FiltersWidget::CreateCleanButton()
     {
-        UNI_ENSURE_RETURN(controls);
-
         // create button
         QPushButton* button = new ImageButton("", this);
         const QRect button_rect = QRect(0, 0, c_button_width, c_button_width);
@@ -144,7 +135,7 @@ namespace ImageEditor::UI
         UNI_ENSURE_RETURN(controls);
         
         const QRect parent_rect = geometry();
-        int button_width = c_button_width;
+        const int button_width = c_button_width;
 
         // buttons widget
         QWidget* filter_buttons_widget = new QWidget(this);
@@ -177,7 +168,7 @@ namespace ImageEditor::UI
                 button->setMaximumWidth(button_width);
                 button->setFlat(true);
 
-                int index = num % std::size(c_filter_buttons_text_color_str_arr);
+                const int index = num % std::size(c_filter_buttons_text_color_str_arr);
                 QString style_template(c_filter_button_style_template_str);
                 QString style_with_args = style_template.arg(c_filter_buttons_text_color_str_arr[index])
                     .arg(ui_image_provider_->imagesPath());
@@ -296,6 +287,8 @@ namespace ImageEditor::UI
     
     void RadioButton::UncheckAll(QWidget* parent, const QString& button_group_name)
     {
+        UNI_ENSURE_RETURN(parent);
+
         QList<QPushButton*> buttons = parent->findChildren<QPushButton*>(button_group_name);
         for (auto& button : buttons)
         {
@@ -340,10 +333,12 @@ namespace ImageEditor::UI
     ImageButton::ImageButton(const QString& text, QWidget* parent)
         : QPushButton(text, parent)
     {
+        UNI_ASSERT(parent);
     }
 
     void ImageButton::keyPressEvent(QKeyEvent* e)
     {
+        UNI_ENSURE_RETURN(parentWidget());
         update();
         parentWidget()->update();
         QPushButton::keyPressEvent(e);
@@ -351,6 +346,7 @@ namespace ImageEditor::UI
 
     void ImageButton::focusInEvent(QFocusEvent* e)
     {
+        UNI_ENSURE_RETURN(parentWidget());
         update();
         parentWidget()->update();
         QPushButton::focusInEvent(e);
@@ -358,6 +354,7 @@ namespace ImageEditor::UI
 
     void ImageButton::focusOutEvent(QFocusEvent* e)
     {
+        UNI_ENSURE_RETURN(parentWidget());
         update();
         parentWidget()->update();
         QPushButton::focusOutEvent(e);
@@ -365,6 +362,7 @@ namespace ImageEditor::UI
 
     void ImageButton::mousePressEvent(QMouseEvent* e)
     {
+        UNI_ENSURE_RETURN(parentWidget());
         update();
         parentWidget()->update();
         QPushButton::mousePressEvent(e);
@@ -372,6 +370,7 @@ namespace ImageEditor::UI
 
     void ImageButton::mouseReleaseEvent(QMouseEvent* e)
     {
+        UNI_ENSURE_RETURN(parentWidget());
         update();
         parentWidget()->update();
         QPushButton::mouseReleaseEvent(e);
@@ -379,6 +378,7 @@ namespace ImageEditor::UI
 
     void ImageButton::mouseMoveEvent(QMouseEvent* e)
     {
+        UNI_ENSURE_RETURN(parentWidget());
         update();
         parentWidget()->update();
         QPushButton::mouseMoveEvent(e);
@@ -386,6 +386,7 @@ namespace ImageEditor::UI
 
     void ImageButton::leaveEvent(QEvent* e)
     {
+        UNI_ENSURE_RETURN(parentWidget());
         update();
         parentWidget()->update();
         QWidget::leaveEvent(e);
@@ -393,6 +394,7 @@ namespace ImageEditor::UI
 
     void ImageButton::enterEvent(QEvent* e)
     {
+        UNI_ENSURE_RETURN(parentWidget());
         update();
         parentWidget()->update();
         QWidget::enterEvent(e);

@@ -1,7 +1,4 @@
 #include <stdafx.h>
-#include <QOpenGLShaderProgram>
-#include <QScreen>
-#include <Core/Image/IImage.h>
 #include "OpenGLFilterBase.h"
 
 static const char* c_position_attr_name_str = "in_position";
@@ -49,6 +46,9 @@ namespace ImageEditor::Core
 
         InitializeOpenGL();
 
+        UNI_ENSURE_RETURN(ogl_functions_, nullptr);
+
+
         QImage image(image_src->Data().data(),
             image_src->Width(),
             image_src->Height(),
@@ -76,6 +76,7 @@ namespace ImageEditor::Core
     QImage OpenGLFilterBase::Apply(const QImage& image, const std::pair<const char*, const char*>& filter, const std::string& /*parameters*/)
     {
         UNI_ENSURE_RETURN(!image.isNull(), QImage());
+        UNI_ENSURE_RETURN(ogl_functions_, QImage());
 
         GLint position_attr = 0;
         GLint texture_attr = 0;

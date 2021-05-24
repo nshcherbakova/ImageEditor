@@ -1,5 +1,5 @@
 #include <stdafx.h>
-#include <Core/Image/Image.h>
+#include "Image.h"
 #include "ImageModule.h"
 
 namespace 

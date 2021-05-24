@@ -1,6 +1,4 @@
 #include <stdafx.h>
-#include <Core/Filters/IFilter.h>
-#include <Modules/EditableImage/IEditableImage.h>
 #include "FiltersFrame.h"
 
 

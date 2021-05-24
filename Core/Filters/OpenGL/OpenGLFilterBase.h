@@ -1,18 +1,18 @@
 #pragma once
 #ifndef IMAGEEDITOR_CORE_OPEN_GL_FILTERBASE_FILTERS_H
 #define IMAGEEDITOR_CORE_OPEN_GL_FILTERBASE_FILTERS_H
-#include <QOpenGLFunctions>
-#include <QImage>
+#include <QObject>
 #include <Core/Filters/IFilter.h>
 
+class QImage;
+class QOpenGLFunctions;
 namespace ImageEditor::Core
 {
-	class OpenGLFilterBase: public QObject ,  public virtual IFilter
+	class OpenGLFilterBase: public QObject,  public virtual IFilter
 	{
 		Q_OBJECT
 	public:
-		OpenGLFilterBase() {};
-		OpenGLFilterBase(const OpenGLFilterBase&) = delete;
+		explicit OpenGLFilterBase() = default;
 		OpenGLFilterBase& operator= (const OpenGLFilterBase&) = delete;
 	
 	public: // IFilter

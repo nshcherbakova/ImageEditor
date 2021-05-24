@@ -1,5 +1,4 @@
 #include <stdafx.h>
-#include <Core/Image/IImage.h>
 #include "WatercolorFilter.h"
 
 static const char* c_filter_name_str = "Aqua";
@@ -9,10 +8,6 @@ static const int H[3][3] = { {0, -1, 0},
 
 namespace ImageEditor::Core
 {
-	WatercolorFilter::WatercolorFilter()
-	{
-	}
-
 	void WatercolorFilter::Transform(FilterBase::BGRAMatrix& arr) const
 	{
 		UNI_ENSURE_RETURN(arr.Height() > 4 && arr.Width() > 4);

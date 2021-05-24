@@ -1,5 +1,4 @@
 #include <stdafx.h>
-#include <Core/Image/IImage.h>
 #include "TessFilter.h"
 
 static const char* c_filter_name_str = "Imp";
@@ -12,10 +11,6 @@ namespace ImageEditor::Core
 	float diff(float val)
 	{
 		return float(val + 0.5) - floor(val + 0.5);
-	}
-
-	TessFilter::TessFilter()
-	{
 	}
 
 	void TessFilter::Transform(FilterBase::BGRAMatrix& arr) const

@@ -9,7 +9,7 @@ namespace ImageEditor::Modules
 	class EditableImage final: public IEditableImage
 	{
 	public:
-		explicit EditableImage();
+		explicit EditableImage() = default;
 		EditableImage(const EditableImage&) = delete;
 		EditableImage& operator= (const EditableImage&) = delete;
 

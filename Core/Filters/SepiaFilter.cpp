@@ -1,13 +1,10 @@
 #include <stdafx.h>
-#include <Core/Image/IImage.h>
 #include "SepiaFilter.h"
 
 static const char* c_filter_name_str = "Sepia";
 
 namespace ImageEditor::Core
 {
-	SepiaFilter::SepiaFilter() {}
-
 	void SepiaFilter::Transform(FilterBase::BGRAMatrix& arr) const
 	{
 		for (uint64_t i = 0; i < arr.Height(); i++)

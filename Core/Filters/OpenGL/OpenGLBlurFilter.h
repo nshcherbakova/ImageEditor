@@ -8,9 +8,7 @@ namespace ImageEditor::Core
 	class OpenGLBlurFilter final :  public  OpenGLFilterBase
 	{
 	public:
-		OpenGLBlurFilter();
-
-		OpenGLBlurFilter(const OpenGLBlurFilter&) = delete;
+		explicit OpenGLBlurFilter() = default;
 		OpenGLBlurFilter& operator= (const OpenGLBlurFilter&) = delete;
 
 	public: // IFilter
