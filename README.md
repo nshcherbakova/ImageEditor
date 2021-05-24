@@ -1,31 +1,28 @@
 
-**ImageEditor**
+# ImageEditor
                
             
               
              
-The Simple cross-platform image editor for Windows and Android OS with OpenGL filters.
+The Simple cross-platform image editor for **Windows** and **Android OS** with **OpenGL** filters.
 
-![App main window](Images/Pixel1_1.jpg) An effect of a window with drops. A modified shader from https://www.shadertoy.com/ (Heartfelt from BigWIngs).
-
-
+![App main window](Images/Pixel1_1.jpg) *An effect of a window with drops.* 
 
 
-               
-            
-              
+***
+                        
              
-ImageEditor allows to apply some graphics filters to images.
-
-
+**ImageEditor** allows to apply some graphics filters to images.
 
 
 ![App main window](Images/Screenshot2.png)![App main window](Images/Screenshot1.png)![App main window](Images/Screen1_1.png)                 
 
+*Emboss, sepia and a window with drops (a modified shader from BigWIngs https://www.shadertoy.com/) effects.*
+
+***
            
            
-           
-**Goals**
+## Goals
 
 There are several goals of this project:
 
@@ -39,18 +36,19 @@ There are several goals of this project:
 - breaking to tasks and milestones
 - writing code
 2. to train design skills: programming design patterns like Dependency Injection, Command
-3. to make QT based customized GUI app
+3. to make **QT** based customized GUI app
 
-![Kids](Images/screen_no_custom_450.png) => ![Smooth](Images/flowers_aqua_sm_450.png)
+![Kids](Images/screen_no_custom_450.png) -> ![Smooth](Images/flowers_aqua_sm_450.png)
 
 4. to study how to build an Android app
 5. to touch OpenGL ES shaders
 6. to have a fun playing with bitmaps pixels while making simple filters from my university Machine Graphics classes
                
             
-              
+***
+
              
-**Upcoming features:**
+## Upcoming features:
 1. covering with tests
 2. logging
 3. translations
@@ -60,7 +58,8 @@ There are several goals of this project:
 7. integration with social networks to uploading and downloading photos from/to there
 8. add image editing tools and more complicated filters
                
-            
+
+***
               
              
 **Dependences:**
@@ -70,7 +69,7 @@ There are several goals of this project:
 - Qt-5.15.2 (https://www.qt.io/download-qt-installer)
 - uniassert (https://github.com/2gis/uniassert)
 
-Photo and pictures:
+**Photo and pictures:**
 - Natalya Shcherbakova 
 - Anton Shcherbakov 
 - Olga Demidova  
