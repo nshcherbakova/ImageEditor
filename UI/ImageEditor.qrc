@@ -8,6 +8,7 @@
         <file alias="round_button_pressed">Images/default/round_button_pressed.png</file>
         <file alias="undo_button">Images/default/undo_button.png</file>
         <file alias="undo_button_pressed">Images/default/undo_button_pressed.png</file>
+        <file alias="undo_button_disabled">Images/default/undo_button_disabled.png</file>
     </qresource>
     <qresource prefix="/Images/2x">
         <file alias="widget_background">Images/2x/background.png</file>
@@ -18,6 +19,7 @@
         <file alias="round_button_pressed">Images/2x/round_button_pressed.png</file>
         <file alias="undo_button">Images/2x/undo_button.png</file>
         <file alias="undo_button_pressed">Images/2x/undo_button_pressed.png</file>
+        <file alias="undo_button_disabled">Images/2x/undo_button_disabled.png</file>
     </qresource>
     <qresource prefix="/Fonts">
         <file alias="buttons_font">Fonts/Typo_Round_Regular_Demo.otf</file>

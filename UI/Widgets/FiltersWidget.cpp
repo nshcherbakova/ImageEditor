@@ -3,7 +3,7 @@
 #include "MenuDialog.h"
 
 // widget settings
-static const char* c_last_opend_file_str = "last_opened_file";
+static const char* c_last_opend_file_str = "last_opened_file2";
 static const QColor c_widget_background_color = QColor(250, 250, 248);
 static const QColor c_widget_pen_color = QColor(Qt::white);
 static const int c_widget_pen_width = 3;
@@ -19,6 +19,7 @@ static const char* c_filter_button_style_template_str = "QPushButton{ "
 "font-size: 21px; "
 "font-family: Typo Round Regular Demo;"
 "color: %1;}"
+"QPushButton:disabled{color: rgb(190, 190, 190);}"
 "QPushButton:hover{background-image: url(%2/round_button_pressed);}"
 "QPushButton:checked{background-image: url(%2/round_button_checked);}"
 "QPushButton:checked:pressed {background-image: url(%2/round_button_checked);}"
@@ -36,6 +37,7 @@ static const char* c_image_button_style_template_str = "QPushButton{ "
 "background-image: "
 "url(%2/%1_button); "
 "background-color: transparent;}"
+"QPushButton:disabled{background-image: url(%2/%1_button_disabled)} "
 "QPushButton:hover{background-image: url(%2/%1_button_pressed)} "
 "QPushButton:pressed{background-image: url(%2/%1_button_pressed)}";
 
@@ -67,6 +69,8 @@ namespace ImageEditor::UI
         CreateFilterButtons(parameters.filters_frame->Controls());
 
         onShow(false);
+        emit SignalEnableFilterButtons(false);
+        emit SignalEnableCleanButton(false);
     }
 
     void FiltersWidget::CreateMenuButton()
@@ -119,6 +123,7 @@ namespace ImageEditor::UI
             .arg(ui_image_provider_->imagesPath()));
 
         connect(button, &QPushButton::clicked, this, &FiltersWidget::OnCleanButtonClicked);
+        connect(this, &FiltersWidget::SignalEnableCleanButton, static_cast<ImageButton*>(button), &ImageButton::OnSignalEnable );
     }
 
     void FiltersWidget::OnCleanButtonClicked()
@@ -128,6 +133,7 @@ namespace ImageEditor::UI
         editable_image_->UpdateImage(editable_image_->OriginalImage());
         UpdateImage();
         RadioButton::UncheckAll(this, Modules::FILTER_BUTTON_TAG);
+        emit SignalEnableCleanButton(false);
     }
 
     void FiltersWidget::CreateFilterButtons(Modules::IControlsMapPtr controls)
@@ -178,6 +184,8 @@ namespace ImageEditor::UI
                 const auto ui_command = new UICommand(this, control);
                 connect(button, &QPushButton::clicked, ui_command, &UICommand::OnButtonClicked);
                 connect(ui_command, &UICommand::SignalCommandAppyed, this, &FiltersWidget::OnSignalCommandAppyed);
+                
+                connect( this, &FiltersWidget::SignalEnableFilterButtons, button, &ImageButton::OnSignalEnable);
 
                 //add button to layout
                 filter_buttons_layout->addWidget(button);
@@ -196,14 +204,13 @@ namespace ImageEditor::UI
         settings.setValue(c_last_opend_file_str, path);
 
         image_ = std::make_shared<QImage>();
-        if (!image_->load(path))
-        {
-            UNI_ENSURE_RETURN(false);
+        if (image_->load(path))
+        {     
+            editable_image_->SetOriginalImage(QtImageToIImage(*image_));
+            update();
         }
-
-        editable_image_->SetOriginalImage(QtImageToIImage(*image_));
-        
-        update();
+        emit SignalEnableFilterButtons(image_ && !(image_->isNull()));
+        emit SignalEnableCleanButton(false);
     }
 
     void FiltersWidget::OnSignalSaveImage(const QString path)
@@ -229,7 +236,9 @@ namespace ImageEditor::UI
         UNI_ENSURE_RETURN(editable_image_ && editable_image_->Image());
 
         image_ = std::make_shared<QImage>(IImageToQtImage(editable_image_->Image()));
-
+       
+        emit SignalEnableCleanButton(true);
+        
         update();
     }
 
@@ -267,6 +276,7 @@ namespace ImageEditor::UI
         {
             OnSignalOpenImage(last_file);
         }
+
         setEnabled(visible);
     }
 }
@@ -335,6 +345,12 @@ namespace ImageEditor::UI
     {
         UNI_ASSERT(parent);
     }
+
+    void ImageButton::OnSignalEnable(const bool enable)
+    {
+        setEnabled(enable);
+    }
+
 
     void ImageButton::keyPressEvent(QKeyEvent* e)
     {

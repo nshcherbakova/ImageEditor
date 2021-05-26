@@ -32,6 +32,10 @@ namespace ImageEditor::UI
     public: // IWidget
         virtual void onShow(const bool visible) override final;
 
+    signals:
+        void SignalEnableFilterButtons(const bool enable);
+        void SignalEnableCleanButton(const bool enable);
+
     public slots:
         void OnSignalOpenImage(const QString path);
         void OnSignalSaveImage(const QString path);
@@ -81,8 +85,8 @@ namespace ImageEditor::UI
     public:
         ImageButton(const QString& text, QWidget* parent = nullptr);
 
-    public:
-        static void UncheckAll(QWidget* parent);
+    public slots:
+        void OnSignalEnable(const bool enable);
 
     protected:
         virtual void keyPressEvent(QKeyEvent*) override final;
