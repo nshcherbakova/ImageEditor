@@ -17,6 +17,11 @@ static const int c_layout_margin_top = 0;
 static const int c_layout_margin_right = 150;
 static const int c_layout_margin_bottom = 5;
 static const int c_buttons_vmargin = 20;
+static const QStringList c_mime_type_filters({ "image/jpeg",
+                            "image/pjpeg",
+                            "image/png",
+                            "image/bmp"
+    });
 
 namespace ImageEditor::UI
 {
@@ -94,20 +99,30 @@ namespace ImageEditor::UI
             const QSettings settings;
             path = settings.value(c_last_opend_dir).toString();
         }
-        const QString file_name = QFileDialog::getOpenFileName(this,
+
+        QFileDialog dialog(this,
             UIString(c_open_image_str),
             path,
             UIString(c_file_types_str));
-        
-        if (!file_name.isEmpty())
+
+        dialog.setMimeTypeFilters(c_mime_type_filters);
+        dialog.setFileMode(QFileDialog::ExistingFile);
+
+        QStringList file_names;
+        if (dialog.exec())
         {
-            image_file_name_ = file_name;
+            file_names = dialog.selectedFiles();
+        }
+
+        if (!file_names.isEmpty())
+        {
+            image_file_name_ = file_names.front();
             save_button_->setEnabled(!image_file_name_.isEmpty());
-            emit SignalOpenImage(file_name);
+            emit SignalOpenImage(image_file_name_);
             setVisible(false);
 
             QSettings settings;
-            settings.setValue(c_last_opend_dir, QFileInfo(file_name).dir().path());
+            settings.setValue(c_last_opend_dir, QFileInfo(image_file_name_).dir().path());
         }
     }
 

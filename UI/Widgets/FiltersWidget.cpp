@@ -3,7 +3,7 @@
 #include "MenuDialog.h"
 
 // widget settings
-static const char* c_last_opend_file_str = "last_opened_file2";
+static const char* c_last_opend_file_str = "last_opened_file";
 static const QColor c_widget_background_color = QColor(250, 250, 248);
 static const QColor c_widget_pen_color = QColor(Qt::white);
 static const int c_widget_pen_width = 3;
