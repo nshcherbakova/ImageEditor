@@ -204,7 +204,11 @@ namespace ImageEditor::UI
         settings.setValue(c_last_opend_file_str, path);
 
         image_ = std::make_shared<QImage>();
-        if (image_->load(path))
+            
+        QImageReader reader(path);
+        reader.setAutoTransform(true);
+        
+        if (reader.read(image_.get()))
         {     
             editable_image_->SetOriginalImage(QtImageToIImage(*image_));
             update();

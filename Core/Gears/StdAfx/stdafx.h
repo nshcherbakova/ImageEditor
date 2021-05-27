@@ -6,6 +6,7 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QImage>
+#include <QImageReader>
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QSettings>
