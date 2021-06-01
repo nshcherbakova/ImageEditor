@@ -9,14 +9,20 @@ static const char* c_open_image_str = "Open Image";
 static const char* c_save_image_str = "Save Image";
 static const char* c_file_types_str = "Image Files (*.png *.jpg *.jpeg *.bmp)";
 static const char* c_last_opend_dir = "last_opened_dir";
-static const char* c_button_style_str = "QPushButton{  background-color: rgba(253, 253, 255, 255); color: rgb(100, 100, 100); font-size: 24px; font-family: Typo Round Regular Demo;}";
-static const QColor c_background_color = QColor(250, 250, 247, 200);
+static const char* c_button_style_str = "QPushButton{  background-color: rgba(253, 253, 255, 255);"
+"color: #308BB2; font-size: 44px; font-family: Typo Round Regular Demo;"
+"border-style: solid;"
+"border-radius: 50;" 
+"border-color: rgba(190, 190, 190, 255);"
+"border-width: 5;"
+"}";
+static const QColor c_background_color = QColor(250, 250, 247, 180);
 static const int c_buttons_margin = 5;
-static const int c_layout_margin_left = 150;
+static const int c_layout_margin_left = 70;
 static const int c_layout_margin_top = 0;
-static const int c_layout_margin_right = 150;
+static const int c_layout_margin_right = 70;
 static const int c_layout_margin_bottom = 5;
-static const int c_buttons_vmargin = 20;
+static const int c_buttons_vmargin = 30;
 static const QStringList c_mime_type_filters({ "image/jpeg",
                             "image/pjpeg",
                             "image/png",
@@ -45,7 +51,7 @@ namespace ImageEditor::UI
     void MenuDialog::CreateMenuButtons()
     {
         const QRect parent_rect = geometry();
-        const int button_height = parent_rect.height() / 6;
+        const int button_height = parent_rect.height() / 7;
 
         // buttons widget
         QWidget* buttons_widget = new QWidget(this);
