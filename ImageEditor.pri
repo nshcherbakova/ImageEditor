@@ -1,7 +1,4 @@
 HEADERS += ./UI/QtConverts.h \
-    $$PWD/UI/ImageProvider/IImageProvider.h \
-    $$PWD/UI/ImageProvider/ImageByDPIProvider.h \
-    $$PWD/UI/ImageProvider/ImageProviderModule.h \
     ./UI/types.h \
     ./UI/UIString.h \
     ./UI/MainWindow.h \
@@ -41,8 +38,6 @@ HEADERS += ./UI/QtConverts.h \
     ./Modules/EditableImage/IEditableImage.h \
     ./Modules/EditableImage/EditableImageModule.h
 SOURCES += ./UI/QtConverts.cpp \
-    $$PWD/UI/ImageProvider/ImageByDPIProvider.cpp \
-    $$PWD/UI/ImageProvider/ImageProviderModule.cpp \
     ./UI/MainWindow.cpp \
     ./UI/main.cpp \
     ./UI/Widgets/FiltersWidget.cpp \

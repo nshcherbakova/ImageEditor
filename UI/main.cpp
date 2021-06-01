@@ -42,8 +42,7 @@ int main(int argc, char* argv[])
 	auto image = Modules::InitEditableImageModule().create<Modules::IEditableImagePtr>();
 	auto filters = Core::InitFiltersModule().create<Core::IFilterPtrArr>();
 	auto filters_frame = Modules::InitFramesModule(image, std::move(filters)).create<Modules::IFramePtr>();
-	auto image_provider = UI::InitImageProviderModule().create<UI::IImageProviderPtr>();
-	auto filters_widget = UI::InitWidgetsModule(main_window, std::move(filters_frame), std::move(image), std::move(image_provider)).create<IWidget*>();
+	auto filters_widget = UI::InitWidgetsModule(main_window, std::move(filters_frame), std::move(image)).create<IWidget*>();
 
 	main_window.show();
 	filters_widget->onShow(true);

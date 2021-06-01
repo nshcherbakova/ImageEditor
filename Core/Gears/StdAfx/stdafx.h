@@ -38,6 +38,4 @@
 #include <UI/Widgets/IWidget.h>
 #include <UI/Widgets/WidgetsModule.h>
 #include <UI/Widgets/FiltersWidget.h>
-#include <UI/ImageProvider/IImageProvider.h>
-#include <UI/ImageProvider/ImageProviderModule.h>
 
