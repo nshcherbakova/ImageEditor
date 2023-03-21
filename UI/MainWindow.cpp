@@ -12,6 +12,8 @@ namespace ImageEditor::UI
 #elif WIN32
         QSize window_size(640, 900);
         //QSize window_size(640, 1136);
+#elif defined Q_OS_MACOS
+        QSize window_size(640, 900);
 #endif
         setMaximumSize(window_size);
         setMinimumSize(window_size);

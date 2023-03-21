@@ -2,7 +2,7 @@
 #ifndef IMAGEEDITOR_UI_MAINWINDOW_H
 #define IMAGEEDITOR_UI_MAINWINDOW_H
 
-#include <QtWidgets/QOpenGLWidget>
+#include <QOpenGLWidget>
 #include <UI/Widgets/IWidget.h>
 #include "ui_ImageEditor.h"
 

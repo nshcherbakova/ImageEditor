@@ -28,8 +28,8 @@ namespace
 
     IFilterInjector OpenGLmodule() noexcept {
         return boost::di::make_injector(
-            boost::di::bind<IFilter* []>().to<SepiaFilter,OpenGLDropsFilter, OpenGLWaterColorFilter, OpenGLTessFilter>(),
-            boost::di::bind<IFilter>().to<SepiaFilter>(),
+            boost::di::bind<IFilter* []>().to<OpenGLSepiaFilter,OpenGLDropsFilter, OpenGLWaterColorFilter, OpenGLTessFilter>(),
+            boost::di::bind<IFilter>().to<OpenGLSepiaFilter>(),
             boost::di::bind<IFilter>().named<class OpenGLWaterColorFilter>().to<OpenGLWaterColorFilter>(),
             boost::di::bind<IFilter>().named<class OpenGLTessFilter>().to<OpenGLTessFilter>(),
             boost::di::bind<IFilter>().named<class OpenGLDropsFilter>().to<OpenGLDropsFilter>()

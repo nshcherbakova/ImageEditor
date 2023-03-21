@@ -5,4 +5,4 @@ varying mediump vec2 io_texture_coordinates;
 void main() {
    gl_Position = in_position;
    io_texture_coordinates = in_texture_coord;
-} 
+}

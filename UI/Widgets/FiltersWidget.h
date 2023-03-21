@@ -93,7 +93,6 @@ namespace ImageEditor::UI
         virtual void mouseMoveEvent(QMouseEvent* e) override final;
         virtual void mousePressEvent(QMouseEvent* e) override final;
         virtual void mouseReleaseEvent(QMouseEvent* e) override final;
-        virtual void enterEvent(QEvent* e) override final;
         virtual void leaveEvent(QEvent* e) override final;
 
     };

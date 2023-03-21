@@ -8,13 +8,13 @@ static const char* c_resolution_attr_name_str = "in_resolution";
 
 static const GLfloat c_vertices[] = {
     // positions
-     -1.0f, 1.0f,
+    -1.0f, 1.0f,
     -1.0f, -1.0f,
-     1.0f, -1.0f,
+    1.0f, -1.0f,
 
     -1.0f, 1.0f ,
-     1.0f, -1.0f,
-     1.0f, 1.0f
+    1.0f, -1.0f,
+    1.0f, 1.0f
 };
 
 static const GLfloat c_texture_coords[] = {
@@ -29,120 +29,128 @@ static const GLfloat c_texture_coords[] = {
 };
 namespace ImageEditor::Core
 {
-    std::unique_ptr<QOpenGLFunctions> OpenGLFilterBase::ogl_functions_;
+std::unique_ptr<QOpenGLFunctions> OpenGLFilterBase::ogl_functions_;
 
-    void OpenGLFilterBase::InitializeOpenGL()
+void OpenGLFilterBase::InitializeOpenGL()
+{
+    if (!ogl_functions_)
     {
-        if (!ogl_functions_)
-        {
-            ogl_functions_ = std::make_unique<QOpenGLFunctions>();
-            ogl_functions_->initializeOpenGLFunctions();
-        }
+        ogl_functions_ = std::make_unique<QOpenGLFunctions>();
+        ogl_functions_->initializeOpenGLFunctions();
+    }
+}
+
+IImagePtr OpenGLFilterBase::Apply(const IImagePtr image_src, const std::string& parameters)
+{
+    UNI_ENSURE_RETURN(image_src, nullptr);
+
+    InitializeOpenGL();
+
+    UNI_ENSURE_RETURN(ogl_functions_, nullptr);
+
+
+    QImage image(image_src->Data().data(),
+                 image_src->Width(),
+                 image_src->Height(),
+                 image_src->BytesPerLine(),
+                 QImage::Format(image_src->Format()));
+
+    ogl_functions_->glViewport(0, 0, image.width(), image.height());
+
+    const auto filters = TransformFilters();
+    for (unsigned int i = 0; i < filters.size(); i++)
+    {
+        image = Apply(image, filters[i], parameters);
     }
 
-	IImagePtr OpenGLFilterBase::Apply(const IImagePtr image_src, const std::string& parameters)
-	{
-		UNI_ENSURE_RETURN(image_src, nullptr);
+    Core::IImagePtr new_image = Core::ImageModule(
+                ByteArr(image.bits(), image.bits() + image.sizeInBytes()),
+                image_src->Width(),
+                image_src->Height(),
+                image_src->BytesPerLine(),
+                QImage::Format_ARGB32).create<Core::IImagePtr>();
 
-        InitializeOpenGL();
+    return new_image;
+}
 
-        UNI_ENSURE_RETURN(ogl_functions_, nullptr);
+QImage OpenGLFilterBase::Apply(const QImage& image, const std::pair<const char*, const char*>& filter, const std::string& /*parameters*/)
+{
+    UNI_ENSURE_RETURN(!image.isNull(), QImage());
+    UNI_ENSURE_RETURN(ogl_functions_, QImage());
+
+    GLint position_attr = 0;
+    GLint texture_attr = 0;
+    GLint screen_texture_uniform = 0;
+    GLint screen_resolution_uniform = 0;
+
+    QOpenGLFramebufferObject fbo(QSize{ image.width(), image.height() });
+
+    QOpenGLShaderProgram program(this);
+    bool res = program.addShaderFromSourceFile(QOpenGLShader::Vertex, filter.first);
+    UNI_ENSURE_RETURN(res, QImage());
+
+    res = program.addShaderFromSourceFile(QOpenGLShader::Fragment, filter.second);
+    UNI_ENSURE_RETURN(res, QImage());
+
+    program.link();
+
+    position_attr = program.attributeLocation(c_position_attr_name_str);
+    UNI_ENSURE_RETURN(position_attr != -1, QImage());
+
+    texture_attr = program.attributeLocation(c_texture_coord_attr_name_str);
+    UNI_ENSURE_RETURN(texture_attr != -1, QImage());
+
+    screen_texture_uniform = program.uniformLocation(c_texture_attr_name_str);
+    UNI_ENSURE_RETURN(screen_texture_uniform != -1, QImage());
+
+    screen_resolution_uniform = program.uniformLocation(c_resolution_attr_name_str);
+
+    auto gl_compatible_img = image.mirrored().convertToFormat(QImage::Format_RGBA8888);
+    QOpenGLTexture texture(gl_compatible_img);
+    texture.bind();
+
+    program.bind();
+    program.setUniformValue(screen_texture_uniform, 0);
+    program.setUniformValue(screen_resolution_uniform, image.width(), image.height());
+
+    QOpenGLBuffer vertexPositionBuffer(QOpenGLBuffer::VertexBuffer);
+    vertexPositionBuffer.create();
+    vertexPositionBuffer.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    vertexPositionBuffer.bind();
+    vertexPositionBuffer.allocate(c_vertices, 12 * sizeof(float));
+
+    QOpenGLBuffer vertexColorBuffer(QOpenGLBuffer::VertexBuffer);
+    vertexColorBuffer.create();
+    vertexColorBuffer.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    vertexColorBuffer.bind();
+    vertexColorBuffer.allocate(c_texture_coords, 12 * sizeof(float));
 
 
-        QImage image(image_src->Data().data(),
-            image_src->Width(),
-            image_src->Height(),
-            image_src->BytesPerLine(),
-            QImage::Format(image_src->Format()));
+    vertexPositionBuffer.bind();
+    program.enableAttributeArray(c_position_attr_name_str);
+    program.setAttributeBuffer(c_position_attr_name_str, GL_FLOAT, 0, 2);
 
-        ogl_functions_->glViewport(0, 0, image.width(), image.height());
+    vertexColorBuffer.bind();
+    program.enableAttributeArray(c_texture_coord_attr_name_str);
+    program.setAttributeBuffer(c_texture_coord_attr_name_str, GL_FLOAT, 0, 2);
 
-        const auto filters = TransformFilters();
-        for (unsigned int i = 0; i < filters.size(); i++)
-        {
-            image = Apply(image, filters[i], parameters);
-        }
+    // applay filter
+    ogl_functions_->glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    ogl_functions_->glClear(GL_COLOR_BUFFER_BIT);
 
-		Core::IImagePtr new_image = Core::ImageModule(
-            ByteArr(image.bits(), image.bits() + image.sizeInBytes()),
-			image_src->Width(),
-            image_src->Height(),
-            image_src->BytesPerLine(),
-			QImage::Format_ARGB32).create<Core::IImagePtr>();
 
-		return new_image;
-	}
+    program.bind();
 
-    QImage OpenGLFilterBase::Apply(const QImage& image, const std::pair<const char*, const char*>& filter, const std::string& /*parameters*/)
-    {
-        UNI_ENSURE_RETURN(!image.isNull(), QImage());
-        UNI_ENSURE_RETURN(ogl_functions_, QImage());
+    fbo.bind();
+    ogl_functions_->glDrawArrays(GL_TRIANGLES, 0, 6);
 
-        GLint position_attr = 0;
-        GLint texture_attr = 0;
-        GLint screen_texture_uniform = 0;
-        GLint screen_resolution_uniform = 0;
+    fbo.release();
+    texture.release();
+    program.disableAttributeArray(c_position_attr_name_str);
+    program.disableAttributeArray(c_texture_coord_attr_name_str);
 
-        QOpenGLShaderProgram program(this);
-        bool res = program.addShaderFromSourceFile(QOpenGLShader::Vertex, filter.first);
-        UNI_ENSURE_RETURN(res, QImage());
+    program.release();
 
-        res = program.addShaderFromSourceFile(QOpenGLShader::Fragment, filter.second);
-        UNI_ENSURE_RETURN(res, QImage());
-        
-        program.link();
-        position_attr = program.attributeLocation(c_position_attr_name_str);
-        UNI_ENSURE_RETURN(position_attr != -1, QImage());
-        
-        texture_attr = program.attributeLocation(c_texture_coord_attr_name_str);
-        UNI_ENSURE_RETURN(texture_attr != -1, QImage());
-        
-        screen_texture_uniform = program.uniformLocation(c_texture_attr_name_str);
-        UNI_ENSURE_RETURN(screen_texture_uniform != -1, QImage());
-        
-        screen_resolution_uniform = program.uniformLocation(c_resolution_attr_name_str);
-       
-        auto gl_compatible_img = image.mirrored().convertToFormat(QImage::Format_RGBA8888);
-        QOpenGLTexture texture(gl_compatible_img, QOpenGLTexture::DontGenerateMipMaps);
-        /*QOpenGLTexture texture(QOpenGLTexture::Target2D);
-        texture.setMinMagFilters(QOpenGLTexture::Linear, QOpenGLTexture::Linear);
-        texture.create();
-
-        // given some `width`, `height` and `data_ptr`
-        texture.setSize(gl_compatible_img.width(), gl_compatible_img.height());
-        texture.setFormat(QOpenGLTexture::RGBA8_UNorm);
-        texture.allocateStorage(QOpenGLTexture::RGBA, QOpenGLTexture::UInt8);
-        texture.setData(QOpenGLTexture::RGBA, QOpenGLTexture::UInt8, gl_compatible_img.bits());*/
-
-        program.bind();
-        program.setUniformValue(screen_texture_uniform, 0);
-
-        program.setUniformValue(screen_resolution_uniform, image.width(), image.height());
-
-        ogl_functions_->glVertexAttribPointer(position_attr, 2, GL_FLOAT, GL_FALSE, 0, c_vertices);
-        ogl_functions_->glVertexAttribPointer(texture_attr, 2, GL_FLOAT, GL_FALSE, 0, c_texture_coords);
-
-        ogl_functions_->glEnableVertexAttribArray(position_attr);
-        ogl_functions_->glEnableVertexAttribArray(texture_attr);
-
-        QOpenGLFramebufferObject fbo(QSize{ image.width(), image.height() });
-
-        fbo.bind();
-        // applay filter
-        ogl_functions_->glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-        ogl_functions_->glClear(GL_COLOR_BUFFER_BIT);
-
-        texture.bind();
-        program.bind();
-
-        ogl_functions_->glDrawArrays(GL_TRIANGLES, 0, 6);
-
-        fbo.release();
-        ogl_functions_->glDisableVertexAttribArray(texture_attr);
-        ogl_functions_->glDisableVertexAttribArray(position_attr);
-
-        program.release();
-
-        return QImage(fbo.toImage()).convertToFormat(image.format());
-    }
+    return QImage(fbo.toImage()).convertToFormat(image.format());
+}
 }

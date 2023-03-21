@@ -13,6 +13,7 @@
 #include <QtWidgets>
 #include <QtWidgets/QApplication>
 
+#include <QOpenGLBuffer>
 #include <QOpenGLTexture>
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>

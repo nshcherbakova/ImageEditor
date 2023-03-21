@@ -13,19 +13,16 @@ static const char* c_font_str = ":/Fonts/buttons_font";
 
 int main(int argc, char* argv[])
 {
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // DPI support
+    QSurfaceFormat fmt;
+    fmt.setSamples(16);
+    QSurfaceFormat::setDefaultFormat(fmt);
 	QApplication a(argc, argv);
-
-	QSurfaceFormat fmt;
-	fmt.setSamples(16);
-	QSurfaceFormat::setDefaultFormat(fmt);
 
 	QCoreApplication::setOrganizationName(c_org_str);
 	QCoreApplication::setApplicationName(c_app_str);
 	
 	QFontDatabase::addApplicationFont(c_font_str);
 
-	//QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #ifdef Q_OS_ANDROID
 	QAndroidJniObject activity = QAndroidJniObject::callStaticObjectMethod("org/qtproject/qt5/android/QtNative", "activity", "()Landroid/app/Activity;");
 	if (activity.isValid())

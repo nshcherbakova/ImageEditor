@@ -405,12 +405,4 @@ namespace ImageEditor::UI
         parentWidget()->update();
         QWidget::leaveEvent(e);
     }
-
-    void ImageButton::enterEvent(QEvent* e)
-    {
-        UNI_ENSURE_RETURN(parentWidget());
-        update();
-        parentWidget()->update();
-        QWidget::enterEvent(e);
-    }
 }     

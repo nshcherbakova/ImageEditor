@@ -2,7 +2,8 @@ TEMPLATE = app
 TARGET = ImageEditor
 DESTDIR = ./x64/Debug
 CONFIG += debug
-QT = core gui widgets androidextras
+QT = core gui widgets openglwidgets opengl
+android: QT += androidextras
 IMAGEEDITOR_PATH = $$PWD
 
 target.path = $$IMAGEEDITOR_PATH
@@ -23,5 +24,3 @@ win32:QMAKE_CXXFLAGS += /std:c++17
 unix:QMAKE_CXXFLAGS += -std=c++17
 ANDROID_ABIS = armeabi-v7a
 include(ImageEditor.pri)
-
-
