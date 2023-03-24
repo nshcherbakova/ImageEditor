@@ -1,7 +1,7 @@
 #include <stdafx.h>
 #include "MainWindow.h"
 #ifdef Q_OS_ANDROID
-#include <QAndroidJniObject>
+#include <QJniObject>
 #endif
 
 using namespace ImageEditor;
@@ -24,10 +24,10 @@ int main(int argc, char* argv[])
 	QFontDatabase::addApplicationFont(c_font_str);
 
 #ifdef Q_OS_ANDROID
-	QAndroidJniObject activity = QAndroidJniObject::callStaticObjectMethod("org/qtproject/qt5/android/QtNative", "activity", "()Landroid/app/Activity;");
+    QJniObject activity = QJniObject::callStaticObjectMethod("org/qtproject/qt5/android/QtNative", "activity", "()Landroid/app/Activity;");
 	if (activity.isValid())
 	{
-		int orientation  = QAndroidJniObject::getStaticField<int>("android.content.pm.ActivityInfo", "SCREEN_ORIENTATION_PORTRAIT");
+        int orientation  =  QJniObject::getStaticField<int>("android.content.pm.ActivityInfo", "SCREEN_ORIENTATION_PORTRAIT");
 		activity.callMethod<void>
 			("setRequestedOrientation" // method name
 				, "(I)V" // signature

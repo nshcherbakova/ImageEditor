@@ -3,7 +3,6 @@ TARGET = ImageEditor
 DESTDIR = ./x64/Debug
 CONFIG += debug
 QT = core gui widgets openglwidgets opengl
-android: QT += androidextras
 IMAGEEDITOR_PATH = $$PWD
 
 target.path = $$IMAGEEDITOR_PATH
