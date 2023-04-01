@@ -4,7 +4,7 @@
             
               
              
-The Simple cross-platform image editor for **Windows** and **Android OS** with **OpenGL** filters.
+The Simple cross-platform image editor for **Windows** and **Android OS** **Mac** and *iOS* with **OpenGL** filters.
 
 ![App main window](Images/Pixel1_1.jpg) *An effect of a window with drops.* 
 
@@ -65,7 +65,7 @@ There are several goals of this project:
 - C++ 17 
 - BOOST_DI_VERSION 1'2'0 (https://github.com/boost-ext/di)
 - googletest-1.10.0 (https://github.com/google/googletest)
-- Qt-5.15.2 (https://www.qt.io/download-qt-installer)
+- Qt-6.4.2 (https://www.qt.io/download-qt-installer)
 - uniassert (https://github.com/2gis/uniassert)
 
 **Photo and pictures:**
