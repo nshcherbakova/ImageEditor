@@ -4,7 +4,7 @@
             
               
              
-The Simple cross-platform image editor for **Windows** and **Android OS** **Mac** and *iOS* with **OpenGL** filters.
+The Simple cross-platform image editor for **Windows**, **Android OS**, **Mac**, and **iOS** with **OpenGL** filters.
 
 ![App main window](Images/Pixel1_1.jpg) *An effect of a window with drops.* 
 
