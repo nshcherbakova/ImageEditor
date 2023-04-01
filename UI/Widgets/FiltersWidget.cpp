@@ -77,7 +77,7 @@ namespace ImageEditor::UI
 
         // create button
         QPushButton* menu_button = new ImageButton("", this);
-        QRect menu_button_rect = QRect(parent_rect.width() - button_width, 0, button_width, button_width);
+        QRect menu_button_rect = QRect(parent_rect.width()- button_width, 0, button_width, button_width);
         menu_button->setFlat(true);
         menu_button->setGeometry(menu_button_rect);
         menu_button->setContentsMargins(0, 0, 0, 0);

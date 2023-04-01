@@ -1,4 +1,3 @@
-
 attribute highp vec4 in_position;
 attribute mediump vec2 in_texture_coord;
 varying mediump vec2 io_texture_coordinates;

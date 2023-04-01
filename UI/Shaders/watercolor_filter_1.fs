@@ -27,9 +27,9 @@ highp float sort1(highp float a[9])
 
 lowp vec4 mediana1(lowp vec2 coordinates)
 {
-         float r[9];
-             float g[9];
-             float b[9];
+        highp float r[9];
+        highp float g[9];
+        highp float b[9];
 
         lowp int k = 0;
         for (lowp int i = - 1; i <= 1; i++)
