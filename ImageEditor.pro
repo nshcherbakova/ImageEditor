@@ -11,7 +11,8 @@ INSTALLS += target
 INCLUDEPATH +=$$IMAGEEDITOR_PATH/Core/Gears/StdAfx/ \
     $$IMAGEEDITOR_PATH \
     $$(IMAGE_EDITOR_THIRDPARTY)/uniassert/include/ \
-    $$(IMAGE_EDITOR_THIRDPARTY)/Boost/
+    $$(IMAGE_EDITOR_THIRDPARTY)/Boost/ \
+    $$(IMAGE_EDITOR_THIRDPARTY)/spdlog/include/
 LIBS += -L"."
 PRECOMPILED_HEADER = Core/Gears/StdAfx/stdafx.h
 DEPENDPATH += .

@@ -3,16 +3,29 @@
 #ifdef Q_OS_ANDROID
 #include <QJniObject>
 #endif
-
+#include <QDebug>
 using namespace ImageEditor;
 using namespace UI;
 
 static const char* c_org_str = "natshch";
 static const char* c_app_str = "ImageEditor";
 static const char* c_font_str = ":/Fonts/buttons_font";
+static const char* c_log_str = "/logs/ImageEditorLog.txt";
+static const char* c_logger_str = "logger";
 
 int main(int argc, char* argv[])
 {
+    try
+    {
+        auto logger = spdlog::basic_logger_mt(c_logger_str, QDir::currentPath().toStdString() + c_log_str);
+        spdlog::set_default_logger(logger);
+    }
+    catch (const spdlog::spdlog_ex &ex)
+    {
+       UNI_ASSERT(false);
+    }
+    spdlog::info("Run ImageEditor");
+
     QSurfaceFormat fmt;
     fmt.setSamples(16);
     QSurfaceFormat::setDefaultFormat(fmt);
