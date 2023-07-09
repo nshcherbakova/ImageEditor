@@ -3,7 +3,7 @@
 #ifdef Q_OS_ANDROID
 #include <QJniObject>
 #endif
-#include <QDebug>
+
 using namespace ImageEditor;
 using namespace UI;
 
@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
     {
        UNI_ASSERT(false);
     }
-    spdlog::info("Run ImageEditor");
+    spdlog::info("Initialyse ImageEditor");
 
     QSurfaceFormat fmt;
     fmt.setSamples(16);
@@ -54,8 +54,10 @@ int main(int argc, char* argv[])
 	auto filters_frame = Modules::InitFramesModule(image, std::move(filters)).create<Modules::IFramePtr>();
 	auto filters_widget = UI::InitWidgetsModule(main_window, std::move(filters_frame), std::move(image)).create<IWidget*>();
 
+    spdlog::info("Run ImageEditor");
 	main_window.show();
 	filters_widget->onShow(true);
 
 	return a.exec();
+    spdlog::info("ImageEditor was closed");
 }

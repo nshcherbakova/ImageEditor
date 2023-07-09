@@ -192,6 +192,7 @@ namespace ImageEditor::UI
 
     void FiltersWidget::OnSignalOpenImage(const QString path)
     {
+        spdlog::info("Open new image {0}", path.toStdString());
         RadioButton::UncheckAll(this, Modules::FILTER_BUTTON_TAG);
 
         QSettings settings;
@@ -207,6 +208,10 @@ namespace ImageEditor::UI
             editable_image_->SetOriginalImage(QtImageToIImage(*image_));
             update();
         }
+        else
+        {
+            spdlog::error("Fail to open image {0}", path.toStdString());
+        }
         emit SignalEnableFilterButtons(image_ && !(image_->isNull()));
         emit SignalEnableCleanButton(false);
     }
@@ -217,7 +222,14 @@ namespace ImageEditor::UI
          //QDir picDir = QDir(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
          //QString filePath = picDir.filePath("test123.jpg");
 
-           image_->save(path);
+           if(image_->save(path))
+           {
+               spdlog::info("Image was saved {0}", path.toStdString());
+           }
+           else
+           {
+               spdlog::error("Fail to save image {0}", path.toStdString());
+           }
       /*   QAndroidJniObject::callStaticMethod<void>("aha/androscanner/AndroScannerInJava",
                                                     "scanForPicture",
                                                     "(Ljava/lang/String;)V",
