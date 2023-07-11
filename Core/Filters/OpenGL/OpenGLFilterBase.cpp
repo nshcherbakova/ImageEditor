@@ -43,7 +43,7 @@ void OpenGLFilterBase::InitializeOpenGL()
 IImagePtr OpenGLFilterBase::Apply(const IImagePtr image_src, const std::string& parameters)
 {
     UNI_ENSURE_RETURN(image_src, nullptr);
-
+    spdlog::info("Applyng GL filter {0}", Description() );
     InitializeOpenGL();
 
     UNI_ENSURE_RETURN(ogl_functions_, nullptr);
@@ -87,9 +87,11 @@ QImage OpenGLFilterBase::Apply(const QImage& image, const std::pair<const char*,
 
     QOpenGLShaderProgram program(this);
     bool res = program.addShaderFromSourceFile(QOpenGLShader::Vertex, filter.first);
+    if(res) spdlog::info("Vertex shader added from file {0}", filter.first);
     UNI_ENSURE_RETURN(res, QImage());
 
     res = program.addShaderFromSourceFile(QOpenGLShader::Fragment, filter.second);
+    if(res) spdlog::info("Fragment shader added from file {0}", filter.first);
     UNI_ENSURE_RETURN(res, QImage());
 
     program.link();
@@ -150,7 +152,7 @@ QImage OpenGLFilterBase::Apply(const QImage& image, const std::pair<const char*,
     program.disableAttributeArray(c_texture_coord_attr_name_str);
 
     program.release();
-
+    spdlog::info("Image processed");
     return QImage(fbo.toImage()).convertToFormat(image.format());
 }
 }

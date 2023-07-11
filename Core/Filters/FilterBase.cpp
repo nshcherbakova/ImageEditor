@@ -30,6 +30,7 @@ namespace ImageEditor::Core
 	IImagePtr FilterBase::Apply(const IImagePtr image, const std::string& /*parameters*/)
 	{
 		UNI_ENSURE_RETURN(image, nullptr);
+        spdlog::info("Applyng filter {0}", Description() );
 
 		BGRAMatrix matrix(image->Data(), image->Width(), image->Height(), image->BytesPerLine());
 		Transform(matrix);
@@ -41,6 +42,7 @@ namespace ImageEditor::Core
 			image->BytesPerLine(),
 			image->Format()).create<Core::IImagePtr>();
 
+        spdlog::info("Image processed");
 		return new_image;
 	}
 
