@@ -28,6 +28,9 @@ namespace
 		{
 			UNI_ENSURE_RETURN(image_);
 			UNI_ENSURE_RETURN(filter_);
+
+            spdlog::info("Control activated", filter_->Description() );
+
 			image_->UpdateImage(filter_->Apply(image_->OriginalImage(), paramerts));
 		}
 

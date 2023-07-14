@@ -65,6 +65,8 @@ namespace ImageEditor::UI
         CreateCleanButton();
         CreateFilterButtons(parameters.filters_frame->Controls());
 
+        spdlog::info("FiltersWidget UI created");
+
         onShow(false);
         emit SignalEnableFilterButtons(false);
         emit SignalEnableCleanButton(false);
@@ -124,6 +126,8 @@ namespace ImageEditor::UI
     void FiltersWidget::OnCleanButtonClicked()
     {
         UNI_ENSURE_RETURN(editable_image_ && editable_image_->Image());
+
+        spdlog::info("FiltersWidget clean button clicked");
 
         editable_image_->UpdateImage(editable_image_->OriginalImage());
         UpdateImage();
