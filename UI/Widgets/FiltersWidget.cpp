@@ -223,7 +223,7 @@ namespace ImageEditor::UI
     void FiltersWidget::OnSignalSaveImage(const QString path)
     {
         UNI_ENSURE_RETURN(image_);
-         //QDir picDir = QDir(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
+         // QDir picDir = QDir(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
          //QString filePath = picDir.filePath("test123.jpg");
 
            if(image_->save(path))
