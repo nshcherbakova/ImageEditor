@@ -107,7 +107,7 @@ namespace ImageEditor::UI
 
     void FiltersWidget::CreateCleanButton()
     {
-        // create button
+        // create clean button
         QPushButton* button = new ImageButton("", this);
         const QRect button_rect = QRect(0, 0, c_button_width, c_button_width);
         button->setGeometry(button_rect);
