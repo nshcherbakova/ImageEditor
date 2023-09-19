@@ -58,6 +58,6 @@ int main(int argc, char* argv[])
 	main_window.show();
 	filters_widget->onShow(true);
 
-	return a.exec();
     spdlog::info("ImageEditor was closed");
+	return a.exec();
 }
