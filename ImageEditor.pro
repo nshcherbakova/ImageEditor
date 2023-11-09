@@ -8,11 +8,13 @@ IMAGEEDITOR_PATH = $$PWD
 target.path = $$IMAGEEDITOR_PATH
 INSTALLS += target
 
+IMAGE_EDITOR_THIRDPARTY = /Users/nshcherbakova/Documents/dev/Thirdparty
+
 INCLUDEPATH +=$$IMAGEEDITOR_PATH/Core/Gears/StdAfx/ \
     $$IMAGEEDITOR_PATH \
-    $$(IMAGE_EDITOR_THIRDPARTY)/uniassert/include/ \
-    $$(IMAGE_EDITOR_THIRDPARTY)/Boost/ \
-    $$(IMAGE_EDITOR_THIRDPARTY)/spdlog/include/
+    $$IMAGE_EDITOR_THIRDPARTY/uniassert/include/ \
+    $$IMAGE_EDITOR_THIRDPARTY/Boost/ \
+    $$IMAGE_EDITOR_THIRDPARTY/spdlog/include/
 LIBS += -L"."
 PRECOMPILED_HEADER = Core/Gears/StdAfx/stdafx.h
 DEPENDPATH += .
