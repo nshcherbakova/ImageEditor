@@ -2,16 +2,23 @@
 #import sys
 #from PySide6.QtWidgets import QApplication
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from http import client as HTTPStatus
+from pathlib import Path
+
 import re
 import shutil
-
+import json
 
 class ImageServerRequestHandler(BaseHTTPRequestHandler):
     #          BaseHTTPRequestHandler methods
 
     def do_GET(self):
+        print("\n GET PATH " + self.path)
+
         if  self.path.endswith(".jpg"):
             self.get_image()
+        elif self.path.endswith("all_image_list"):
+            self.get_image_list()
         else :
             self.get_page()
         return
@@ -34,7 +41,7 @@ class ImageServerRequestHandler(BaseHTTPRequestHandler):
 
     # process images request
     def get_image(self):
-        self.send_response(200)
+        self.send_response(HTTPStatus.OK)
         self.send_header('Content-type', 'image/jpg')
         self.end_headers()
 
@@ -45,7 +52,7 @@ class ImageServerRequestHandler(BaseHTTPRequestHandler):
 
     # process pages request
     def get_page(self):
-        self.send_response(200)
+        self.send_response(HTTPStatus.OK)
         self.send_header('Content-type','text/html')
         self.end_headers()
 
@@ -64,9 +71,25 @@ class ImageServerRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(bytes(message, "utf8"))
         return
 
+    def get_image_list(self):
+        self.send_response(HTTPStatus.OK)
+        self.send_header('Content-type','application/json')
+        self.end_headers()
+
+        images = Path("data/images/").glob("*.jpg")
+        image_strings = [p.name for p in images]
+        print("Images: ")
+        print(image_strings)
+
+        message = json.dumps(image_strings)
+        print(message)
+
+        self.wfile.write(bytes(message, "utf8"))
+
 server = HTTPServer(('127.0.0.1', 8081), ImageServerRequestHandler)
 
 try:
+    print("Run Image Server")
     server.serve_forever()
 except KeyboardInterrupt:
     pass
