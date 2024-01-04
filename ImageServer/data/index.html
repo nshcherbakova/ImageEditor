@@ -22,26 +22,38 @@
             </div>
          </div>
       </div>
-      <script>
-         function loadImages(i){
-             i = i || 1;
-             var img = new Image();
-             img.onload = function(){
-               let into = document.getElementById("gall1")
-               into.appendChild(img)
-               loadImages(++i);
-             }
-             img.className = 'lightbox';
-             img.id = 'img1';
-             img.src = 'image' +i + '.jpg';
-         }
-         loadImages();
+
+      <script>        
+
+        function loadAllImages(array, i){
+            var img = new Image();
+            img.onload = function(){
+                let into = document.getElementById("gall1")
+                into.appendChild(img)
+                if(i >= 0)
+                {
+                    loadAllImages(array, --i);
+                }
+            }
+            img.className = 'lightbox';
+            img.id = 'img1';
+            img.src = array[i];
+
+        }
+
+        fetch('/all_image_list').then(function(response) {
+                return response.json();
+            }).then(function(data) {
+                console.log(data);
+                var array = String(data).split(',');
+                console.log(array);
+                loadAllImages(array, array.length - 1);
+            }).catch(function(err) {
+                console.log('Fetch Error :-S', err);
+            });
+
       </script>
 
-      <!--form id="uploadbanner" enctype="multipart/form-data" method="post" action="#">
-         <input id="fileupload" name="myfile" type="file" />
-         <input type="submit" value="submit" id="submit" />
-      </form-->
       <form method="post" enctype="multipart/form-data">
         <label for="file">File</label>
         <input id="file" name="file" type="file" />
