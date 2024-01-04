@@ -5,20 +5,28 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from http import client as HTTPStatus
 from pathlib import Path
 
+from requests_toolbelt.multipart import decoder
+
 import re
 import shutil
 import json
-from requests_toolbelt.multipart import decoder
+import uuid
 
 class ImageServerRequestHandler(BaseHTTPRequestHandler):
     #          BaseHTTPRequestHandler methods
 
+    IMAGE_EXTENSION = ".jpg"
+    CONTENT_TYPE = 'image/jpg';
+    SERVER_ALL_IMAGES_PATH = "all_image_list"
+    FILE_DATA_PATH = "data"
+    FILE_IMAGE_DATA_PATH = "data/images"
+
     def do_GET(self):
         print("\n GET PATH " + self.path)
 
-        if  self.path.endswith(".jpg"):
+        if  self.path.endswith(self.IMAGE_EXTENSION):
             self.get_image()
-        elif self.path.endswith("all_image_list"):
+        elif self.path.endswith(self.SERVER_ALL_IMAGES_PATH):
             self.get_image_list()
         else :
             self.get_page()
@@ -32,27 +40,25 @@ class ImageServerRequestHandler(BaseHTTPRequestHandler):
         multipart_data = decoder.MultipartDecoder(file_content, self.headers['Content-Type']).parts
         image_byte = multipart_data[0].content
 
-        path = Path("data/images/image4.jpg")
-        with open(path, "wb") as dst:
-           dst.write(image_byte)
+        self.save_image(image_byte);
 
         self.send_response(HTTPStatus.OK)
         self.send_header('Content-Type', 'text/html')
         self.end_headers()
 
-
         return
+
 
     #          ImageServerRequestHandler methods
 
     # process images request
     def get_image(self):
         self.send_response(HTTPStatus.OK)
-        self.send_header('Content-type', 'image/jpg')
+        self.send_header('Content-type', self.CONTENT_TYPE)
         self.end_headers()
 
         path = self.path
-        with open("data/images"+ path, 'rb') as content:
+        with open(self.FILE_IMAGE_DATA_PATH + path, 'rb') as content:
             shutil.copyfileobj(content, self.wfile)
         return
 
@@ -68,9 +74,9 @@ class ImageServerRequestHandler(BaseHTTPRequestHandler):
             path = "/index"
 
         try:
-            file  = open("data"+ path + ".html", 'r')
+            file  = open(self.FILE_DATA_PATH+ path + ".html", 'r')
         except FileNotFoundError:
-            file  = open("data/404.html", 'r')
+            file  = open(self.FILE_DATA_PATH +"/404.html", 'r')
 
         message = file.read()
         file.close()
@@ -82,7 +88,7 @@ class ImageServerRequestHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type','application/json')
         self.end_headers()
 
-        images = Path("data/images/").glob("*.jpg")
+        images = Path(self.FILE_IMAGE_DATA_PATH).glob("*.jpg")
         image_strings = [p.name for p in images]
         print("Images: ")
         print(image_strings)
@@ -92,6 +98,20 @@ class ImageServerRequestHandler(BaseHTTPRequestHandler):
 
         self.wfile.write(bytes(message, "utf8"))
 
+        return
+
+    def save_image(self, image_byte):
+
+        path = Path(self.FILE_IMAGE_DATA_PATH + "/" + self.generate_uniq_file_name() + ".jpg")
+
+        with open(path, "wb") as dst:
+           dst.write(image_byte)
+
+        return
+
+    def generate_uniq_file_name(self):
+        return uuid.uuid4().hex;
+
 server = HTTPServer(('127.0.0.1', 8081), ImageServerRequestHandler)
 
 try:
@@ -100,7 +120,3 @@ try:
 except KeyboardInterrupt:
     pass
 
-#if __name__ == "__main__":
-#    app = QApplication(sys.argv)
-    # ...
-#    sys.exit(app.exec())
