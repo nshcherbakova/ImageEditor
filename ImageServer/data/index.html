@@ -1,73 +1,409 @@
-<!doctype html>
-<html lang="en">
-   <head>
-      <!-- Required meta tags -->
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <!-- Bootstrap CSS -->
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-      <title>Hello, world!</title>
-      <style>
-         .lightbox{
-         height: 150px;
-         margin: 1px;
-         }
-      </style>
-   </head>
-   <body>
-      <div class="container">
-         <div class="row">
-            <div class="col-md-12">
-               <div id="gall1"> </div>
-            </div>
-         </div>
-      </div>
-
-      <script>        
-
-        function loadAllImages(array, i){
-            var img = new Image();
-            img.onload = function(){
-                let into = document.getElementById("gall1")
-                into.appendChild(img)
-                if(i >= 0)
-                {
-                    loadAllImages(array, --i);
-                }
-            }
-            img.className = 'lightbox';
-            img.id = 'img1';
-            img.src = array[i];
-
+<!doctype HTML>
+<html>
+<head>
+     <meta charset="windows-1251">
+         <title>gpGallery - ������� | pcvector.net</title>
+         <link rel="shortcut icon" href="/favicon.ico" />
+         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script>
+    (function($) {
+      $.fn.gpGallery = function(selector, options) {
+        var $settings = {
+            'is_first_big': true,
+            'row_min_height': 180,
+            'row_max_height': 250,
+            'row_max_width': null,
+            'gutter': 5
+        };
+        if (options) {
+            $.extend($settings, options);
         }
 
-        fetch('/all_image_list').then(function(response) {
-                return response.json();
-            }).then(function(data) {
-                console.log(data);
-                var array = String(data).split(',');
-                console.log(array);
-                loadAllImages(array, array.length - 1);
-            }).catch(function(err) {
-                console.log('Fetch Error :-S', err);
+        function getWidthForBucket(bucket, extra) {
+            var width = 0;
+            if (bucket.length) {
+                width = $settings.gutter * (bucket.length - 1);
+                $.each(bucket, function(idx, item) {
+                    width += item.width;
+                });
+            }
+            if (extra) {
+                width += extra.width;
+            }
+            return width;
+        }
+
+        return this.each(function() {
+            var $container = $(this);
+            var max_bucket_width = $settings.row_max_width || $container.width();
+            var buckets = [],
+                last_bucket = {
+                    items: [],
+                    width: 0,
+                    height: 0,
+                };
+            $container.find(selector).each(function() {
+                var $this = $(this);
+                var $pic = $this;
+
+
+                if ($pic[0].nodeName.toUpperCase() != 'IMG') {
+                    $pic = $pic.find('img');
+                } else {
+                    $this = $('<div>').insertBefore($pic).append($pic);
+                }
+                if (!$pic.length) return;
+
+                $this.css({width: 'auto', float: 'left', position: 'relative'});
+
+                var item = {
+                    pic: $pic,
+                    container: $this,
+                    original_height: $pic.height(),
+                    aspect: $pic.width() / $pic.height(),
+                    original_width: $pic.width()
+
+                }
+                item.scale = $settings.row_min_height / item.original_height;
+                item.width = item.original_width * item.scale;
+                item.height = item.original_height * item.scale;
+                var new_bucket_width = getWidthForBucket(last_bucket.items, item);
+                if (new_bucket_width > max_bucket_width) {
+                    buckets.push(last_bucket);
+                    last_bucket = {
+                        items: [],
+                        width: 0,
+                        height: 0,
+                    };
+                }
+                last_bucket.items.push(item);
             });
+            buckets.push(last_bucket);
+            last_bucket.last = true;
 
-      </script>
+            $.each(buckets, function(idx, bucket) {
+                if (!bucket.last) {
+                    bucket.scale = (max_bucket_width - (bucket.items.length - 1) * $settings.gutter) / getWidthForBucket(bucket.items);
+                }
+                var $last_item;
 
-      <form method="post" enctype="multipart/form-data">
-        <label for="file">File</label>
-        <input id="file" name="file" type="file" />
-        <button>Upload</button>
-      </form>
+                $.each(bucket.items, function(idx2, item) {
+                    if (bucket.scale) {
+                        item.width = Math.round(item.width * bucket.scale);
+                        item.height = Math.round(item.height * bucket.scale);
+                    }
+                    var pic = item.pic,
+                        container = item.container;
+                    $last_item = item;
+
+                    pic.css({
+                        height: item.height+"px",
+                        width: item.width+"px"
+                    });
+                    item.container.css({
+                        height: item.height+"px",
+                        width: item.width+"px",
+                        'margin-top': '5px'
+                    });
+                    if (idx2 > 0) {
+                        item.container.css({
+                            'margin-left': $settings.gutter + 'px'
+                        });
+                    } else {
+                        item.container.css({
+                            'clear': 'left',
+                        });
+                    }
+                    pic.is_hover = null;
+                    pic.hover(function() {
+                        pic.stop().addClass('gp-gallery-picture-hover');
+                        container.addClass('gp-gallery-hover');
+
+                        if (item.original_height > item.height && item.original_width > item.width) {
+                            pic.is_hover = setTimeout(function() {
+                                pic.removeClass('gp-gallery-picture-hover');
+                                pic.addClass('gp-gallery-picture-zoom');
+
+                                if (pic.is_hover) {
+                                    pic.animate({
+                                        marginTop: '-' + (item.original_height - item.height)/2 + 'px',
+                                        marginLeft: '-' + (item.original_width - item.width)/2 + 'px',
+                                        width: item.original_width + 'px',
+                                        height: item.original_height + 'px',
+                                    }, 100);
+                                }
+                            }, 200)
+                        }
+                    }, function() {
+
+                        if (pic.is_hover) {
+                            clearTimeout(pic.is_hover)
+                            pic.is_hover = null;
+                        }
+                        if (item.original_height > item.height && item.original_width > item.width && pic.hasClass('gp-gallery-picture-zoom')) {
+                            pic.stop().animate({
+                                marginTop: '-6px',
+                                marginLeft: '-6px',
+                                width: item.width + 'px',
+                                height: item.height + 'px',
+                            }, 50, function() {
+                                container.removeClass('gp-gallery-hover');
+                                pic.removeClass('gp-gallery-picture-hover').removeClass('gp-gallery-picture-zoom').css({
+                                    'margin': ''
+                                });
+                            });
+                        } else {
+                            container.removeClass('gp-gallery-hover');
+                            pic.removeClass('gp-gallery-picture-hover').removeClass('gp-gallery-picture-zoom');
+                        }
+                    });
+                });
+                if (!bucket.last && $last_item) {
+                    $last_item.width = $last_item.width + max_bucket_width - getWidthForBucket(bucket.items);
+                    $last_item.pic.css({
+                        width: $last_item.width + 'px'
+                    });
+                }
+            });
+        });
+      };
+    })(jQuery);
+    </script>
+    <script>
+
+    function loadAllImages(array, i){
+        var img = new Image();
+        img.src = array[i];
+        img.onload = function(){
+            let into = document.getElementById("gall1");
+            into.insertBefore(img, into.lastElementChild);
+
+            i = i-1;
+
+            if(i >= 0)
+            {
+                loadAllImages(array, i);
+            }
+            else
+            {
+                $(function() {
+                        $('.pictures').gpGallery('img');
+                })
+            }
+        }
+
+    }
+
+    fetch('/all_image_list').then(function(response) {
+            return response.json();
+        }).then(function(data) {
+            console.log(data);
+            var array = String(data).split(',');
+            console.log(array);
+            loadAllImages(array, array.length - 1);
+
+        }).catch(function(err) {
+            console.log('Fetch Error :-S', err);
+        });
 
 
-      <!-- Optional JavaScript; choose one of the two! -->
-      <!-- Option 1: Bootstrap Bundle with Popper -->
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-      <!-- Option 2: Separate Popper and Bootstrap JS -->
-      <!--
-         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-         -->
-   </body>
+    </script>
+    <style type="text/css">
+        .gp-gallery-picture-zoom {
+            border: 1px solid #bbb;
+            margin: -6px 0 0 -6px;
+            position: absolute;
+            z-index: 100;
+            padding: 5px;
+            background: white;
+            box-shadow: 0 0 10px #999;
+        }
+        .gp-gallery-picture-hover {
+            box-shadow: 1px 1px 5px #333;
+        }
+        .pictures {
+            margin: 100px auto;
+            width: 980px;
+        }
+        .clear {
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+
+<div class="pictures" id="gall1">
+    <div class="clear"></div>
+</div>
+
+<!-- pcvector.net -->
+<script>
+   // console.log($('.pictures').gpGallery('img'));
+
+(function($) {
+  $.fn.gpGallery = function(selector, options) {
+    var $settings = {
+        'is_first_big': true,
+        'row_min_height': 180,
+        'row_max_height': 250,
+        'row_max_width': null,
+        'gutter': 5
+    };
+    if (options) {
+        $.extend($settings, options);
+    }
+
+    function getWidthForBucket(bucket, extra) {
+        var width = 0;
+        if (bucket.length) {
+            width = $settings.gutter * (bucket.length - 1);
+            $.each(bucket, function(idx, item) {
+                width += item.width;
+            });
+        }
+        if (extra) {
+            width += extra.width;
+        }
+        return width;
+    }
+
+    return this.each(function() {
+        var $container = $(this);
+        var max_bucket_width = $settings.row_max_width || $container.width();
+        var buckets = [],
+            last_bucket = {
+                items: [],
+                width: 0,
+                height: 0,
+            };
+        $container.find(selector).each(function() {
+            var $this = $(this);
+            var $pic = $this;
+
+
+            if ($pic[0].nodeName.toUpperCase() != 'IMG') {
+                $pic = $pic.find('img');
+            } else {
+                $this = $('<div>').insertBefore($pic).append($pic);
+            }
+            if (!$pic.length) return;
+
+            $this.css({width: 'auto', float: 'left', position: 'relative'});
+
+            var item = {
+                pic: $pic,
+                container: $this,
+                original_height: $pic.height(),
+                aspect: $pic.width() / $pic.height(),
+                original_width: $pic.width()
+
+            }
+            item.scale = $settings.row_min_height / item.original_height;
+            item.width = item.original_width * item.scale;
+            item.height = item.original_height * item.scale;
+            var new_bucket_width = getWidthForBucket(last_bucket.items, item);
+            if (new_bucket_width > max_bucket_width) {
+                buckets.push(last_bucket);
+                last_bucket = {
+                    items: [],
+                    width: 0,
+                    height: 0,
+                };
+            }
+            last_bucket.items.push(item);
+        });
+        buckets.push(last_bucket);
+        last_bucket.last = true;
+
+        $.each(buckets, function(idx, bucket) {
+            if (!bucket.last) {
+                bucket.scale = (max_bucket_width - (bucket.items.length - 1) * $settings.gutter) / getWidthForBucket(bucket.items);
+            }
+            var $last_item;
+
+            $.each(bucket.items, function(idx2, item) {
+                if (bucket.scale) {
+                    item.width = Math.round(item.width * bucket.scale);
+                    item.height = Math.round(item.height * bucket.scale);
+                }
+                var pic = item.pic,
+                    container = item.container;
+                $last_item = item;
+
+                pic.css({
+                    height: item.height+"px",
+                    width: item.width+"px"
+                });
+                item.container.css({
+                    height: item.height+"px",
+                    width: item.width+"px",
+                    'margin-top': '5px'
+                });
+                if (idx2 > 0) {
+                    item.container.css({
+                        'margin-left': $settings.gutter + 'px'
+                    });
+                } else {
+                    item.container.css({
+                        'clear': 'left',
+                    });
+                }
+                pic.is_hover = null;
+                pic.hover(function() {
+                    pic.stop().addClass('gp-gallery-picture-hover');
+                    container.addClass('gp-gallery-hover');
+
+                    if (item.original_height > item.height && item.original_width > item.width) {
+                        pic.is_hover = setTimeout(function() {
+                            pic.removeClass('gp-gallery-picture-hover');
+                            pic.addClass('gp-gallery-picture-zoom');
+
+                            if (pic.is_hover) {
+                                pic.animate({
+                                    marginTop: '-' + (item.original_height - item.height)/2 + 'px',
+                                    marginLeft: '-' + (item.original_width - item.width)/2 + 'px',
+                                    width: item.original_width + 'px',
+                                    height: item.original_height + 'px',
+                                }, 100);
+                            }
+                        }, 200)
+                    }
+                }, function() {
+
+                    if (pic.is_hover) {
+                        clearTimeout(pic.is_hover)
+                        pic.is_hover = null;
+                    }
+                    if (item.original_height > item.height && item.original_width > item.width && pic.hasClass('gp-gallery-picture-zoom')) {
+                        pic.stop().animate({
+                            marginTop: '-6px',
+                            marginLeft: '-6px',
+                            width: item.width + 'px',
+                            height: item.height + 'px',
+                        }, 50, function() {
+                            container.removeClass('gp-gallery-hover');
+                            pic.removeClass('gp-gallery-picture-hover').removeClass('gp-gallery-picture-zoom').css({
+                                'margin': ''
+                            });
+                        });
+                    } else {
+                        container.removeClass('gp-gallery-hover');
+                        pic.removeClass('gp-gallery-picture-hover').removeClass('gp-gallery-picture-zoom');
+                    }
+                });
+            });
+            if (!bucket.last && $last_item) {
+                $last_item.width = $last_item.width + max_bucket_width - getWidthForBucket(bucket.items);
+                $last_item.pic.css({
+                    width: $last_item.width + 'px'
+                });
+            }
+        });
+    });
+  };
+})(jQuery);
+
+</script>
+<!-- /pcvector.net -->
+</body>
 </html>
