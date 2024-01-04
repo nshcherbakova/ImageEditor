@@ -38,6 +38,16 @@
          loadImages();
       </script>
 
+      <!--form id="uploadbanner" enctype="multipart/form-data" method="post" action="#">
+         <input id="fileupload" name="myfile" type="file" />
+         <input type="submit" value="submit" id="submit" />
+      </form-->
+      <form method="post" enctype="multipart/form-data">
+        <label for="file">File</label>
+        <input id="file" name="file" type="file" />
+        <button>Upload</button>
+      </form>
+
 
       <!-- Optional JavaScript; choose one of the two! -->
       <!-- Option 1: Bootstrap Bundle with Popper -->

@@ -8,6 +8,7 @@ from pathlib import Path
 import re
 import shutil
 import json
+from requests_toolbelt.multipart import decoder
 
 class ImageServerRequestHandler(BaseHTTPRequestHandler):
     #          BaseHTTPRequestHandler methods
@@ -24,17 +25,22 @@ class ImageServerRequestHandler(BaseHTTPRequestHandler):
         return
 
     def do_POST(self):
-        self.send_response(301)
-        self.send_header('Location','/support')
+        print("POST image")
+        content_length = int(self.headers['Content-Length'])
+        file_content = self.rfile.read(content_length)
+
+        multipart_data = decoder.MultipartDecoder(file_content, self.headers['Content-Type']).parts
+        image_byte = multipart_data[0].content
+
+        path = Path("data/images/image4.jpg")
+        with open(path, "wb") as dst:
+           dst.write(image_byte)
+
+        self.send_response(HTTPStatus.OK)
+        self.send_header('Content-Type', 'text/html')
         self.end_headers()
-        path = self.path
-        #Обработчик подписки
-        if path == "/email":
-            content_len = int(self.headers.get('Content-Length'))
-            post = self.rfile.read(content_len)
-            email = re.split(r"email=",str(post))[1]
-            email = re.sub(r"\'","",email)
-            print(email)
+
+
         return
 
     #          ImageServerRequestHandler methods
