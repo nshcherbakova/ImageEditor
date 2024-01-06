@@ -13,6 +13,29 @@ static const char *c_font_str = ":/Fonts/buttons_font";
 static const char *c_log_str = "/logs/ImageEditorLog.txt";
 static const char *c_logger_str = "logger";
 
+#ifdef Q_OS_ANDROID
+#ifdef REQUEST_PERMISSIONS_ON_ANDROID
+#include <QtAndroid>
+
+bool requestStoragePermission() {
+  using namespace QtAndroid;
+
+  QString permission =
+      QStringLiteral("android.permission.WRITE_EXTERNAL_STORAGE");
+  const QHash<QString, PermissionResult> results =
+      requestPermissionsSync(QStringList({permission}));
+  if (!results.contains(permission) ||
+      results[permission] == PermissionResult::Denied) {
+    qWarning() << "Couldn't get permission: " << permission;
+    spdlog::error("Couldn't get a permission.");
+    return false;
+  }
+
+  return true;
+}
+#endif
+#endif
+
 int main(int argc, char *argv[]) {
   try {
     auto logger = spdlog::basic_logger_mt(
@@ -34,6 +57,11 @@ int main(int argc, char *argv[]) {
   QFontDatabase::addApplicationFont(c_font_str);
 
 #ifdef Q_OS_ANDROID
+#ifdef REQUEST_PERMISSIONS_ON_ANDROID
+  if (!requestStoragePermission())
+    return -1;
+#endif
+
   QJniObject activity = QJniObject::callStaticObjectMethod(
       "org/qtproject/qt5/android/QtNative", "activity",
       "()Landroid/app/Activity;");

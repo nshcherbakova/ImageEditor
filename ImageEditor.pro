@@ -2,7 +2,7 @@ TEMPLATE = app
 TARGET = ImageEditor
 DESTDIR = ./x64/Debug
 CONFIG += debug
-QT = core gui widgets openglwidgets opengl
+QT = core gui widgets openglwidgets opengl network
 IMAGEEDITOR_PATH = $$PWD
 
 target.path = $$IMAGEEDITOR_PATH

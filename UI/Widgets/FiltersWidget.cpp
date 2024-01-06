@@ -104,6 +104,8 @@ void FiltersWidget::OnMenuButtonClicked() {
             &FiltersWidget::OnSignalOpenImage);
     connect(*menu_, &MenuDialog::SignalSaveImage, this,
             &FiltersWidget::OnSignalSaveImage);
+    connect(*menu_, &MenuDialog::SignalUploadImage, this,
+            &FiltersWidget::OnSignalUploadImage);
   }
   (*menu_)->setVisible(true);
 }
@@ -241,6 +243,34 @@ void FiltersWidget::OnSignalSaveImage(const QString path) {
                                                 "scanForPicture",
                                                 "(Ljava/lang/String;)V",
                                                 QAndroidJniObject::fromString(filePath).object<jstring>());*/
+}
+
+void FiltersWidget::OnSignalUploadImage() {
+  QUrl url = QUrl("http://localhost:8081/");
+
+  QNetworkAccessManager *mgr = new QNetworkAccessManager(this);
+
+  // connect(mgr,SIGNAL(finished(QNetworkReply*)),this,SLOT(onFinish(QNetworkReply*)));
+  // connect(mgr,SIGNAL(finished(QNetworkReply*)),mgr,SLOT(deleteLater()));
+
+  QHttpMultiPart *multi_part = new QHttpMultiPart(QHttpMultiPart::FormDataType);
+
+  QHttpPart receipt_part;
+  receipt_part.setHeader(QNetworkRequest::ContentTypeHeader,
+                         QVariant("image/jpeg"));
+  receipt_part.setHeader(
+      QNetworkRequest::ContentDispositionHeader,
+      QVariant("multipart/form-data; name=\"image\"; filename=\"1.jpg\""));
+  receipt_part.setRawHeader("Content-Transfer-Encoding", "binary");
+  QByteArray byte_arr;
+  QBuffer buffer(&byte_arr);
+  buffer.open(QIODevice::WriteOnly);
+  image_->save(&buffer, "JPG");
+  receipt_part.setBody(byte_arr);
+
+  multi_part->append(receipt_part);
+
+  mgr->post(QNetworkRequest(url), multi_part);
 }
 
 void FiltersWidget::OnSignalCommandAppyed() { UpdateImage(); }

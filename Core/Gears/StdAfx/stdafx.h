@@ -8,38 +8,42 @@
 #include <QDir>
 #include <QFileDialog>
 #include <QFileInfo>
+#include <QHBoxLayout>
 #include <QImage>
 #include <QImageReader>
-#include <QHBoxLayout>
 #include <QPushButton>
 #include <QSettings>
-#include <QtWidgets>
 #include <QtWidgets/QApplication>
+#include <QtWidgets>
 
 #include <QOpenGLBuffer>
-#include <QOpenGLTexture>
+#include <QOpenGLFramebufferObject>
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
-#include <QOpenGLFramebufferObject>
+#include <QOpenGLTexture>
 
-#include <Core/types.h>
+#include <QHttpMultiPart>
+#include <QHttpPart>
+#include <QNetworkAccessManager>
+#include <QUrl>
+
+#include <Core/Filters/FiltersModule.h>
+#include <Core/Filters/IFilter.h>
+#include <Core/Gears/Asserts.h>
+#include <Core/Gears/Injector.h>
 #include <Core/Image/IImage.h>
 #include <Core/Image/ImageModule.h>
-#include <Core/Gears/Injector.h>
-#include <Core/Gears/Asserts.h>
-#include <Core/Filters/IFilter.h>
-#include <Core/Filters/FiltersModule.h>
+#include <Core/types.h>
 
+#include <Modules/EditableImage/EditableImageModule.h>
+#include <Modules/EditableImage/IEditableImage.h>
+#include <Modules/Frames/FramesModule.h>
 #include <Modules/Frames/IControl.h>
 #include <Modules/Frames/IFrame.h>
-#include <Modules/Frames/FramesModule.h>
 #include <Modules/Frames/Tags.h>
-#include <Modules/EditableImage/IEditableImage.h>
-#include <Modules/EditableImage/EditableImageModule.h>
 
-#include <UI/UIString.h>
 #include <UI/QtConverts.h>
+#include <UI/UIString.h>
+#include <UI/Widgets/FiltersWidget.h>
 #include <UI/Widgets/IWidget.h>
 #include <UI/Widgets/WidgetsModule.h>
-#include <UI/Widgets/FiltersWidget.h>
-
