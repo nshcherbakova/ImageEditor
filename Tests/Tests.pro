@@ -6,7 +6,7 @@ SOURCES += \
     ../Core/Image/Image.cpp \
     main.cpp
 
-QT = core gui widgets openglwidgets opengl
+QT = core gui widgets openglwidgets opengl network
 
 IMAGEEDITOR_PATH = ../
 IMAGE_EDITOR_THIRDPARTY = /Users/nshcherbakova/Documents/dev/Thirdparty
