@@ -1,5 +1,6 @@
 #include "FiltersWidget.h"
 #include "MenuDialog.h"
+#include <QHttpMultiPart>
 #include <stdafx.h>
 
 // widget settings

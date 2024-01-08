@@ -22,7 +22,6 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
 
-#include <QHttpMultiPart>
 #include <QHttpPart>
 #include <QNetworkAccessManager>
 #include <QUrl>
