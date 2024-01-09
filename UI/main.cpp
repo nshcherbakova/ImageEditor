@@ -82,9 +82,10 @@ int main(int argc, char *argv[]) {
   auto filters = Core::InitFiltersModule().create<Core::IFilterPtrArr>();
   auto filters_frame = Modules::InitFramesModule(image, std::move(filters))
                            .create<Modules::IFramePtr>();
+  auto network = Modules::InitNetworkModule().create<Modules::INetworkPtr>();
   auto filters_widget =
       UI::InitWidgetsModule(main_window, std::move(filters_frame),
-                            std::move(image))
+                            std::move(image), std::move(network))
           .create<IWidget *>();
 
   spdlog::info("Run ImageEditor");

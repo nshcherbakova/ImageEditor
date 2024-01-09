@@ -20,6 +20,7 @@ public:
     QWidget &parent;
     Modules::IFramePtr filters_frame;
     Modules::IEditableImagePtr image;
+    Modules::INetworkPtr network;
   };
 
   explicit FiltersWidget(Parameters parameters);
@@ -56,6 +57,8 @@ private:
   Modules::IEditableImagePtr editable_image_;
   std::shared_ptr<QImage> image_;
   QImage background_image_;
+
+  Modules::INetworkPtr network_;
 };
 
 class UICommand final : public QObject {

@@ -25,6 +25,7 @@
 #include <QHttpMultiPart>
 #include <QHttpPart>
 #include <QNetworkAccessManager>
+#include <QNetworkReply>
 #include <QUrl>
 
 #include <Core/Filters/FiltersModule.h>
@@ -41,6 +42,8 @@
 #include <Modules/Frames/IControl.h>
 #include <Modules/Frames/IFrame.h>
 #include <Modules/Frames/Tags.h>
+#include <Modules/Network/INetwork.h>
+#include <Modules/Network/NetworkModule.h>
 
 #include <UI/QtConverts.h>
 #include <UI/UIString.h>

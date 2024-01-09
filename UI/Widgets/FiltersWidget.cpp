@@ -52,7 +52,8 @@ namespace ImageEditor::UI {
 FiltersWidget::FiltersWidget(Parameters parameters)
     : QWidget(&(parameters.parent)),
       editable_image_(std::move(parameters.image)),
-      background_image_(c_widget_background_image_str) {
+      background_image_(c_widget_background_image_str),
+      network_(std::move(parameters.network)) {
   UNI_ENSURE_RETURN(parameters.filters_frame && editable_image_);
 
   setContentsMargins(0, 0, 0, 0);
@@ -246,31 +247,17 @@ void FiltersWidget::OnSignalSaveImage(const QString path) {
 }
 
 void FiltersWidget::OnSignalUploadImage() {
-  QUrl url = QUrl("http://localhost:8081/");
 
-  QNetworkAccessManager *mgr = new QNetworkAccessManager(this);
-
-  // connect(mgr,SIGNAL(finished(QNetworkReply*)),this,SLOT(onFinish(QNetworkReply*)));
-  // connect(mgr,SIGNAL(finished(QNetworkReply*)),mgr,SLOT(deleteLater()));
-
-  QHttpMultiPart *multi_part = new QHttpMultiPart(QHttpMultiPart::FormDataType);
-
-  QHttpPart receipt_part;
-  receipt_part.setHeader(QNetworkRequest::ContentTypeHeader,
-                         QVariant("image/jpeg"));
-  receipt_part.setHeader(
-      QNetworkRequest::ContentDispositionHeader,
-      QVariant("multipart/form-data; name=\"image\"; filename=\"1.jpg\""));
-  receipt_part.setRawHeader("Content-Transfer-Encoding", "binary");
   QByteArray byte_arr;
   QBuffer buffer(&byte_arr);
   buffer.open(QIODevice::WriteOnly);
   image_->save(&buffer, "JPG");
-  receipt_part.setBody(byte_arr);
 
-  multi_part->append(receipt_part);
-
-  mgr->post(QNetworkRequest(url), multi_part);
+  Modules::Network::HttpPostBinary(
+      network_.get(), network_->ImageServerUrl(), "image/jpeg", "1.jpg",
+      byte_arr, [](int error_code) {
+        spdlog::info("OnSignalUploadImage POST request code {0}", error_code);
+      });
 }
 
 void FiltersWidget::OnSignalCommandAppyed() { UpdateImage(); }
