@@ -1,4 +1,7 @@
 HEADERS += ./UI/QtConverts.h \
+    $$PWD/Modules/Network/INetwork.h \
+    $$PWD/Modules/Network/Network.h \
+    $$PWD/Modules/Network/NetworkModule.h \
     ./UI/types.h \
     ./UI/UIString.h \
     ./UI/MainWindow.h \
@@ -38,6 +41,8 @@ HEADERS += ./UI/QtConverts.h \
     ./Modules/EditableImage/IEditableImage.h \
     ./Modules/EditableImage/EditableImageModule.h
 SOURCES += ./UI/QtConverts.cpp \
+    $$PWD/Modules/Network/Network.cpp \
+    $$PWD/Modules/Network/NetworkModule.cpp \
     ./UI/MainWindow.cpp \
     ./UI/main.cpp \
     ./UI/Widgets/FiltersWidget.cpp \

@@ -13,6 +13,8 @@
 #include <QImageReader>
 #include <QPushButton>
 #include <QSettings>
+#include <QVariant>
+#include <QWidget>
 #include <QtWidgets/QApplication>
 #include <QtWidgets>
 

@@ -16,20 +16,22 @@ QNetworkAccessManager *NetworkImpl::NetworkAccessManager() {
 namespace ImageEditor::Modules::Network {
 
 HttpPostBinary::HttpPostBinary(INetwork *network, const std::string &url,
-                               QVariant content_type, QString file_name,
-                               QByteArray byte_arr,
+                               const std::string &content_type,
+                               const std::string &file_name,
+                               const std::vector<char> &data,
                                std::function<void(int)> finished_predicate) {
   QUrl qurl = QUrl(QString::fromStdString(url));
 
   QHttpPart receipt_part;
-  receipt_part.setHeader(QNetworkRequest::ContentTypeHeader, content_type);
+  receipt_part.setHeader(QNetworkRequest::ContentTypeHeader,
+                         QString::fromStdString(content_type));
   receipt_part.setHeader(
       QNetworkRequest::ContentDispositionHeader,
       QVariant(QString("multipart/form-data; name=\"image\"; filename=\"%1\"")
-                   .arg(file_name)));
+                   .arg(QString::fromStdString(file_name))));
 
   receipt_part.setRawHeader("Content-Transfer-Encoding", "binary");
-  receipt_part.setBody(byte_arr);
+  receipt_part.setBody(QByteArray(&data[0], data.size()));
 
   QHttpMultiPart *multi_part = new QHttpMultiPart(QHttpMultiPart::FormDataType);
   multi_part->append(receipt_part);

@@ -2,6 +2,9 @@
 #ifndef IMAGEEDITOR_MODILES_NETWORK_INETWORK_H
 #define IMAGEEDITOR_MODILES_NETWORK_INETWORK_H
 #include <Modules/types.h>
+#include <functional>
+#include <string>
+#include <vector>
 
 namespace ImageEditor::Modules {
 struct INetwork {
@@ -13,7 +16,8 @@ namespace ImageEditor::Modules::Network {
 class HttpPostBinary {
 public:
   HttpPostBinary(INetwork *network, const std::string &url,
-                 QVariant content_type, QString file_name, QByteArray byte_arr,
+                 const std::string &content_type, const std::string &file_name,
+                 const std::vector<char> &data,
                  std::function<void(int)> finished_predicate);
 };
 } // namespace ImageEditor::Modules::Network

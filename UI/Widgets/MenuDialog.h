@@ -3,6 +3,7 @@
 #define IMAGEEDITOR_UI_WIDGETS_MENUDIALOG_H
 
 #include <Modules/types.h>
+#include <QString>
 #include <QWidget>
 #include <UI/Widgets/IWidget.h>
 #include <UI/types.h>

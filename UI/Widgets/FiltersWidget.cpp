@@ -255,7 +255,8 @@ void FiltersWidget::OnSignalUploadImage() {
 
   Modules::Network::HttpPostBinary(
       network_.get(), network_->ImageServerUrl(), "image/jpeg", "1.jpg",
-      byte_arr, [](int error_code) {
+      std::vector<char>(byte_arr.cbegin(), byte_arr.cend()),
+      [](int error_code) {
         spdlog::info("OnSignalUploadImage POST request code {0}", error_code);
       });
 }

@@ -4,6 +4,7 @@
 
 #include "INetwork.h"
 
+class QNetworkAccessManager;
 namespace ImageEditor::Modules {
 class NetworkImpl final : public INetwork {
 public:

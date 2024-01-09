@@ -4,6 +4,7 @@
 #include <Modules/types.h>
 #include <UI/types.h>
 
+class QWidget;
 namespace ImageEditor::UI {
 IWidgetInjector InitWidgetsModule(QWidget &parent, Modules::IFramePtr frame,
                                   Modules::IEditableImagePtr image,
