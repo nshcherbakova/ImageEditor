@@ -24,5 +24,5 @@ UI_DIR += .
 RCC_DIR += .
 win32:QMAKE_CXXFLAGS += /std:c++17
 unix:QMAKE_CXXFLAGS += -std=c++17
-ANDROID_ABIS = armeabi-v7a
+
 include(ImageEditor.pri)
