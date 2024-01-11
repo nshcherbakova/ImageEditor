@@ -3,7 +3,12 @@
 
 namespace ImageEditor::Modules {
 
-std::string NetworkImpl::ImageServerUrl() { return "http://localhost:8081/"; }
+std::string NetworkImpl::ImageServerUrl() {
+  return QSettings(QSettings::Scope::SystemScope)
+      .value("ImageServer")
+      .toString()
+      .toStdString();
+}
 
 QNetworkAccessManager *NetworkImpl::NetworkAccessManager() {
   if (!network_access_manager_) {

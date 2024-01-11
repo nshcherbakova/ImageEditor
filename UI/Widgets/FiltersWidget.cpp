@@ -98,7 +98,7 @@ void FiltersWidget::CreateMenuButton() {
 
 void FiltersWidget::OnMenuButtonClicked() {
   if (!menu_) {
-    QSettings settings;
+    QSettings settings(QSettings::Scope::UserScope);
     const QString last_file = settings.value(c_last_opend_file_str).toString();
     menu_ = new MenuDialog(MenuDialog::Parameters{this, last_file});
     connect(*menu_, &MenuDialog::SignalOpenImage, this,
@@ -211,7 +211,7 @@ void FiltersWidget::OnSignalOpenImage(const QString path) {
   spdlog::info("Open new image {0}", path.toStdString());
   RadioButton::UncheckAll(this, Modules::FILTER_BUTTON_TAG);
 
-  QSettings settings;
+  QSettings settings(QSettings::Scope::UserScope);
   settings.setValue(c_last_opend_file_str, path);
 
   image_ = std::make_shared<QImage>();
@@ -301,7 +301,7 @@ void FiltersWidget::paintEvent(QPaintEvent *event) {
 }
 
 void FiltersWidget::onShow(const bool visible) {
-  QSettings settings;
+  QSettings settings(QSettings::Scope::UserScope);
   const QString last_file = settings.value(c_last_opend_file_str).toString();
   if (!last_file.isEmpty()) {
     OnSignalOpenImage(last_file);

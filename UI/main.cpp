@@ -53,6 +53,8 @@ int main(int argc, char *argv[]) {
 
   QCoreApplication::setOrganizationName(c_org_str);
   QCoreApplication::setApplicationName(c_app_str);
+  QSettings(QSettings::Scope::SystemScope)
+      .setValue("ImageServer", "http://localhost:8081/");
 
   QFontDatabase::addApplicationFont(c_font_str);
 

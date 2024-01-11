@@ -109,7 +109,7 @@ QPushButton *MenuDialog::CreateButton(const QString name,
 void MenuDialog::OnButtonOpenClicked() {
   QString path = image_file_name_;
   if (path.isEmpty()) {
-    const QSettings settings;
+    const QSettings settings(QSettings::Scope::UserScope);
     path = settings.value(c_last_opend_dir).toString();
   }
 
@@ -130,7 +130,7 @@ void MenuDialog::OnButtonOpenClicked() {
     emit SignalOpenImage(image_file_name_);
     setVisible(false);
 
-    QSettings settings;
+    QSettings settings(QSettings::Scope::UserScope);
     settings.setValue(c_last_opend_dir,
                       QFileInfo(image_file_name_).dir().path());
   }
