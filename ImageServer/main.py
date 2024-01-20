@@ -112,7 +112,7 @@ class ImageServerRequestHandler(BaseHTTPRequestHandler):
     def generate_uniq_file_name(self):
         return uuid.uuid4().hex;
 
-server = HTTPServer(('127.0.0.1', 8081), ImageServerRequestHandler)
+server = HTTPServer(('0.0.0.0', 8081), ImageServerRequestHandler)
 
 try:
     print("Run Image Server")
