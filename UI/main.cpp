@@ -38,11 +38,15 @@ bool requestStoragePermission() {
 
 int main(int argc, char *argv[]) {
   try {
+    QString logs_path = QDir::currentPath() + c_log_str;
     auto logger = spdlog::basic_logger_mt(
-        c_logger_str, QDir::currentPath().toStdString() + c_log_str);
+        c_logger_str, QDir().toNativeSeparators(logs_path).toStdString());
     spdlog::set_default_logger(logger);
   } catch (const spdlog::spdlog_ex &ex) {
+#ifndef Q_OS_IOS
+    // TODO fix iOS exception
     UNI_ASSERT(false);
+#endif
   }
   spdlog::info("Initialyse ImageEditor");
 
@@ -53,8 +57,8 @@ int main(int argc, char *argv[]) {
 
   QCoreApplication::setOrganizationName(c_org_str);
   QCoreApplication::setApplicationName(c_app_str);
-  QSettings(QSettings::Scope::SystemScope)
-      .setValue("ImageServer", "http://localhost:8081/");
+  QSettings(QSettings::Scope::UserScope)
+      .setValue("ImageServer", "http://192.168.86.176:8081/");
 
   QFontDatabase::addApplicationFont(c_font_str);
 
@@ -63,10 +67,7 @@ int main(int argc, char *argv[]) {
   if (!requestStoragePermission())
     return -1;
 #endif
-
-  QJniObject activity = QJniObject::callStaticObjectMethod(
-      "org/qtproject/qt5/android/QtNative", "activity",
-      "()Landroid/app/Activity;");
+  QJniObject activity = QNativeInterface::QAndroidApplication::context();
   if (activity.isValid()) {
     int orientation = QJniObject::getStaticField<int>(
         "android.content.pm.ActivityInfo", "SCREEN_ORIENTATION_PORTRAIT");

@@ -8,6 +8,8 @@ static const QColor c_widget_background_color = QColor(250, 250, 248);
 static const QColor c_widget_pen_color = QColor(Qt::white);
 static const int c_widget_pen_width = 3;
 static const int c_widget_image_top_margin = 30;
+static const int c_filter_buttons_bottom_margin = 20;
+static const int c_up_buttons_top_margin = 20;
 static const char *c_widget_background_image_str = ":/Images/widget_background";
 
 // buttons settings
@@ -81,7 +83,8 @@ void FiltersWidget::CreateMenuButton() {
   // create menu button
   QPushButton *menu_button = new ImageButton("", this);
   QRect menu_button_rect =
-      QRect(parent_rect.width() - button_width, 0, button_width, button_width);
+      QRect(parent_rect.width() - button_width, c_up_buttons_top_margin,
+            button_width, button_width);
   menu_button->setFlat(true);
   menu_button->setGeometry(menu_button_rect);
   menu_button->setContentsMargins(0, 0, 0, 0);
@@ -114,7 +117,8 @@ void FiltersWidget::OnMenuButtonClicked() {
 void FiltersWidget::CreateCleanButton() {
   // create clean button
   QPushButton *button = new ImageButton("", this);
-  const QRect button_rect = QRect(0, 0, c_button_width, c_button_width);
+  const QRect button_rect =
+      QRect(0, c_up_buttons_top_margin, c_button_width, c_button_width);
   button->setGeometry(button_rect);
   button->setFlat(true);
   button->setContentsMargins(0, 0, 0, 0);
@@ -151,9 +155,9 @@ void FiltersWidget::CreateFilterButtons(Modules::IControlsMapPtr controls) {
   // buttons widget
   QWidget *filter_buttons_widget = new QWidget(this);
   filter_buttons_widget->setContentsMargins(0, 0, 0, 0);
-  filter_buttons_widget->setGeometry(QRect(0,
-                                           parent_rect.height() - button_width,
-                                           parent_rect.width(), button_width));
+  filter_buttons_widget->setGeometry(QRect(
+      0, parent_rect.height() - button_width - c_filter_buttons_bottom_margin,
+      parent_rect.width(), button_width));
 
   // buttons layput
   auto filter_buttons_layout = new QHBoxLayout(filter_buttons_widget);
@@ -174,7 +178,7 @@ void FiltersWidget::CreateFilterButtons(Modules::IControlsMapPtr controls) {
       const auto button =
           new RadioButton(UIString(control->Parameters()),
                           Modules::FILTER_BUTTON_TAG, filter_buttons_widget);
-      QRect button_rect = QRect(0, 0, button_width, button_width);
+      QRect button_rect = QRect(0, 0, button_width - 10, button_width);
       button->setGeometry(button_rect);
       button->setMinimumWidth(button_width);
       button->setMinimumHeight(button_width);
@@ -258,6 +262,7 @@ void FiltersWidget::OnSignalUploadImage() {
       std::vector<char>(byte_arr.cbegin(), byte_arr.cend()),
       [](int error_code) {
         spdlog::info("OnSignalUploadImage POST request code {0}", error_code);
+        qWarning() << "OnSignalUploadImage POST request code " << error_code;
       });
 }
 

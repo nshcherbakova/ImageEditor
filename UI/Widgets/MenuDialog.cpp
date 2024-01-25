@@ -13,17 +13,17 @@ static const char *c_button_style_str =
     "QPushButton{  background-color: rgba(253, 253, 255, 255);"
     "color: #308BB2; font-size: 44px; font-family: Typo Round Regular Demo;"
     "border-style: solid;"
-    "border-radius: 50;"
+    "border-radius: 30;"
     "border-color: rgba(190, 190, 190, 255);"
     "border-width: 5;"
     "}";
 static const QColor c_background_color = QColor(250, 250, 247, 180);
 static const int c_buttons_margin = 5;
-static const int c_layout_margin_left = 70;
+static const int c_layout_margin_left = 50;
 static const int c_layout_margin_top = 0;
-static const int c_layout_margin_right = 70;
+static const int c_layout_margin_right = 50;
 static const int c_layout_margin_bottom = 5;
-static const int c_buttons_vmargin = 30;
+static const int c_buttons_vmargin = 60;
 static const QStringList c_mime_type_filters({"image/jpeg", "image/pjpeg",
                                               "image/png", "image/bmp"});
 

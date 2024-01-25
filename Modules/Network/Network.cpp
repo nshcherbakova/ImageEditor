@@ -4,10 +4,12 @@
 namespace ImageEditor::Modules {
 
 std::string NetworkImpl::ImageServerUrl() {
-  return QSettings(QSettings::Scope::SystemScope)
-      .value("ImageServer")
-      .toString()
-      .toStdString();
+  auto url = QSettings(QSettings::Scope::UserScope)
+                 .value("ImageServer")
+                 .toString()
+                 .toStdString();
+  UNI_ASSERT(!url.empty());
+  return url;
 }
 
 QNetworkAccessManager *NetworkImpl::NetworkAccessManager() {
@@ -25,6 +27,8 @@ HttpPostBinary::HttpPostBinary(INetwork *network, const std::string &url,
                                const std::string &file_name,
                                const std::vector<char> &data,
                                std::function<void(int)> finished_predicate) {
+  UNI_ASSERT(!url.empty());
+  spdlog::info("Post request to  {0}", url);
   QUrl qurl = QUrl(QString::fromStdString(url));
 
   QHttpPart receipt_part;
