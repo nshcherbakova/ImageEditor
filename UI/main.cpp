@@ -13,6 +13,10 @@ static const char *c_font_str = ":/Fonts/buttons_font";
 static const char *c_log_str = "/logs/ImageEditorLog.txt";
 static const char *c_logger_str = "logger";
 
+static const char *c_settings_image_server_str = "ImageServer";
+static const char *c_image_server_def_host_port_str =
+    "http://192.168.86.176:8081/";
+
 #ifdef Q_OS_ANDROID
 #ifdef REQUEST_PERMISSIONS_ON_ANDROID
 #include <QtAndroid>
@@ -58,7 +62,7 @@ int main(int argc, char *argv[]) {
   QCoreApplication::setOrganizationName(c_org_str);
   QCoreApplication::setApplicationName(c_app_str);
   QSettings(QSettings::Scope::UserScope)
-      .setValue("ImageServer", "http://192.168.86.176:8081/");
+      .setValue(c_settings_image_server_str, c_image_server_def_host_port_str);
 
   QFontDatabase::addApplicationFont(c_font_str);
 

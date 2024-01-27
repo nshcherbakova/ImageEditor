@@ -17,6 +17,12 @@
         <file alias="undo_button@2x">Images/2x/undo_button@2x.png</file>
         <file alias="undo_button_pressed@2x">Images/2x/undo_button_pressed@2x.png</file>
         <file alias="undo_button_disabled@2x">Images/2x/undo_button_disabled@2x.png</file>
+        <file alias="round_button_android_checked">Images/default/round_button_android_checked.png</file>
+        <file alias="round_button_android_pressed">Images/default/round_button_android_pressed.png</file>
+        <file alias="round_button_android">Images/default/round_button_android.png</file>
+        <file alias="round_button_android_checked@2x">Images/2x/round_button_android_checked@2x.png</file>
+        <file alias="round_button_android_pressed@2x">Images/2x/round_button_android_pressed@2x.png</file>
+        <file alias="round_button_android@2x">Images/2x/round_button_android@2x.png</file>
     </qresource>
     <qresource prefix="/Fonts">
         <file alias="buttons_font">Fonts/Typo_Round_Regular_Demo.otf</file>

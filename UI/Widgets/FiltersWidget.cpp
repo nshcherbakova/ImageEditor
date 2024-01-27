@@ -13,11 +13,20 @@ static const int c_up_buttons_top_margin = 20;
 static const char *c_widget_background_image_str = ":/Images/widget_background";
 
 // buttons settings
-static const int c_button_width = 100;
+static const int c_menu_button_width = 100;
+#ifndef Q_OS_ANDROID
+static const int c_filter_button_width = 90;
+#else
+static const int c_filter_button_width = 80;
+#endif
 
 static const char *c_filter_button_style_template_str =
     "QPushButton{ "
+#ifndef Q_OS_ANDROID
     "background-image: url(:/Images/round_button);"
+#else
+    "background-image: url(:/Images/round_button_android);"
+#endif
     "background-color: transparent; "
     "font-size: 21px; "
     "font-family: Typo Round Regular Demo;"
@@ -78,7 +87,7 @@ FiltersWidget::FiltersWidget(Parameters parameters)
 
 void FiltersWidget::CreateMenuButton() {
   QRect parent_rect = geometry();
-  const int button_width = c_button_width;
+  const int button_width = c_menu_button_width;
 
   // create menu button
   QPushButton *menu_button = new ImageButton("", this);
@@ -117,15 +126,15 @@ void FiltersWidget::OnMenuButtonClicked() {
 void FiltersWidget::CreateCleanButton() {
   // create clean button
   QPushButton *button = new ImageButton("", this);
-  const QRect button_rect =
-      QRect(0, c_up_buttons_top_margin, c_button_width, c_button_width);
+  const QRect button_rect = QRect(0, c_up_buttons_top_margin,
+                                  c_menu_button_width, c_menu_button_width);
   button->setGeometry(button_rect);
   button->setFlat(true);
   button->setContentsMargins(0, 0, 0, 0);
-  button->setMinimumWidth(c_button_width);
-  button->setMinimumHeight(c_button_width);
-  button->setMaximumHeight(c_button_width);
-  button->setMaximumWidth(c_button_width);
+  button->setMinimumWidth(c_menu_button_width);
+  button->setMinimumHeight(c_menu_button_width);
+  button->setMaximumHeight(c_menu_button_width);
+  button->setMaximumWidth(c_menu_button_width);
   button->setStyleSheet(QString(c_image_button_style_template_str)
                             .arg(c_undo_button_image_prefix_str));
 
@@ -150,7 +159,7 @@ void FiltersWidget::CreateFilterButtons(Modules::IControlsMapPtr controls) {
   UNI_ENSURE_RETURN(controls);
 
   const QRect parent_rect = geometry();
-  const int button_width = c_button_width;
+  const int button_width = c_filter_button_width;
 
   // buttons widget
   QWidget *filter_buttons_widget = new QWidget(this);
