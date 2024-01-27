@@ -7,10 +7,11 @@ from pathlib import Path
 
 from requests_toolbelt.multipart import decoder
 
-import re
+
 import shutil
 import json
 import uuid
+import sys
 
 class ImageServerRequestHandler(BaseHTTPRequestHandler):
     #          BaseHTTPRequestHandler methods
@@ -112,7 +113,13 @@ class ImageServerRequestHandler(BaseHTTPRequestHandler):
     def generate_uniq_file_name(self):
         return uuid.uuid4().hex;
 
-server = HTTPServer(('0.0.0.0', 8081), ImageServerRequestHandler)
+host = '127.0.0.1'
+port = 8081
+if(len(sys.argv) == 3):
+    host = str(sys.argv[1])
+    port = int(sys.argv[2])
+
+server = HTTPServer((host, port), ImageServerRequestHandler)
 
 try:
     print("Run Image Server")
