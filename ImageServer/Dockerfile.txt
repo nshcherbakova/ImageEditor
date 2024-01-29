@@ -1,7 +1,9 @@
 FROM python:3
+RUN mkdir ImageServer
+RUN cd ImageServer
 COPY data data
-ADD main.py main.py
-ADD requirements.txt requirements.txt
+COPY main.py main.py
+COPY docker/requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 EXPOSE 8081
-ENTRYPOINT ["python3", "main.py"]
+ENTRYPOINT ["python3", "main.py", "0.0.0.0" , "8081"]
