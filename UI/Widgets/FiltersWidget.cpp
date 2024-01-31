@@ -16,28 +16,26 @@ static const char *c_widget_background_image_str = ":/Images/widget_background";
 static const int c_menu_button_width = 100;
 #ifndef Q_OS_ANDROID
 static const int c_filter_button_width = 90;
+static const char *c_round_button_str = "round_button";
 #else
 static const int c_filter_button_width = 80;
+static const char *c_round_button_str = "round_button_android";
 #endif
 
 static const char *c_filter_button_style_template_str =
     "QPushButton{ "
-#ifndef Q_OS_ANDROID
-    "background-image: url(:/Images/round_button);"
-#else
-    "background-image: url(:/Images/round_button_android);"
-#endif
+    "background-image: url(:/Images/%2);"
     "background-color: transparent; "
     "font-size: 21px; "
     "font-family: Typo Round Regular Demo;"
     "color: %1;}"
     "QPushButton:disabled{color: rgb(190, 190, 190);}"
-    "QPushButton:hover{background-image: url(:/Images/round_button_pressed);}"
-    "QPushButton:checked{background-image: url(:/Images/round_button_checked);}"
+    "QPushButton:hover{background-image: url(:/Images/%2_pressed);}"
+    "QPushButton:checked{background-image: url(:/Images/%2_checked);}"
     "QPushButton:checked:pressed {background-image: "
-    "url(:/Images/round_button_checked);}"
+    "url(:/Images/%2_checked);}"
     "QPushButton:pressed{background-image: "
-    "url(:/Images/round_button_checked);}";
+    "url(:/Images/%2_checked);}";
 
 static const char *c_filter_buttons_text_color_str_arr[] = {
     "rgb(95, 120, 180)", // first button color
@@ -198,7 +196,8 @@ void FiltersWidget::CreateFilterButtons(Modules::IControlsMapPtr controls) {
       const int index = num % std::size(c_filter_buttons_text_color_str_arr);
       QString style_template(c_filter_button_style_template_str);
       QString style_with_args =
-          style_template.arg(c_filter_buttons_text_color_str_arr[index]);
+          style_template.arg(c_filter_buttons_text_color_str_arr[index])
+              .arg(c_round_button_str);
       button->setStyleSheet(style_with_args);
 
       // bind button with control
