@@ -1,7 +1,6 @@
 FROM python:3
 RUN mkdir ImageServer
 RUN cd ImageServer
-COPY data data
 COPY main.py main.py
 COPY docker/requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt

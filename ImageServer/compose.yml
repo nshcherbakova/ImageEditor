@@ -1,0 +1,12 @@
+
+version: "1.1"
+services:
+  imageserver:
+    container_name: ImageServer
+    volumes:
+      - /Users/nshcherbakova/Documents/dev/ImageEditor/ImageServer/data:/data
+    build: .
+    ports:
+      - 8081:8081
+    restart: unless-stopped
+
