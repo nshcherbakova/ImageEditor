@@ -4,9 +4,23 @@
             
               
              
-A Simple cross-platform image editor for **Windows**, **Android OS**, **Mac**, and **iOS** with **OpenGL** filters.
+A Simple client/server cross-platform image editor application for **Windows**, **Android OS**, **Mac**, and **iOS** with **OpenGL** filters.
 
-![App main window](Images/Pixel1_1.jpg) *An effect of a window with drops.* 
+![App main window](Images/Pixel1_1.jpg) *An effect of a window with drops.*
+
+
+
+***
+
+
+![Server](Images/server.jpg) *An image server page.* 
+
+
+
+***
+
+
+![Uploading](Images/upload.jpg) *An image uploading to the server.* 
 
 
 ***
