@@ -6,6 +6,17 @@
              
 A Simple client/server cross-platform image editor application for **Windows**, **Android OS**, **Mac**, and **iOS** with **OpenGL** filters.
 
+The client app can edit images using self written and open source OpenGL filters. 
+
+The client app can upload images to the server.
+
+The server keeps collection of uploaded images and shows it in a web gallery.
+
+
+- Used QT, OpenGL technologies and spdlog, gTest c++ libraries for the app
+- Used Python and JavaScript for the server
+- Used Jankins, Git hooks, Docker for infrastructure
+
 ![App main window](Images/Pixel1_1.jpg) *An effect of a window with drops.*
 
 
@@ -13,14 +24,14 @@ A Simple client/server cross-platform image editor application for **Windows**, 
 ***
 
 
-![Server](Images/server.jpg) *An image server page.* 
+![Server](Images/server.jpg) *The web gallery with uploaded images.* 
 
 
 
 ***
 
 
-![Uploading](Images/upload.jpg) *An image uploading to the server.* 
+![Uploading](Images/upload.jpg) *An image uploaded to the server.* 
 
 
 ***
@@ -58,20 +69,21 @@ There are several goals of this project:
 6. to have a fun playing with bitmaps pixels while making simple filters from my university Machine Graphics classes
 7. to play with Jankins
 8. to explore testing and logging libraries
+9. to make client / server app
+10. to explore Docker container an compose
+11. to explore git hooks
                
             
 ***
 
              
 ## Upcoming features:
-1. covering with tests
-2. logging
-3. translations
-4. QML
-5. UI animations
-6. uploading images to the cloud
-7. integration with social networks to uploading and downloading photos from/to there
-8. add image editing tools and more complicated filters
+1. translations
+2. QML
+3. UI animations
+4. uploading images to the cloud
+5. integration with social networks to uploading and downloading photos from/to there
+6. add image editing tools and more complicated filters
                
 
 ***
