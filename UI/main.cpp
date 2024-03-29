@@ -10,12 +10,13 @@ using namespace UI;
 static const char *c_org_str = "natshch";
 static const char *c_app_str = "ImageEditor";
 static const char *c_font_str = ":/Fonts/buttons_font";
+static const char *c_splash_screen_image_str = ":/Images/splash_screen";
 static const char *c_log_str = "/logs/ImageEditorLog.txt";
 static const char *c_logger_str = "logger";
 
 static const char *c_settings_image_server_str = "ImageServer";
 static const char *c_image_server_def_host_port_str =
-    "http://192.168.86.176:8081/";
+    "http://192.168.86.187:8081/";
 
 #ifdef Q_OS_ANDROID
 #ifdef REQUEST_PERMISSIONS_ON_ANDROID
@@ -59,6 +60,9 @@ int main(int argc, char *argv[]) {
   QSurfaceFormat::setDefaultFormat(fmt);
   QApplication a(argc, argv);
 
+  SplashScreen splash({c_splash_screen_image_str});
+  splash.showFullScreen();
+
   QCoreApplication::setOrganizationName(c_org_str);
   QCoreApplication::setApplicationName(c_app_str);
   QSettings(QSettings::Scope::UserScope)
@@ -99,6 +103,9 @@ int main(int argc, char *argv[]) {
   main_window.show();
   filters_widget->onShow(true);
 
+  splash.finish(&main_window);
+  auto exec_result = a.exec();
+
   spdlog::info("ImageEditor was closed");
-  return a.exec();
+  return exec_result;
 }

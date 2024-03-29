@@ -13,6 +13,7 @@
 #include <QImageReader>
 #include <QPushButton>
 #include <QSettings>
+#include <QSplashScreen>
 #include <QVariant>
 #include <QWidget>
 #include <QtWidgets/QApplication>
@@ -51,4 +52,5 @@
 #include <UI/UIString.h>
 #include <UI/Widgets/FiltersWidget.h>
 #include <UI/Widgets/IWidget.h>
+#include <UI/Widgets/SplashScreen.h>
 #include <UI/Widgets/WidgetsModule.h>
