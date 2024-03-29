@@ -2,6 +2,7 @@ HEADERS += ./UI/QtConverts.h \
     $$PWD/Modules/Network/INetwork.h \
     $$PWD/Modules/Network/Network.h \
     $$PWD/Modules/Network/NetworkModule.h \
+    $$PWD/UI/Widgets/SplashScreen.h \
     ./UI/types.h \
     ./UI/UIString.h \
     ./UI/MainWindow.h \
@@ -43,6 +44,7 @@ HEADERS += ./UI/QtConverts.h \
 SOURCES += ./UI/QtConverts.cpp \
     $$PWD/Modules/Network/Network.cpp \
     $$PWD/Modules/Network/NetworkModule.cpp \
+    $$PWD/UI/Widgets/SplashScreen.cpp \
     ./UI/MainWindow.cpp \
     ./UI/main.cpp \
     ./UI/Widgets/FiltersWidget.cpp \

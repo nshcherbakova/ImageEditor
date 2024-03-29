@@ -9,33 +9,56 @@ static const QColor c_widget_pen_color = QColor(Qt::white);
 static const int c_widget_pen_width = 3;
 static const int c_widget_image_top_margin = 30;
 static const int c_filter_buttons_bottom_margin = 20;
-static const int c_up_buttons_top_margin = 20;
+static const int c_up_buttons_top_margin = 30;
+static const int c_up_buttons_side_margin = 12;
 static const char *c_widget_background_image_str = ":/Images/widget_background";
 
 // buttons settings
-static const int c_menu_button_width = 100;
-#ifndef Q_OS_ANDROID
-static const int c_filter_button_width = 90;
+static const int c_menu_button_width = 80;
+static const int c_menu_button_height = 50;
+// #ifndef Q_OS_ANDROID
+static const int c_filter_button_width = 72;
 static const char *c_round_button_str = "round_button";
-#else
+/*#else
 static const int c_filter_button_width = 80;
 static const char *c_round_button_str = "round_button_android";
-#endif
-
+#endif*/
 static const char *c_filter_button_style_template_str =
-    "QPushButton{ "
-    "background-image: url(:/Images/%2);"
-    "background-color: transparent; "
-    "font-size: 21px; "
+    "QPushButton{"
+    "background-color: rgba(255, 255, 255, 200);"
+    "color: %1; "
+    "font-size: 23px; "
     "font-family: Typo Round Regular Demo;"
-    "color: %1;}"
+    "border-style: solid;"
+    "border-radius: 36;"
+    "border-color: rgba(190, 190, 190, 255);"
+    "border-width: 4;"
+    "}"
+
     "QPushButton:disabled{color: rgb(190, 190, 190);}"
-    "QPushButton:hover{background-image: url(:/Images/%2_pressed);}"
-    "QPushButton:checked{background-image: url(:/Images/%2_checked);}"
-    "QPushButton:checked:pressed {background-image: "
-    "url(:/Images/%2_checked);}"
-    "QPushButton:pressed{background-image: "
-    "url(:/Images/%2_checked);}";
+    "QPushButton:hover{border-color: rgba(170, 170, 170, 255);}"
+    "QPushButton:checked{background-color: rgba(239, 232, 225, 220);}"
+    "QPushButton:checked:pressed {border-color: rgba(170, 170, 170, 255);}"
+    "QPushButton:pressed{background-color: rgba(239, 232, 225, 220);}";
+
+static const char *c_menu_button_style_template_str =
+    "QPushButton{"
+    "background-color: rgba(255, 255, 255, 200);"
+    "color: rgba(80, 80, 80, 255); "
+    "font-size: 25px; "
+    //   "font-weight: bold; "
+    "font-family: Typo Round Regular Demo;"
+    "border-style: solid;"
+    "border-radius: 10;"
+    //        "border-color: rgba(190, 190, 190, 255);"
+    "border-width: 0;"
+    "}"
+
+    "QPushButton:disabled{"
+    "color: rgba(80, 80, 80, 200);"
+    "background-color: rgba(255, 255, 225, 85);"
+    "}"
+    "QPushButton:pressed{background-color: rgba(239, 232, 225, 220);}";
 
 static const char *c_filter_buttons_text_color_str_arr[] = {
     "rgb(95, 120, 180)", // first button color
@@ -51,7 +74,7 @@ static const char *c_image_button_style_template_str =
     "url(:/Images/%1_button); "
     "background-color: transparent;}"
     "QPushButton:disabled{background-image: url(:/Images/%1_button_disabled)} "
-    "QPushButton:hover{background-image: url(:/Images/%1_button_pressed)} "
+    "QPushButton:hover{background-image: url(:/Images/%1_button_pressed)}"
     "QPushButton:pressed{background-image: url(:/Images/%1_button_pressed)}";
 
 static const char *c_menu_button_image_prefix_str = "menu";
@@ -90,17 +113,18 @@ void FiltersWidget::CreateMenuButton() {
   // create menu button
   QPushButton *menu_button = new ImageButton("", this);
   QRect menu_button_rect =
-      QRect(parent_rect.width() - button_width, c_up_buttons_top_margin,
-            button_width, button_width);
+      QRect(parent_rect.width() - button_width - c_up_buttons_side_margin,
+            c_up_buttons_top_margin, button_width, c_menu_button_height);
   menu_button->setFlat(true);
   menu_button->setGeometry(menu_button_rect);
   menu_button->setContentsMargins(0, 0, 0, 0);
   menu_button->setMinimumWidth(button_width);
-  menu_button->setMinimumHeight(button_width);
-  menu_button->setMaximumHeight(button_width);
+  menu_button->setMinimumHeight(c_menu_button_height);
+  menu_button->setMaximumHeight(c_menu_button_height);
   menu_button->setMaximumWidth(button_width);
-  menu_button->setStyleSheet(QString(c_image_button_style_template_str)
-                                 .arg(c_menu_button_image_prefix_str));
+  menu_button->setText("Menu");
+  menu_button->setStyleSheet(QString(c_menu_button_style_template_str));
+  //    .arg(c_menu_button_image_prefix_str));
 
   connect(menu_button, &QPushButton::clicked, this,
           &FiltersWidget::OnMenuButtonClicked);
@@ -124,17 +148,19 @@ void FiltersWidget::OnMenuButtonClicked() {
 void FiltersWidget::CreateCleanButton() {
   // create clean button
   QPushButton *button = new ImageButton("", this);
-  const QRect button_rect = QRect(0, c_up_buttons_top_margin,
-                                  c_menu_button_width, c_menu_button_width);
+  const QRect button_rect =
+      QRect(c_up_buttons_side_margin, c_up_buttons_top_margin,
+            c_menu_button_width, c_menu_button_height);
   button->setGeometry(button_rect);
   button->setFlat(true);
   button->setContentsMargins(0, 0, 0, 0);
   button->setMinimumWidth(c_menu_button_width);
-  button->setMinimumHeight(c_menu_button_width);
-  button->setMaximumHeight(c_menu_button_width);
+  button->setMinimumHeight(c_menu_button_height);
+  button->setMaximumHeight(c_menu_button_height);
   button->setMaximumWidth(c_menu_button_width);
-  button->setStyleSheet(QString(c_image_button_style_template_str)
-                            .arg(c_undo_button_image_prefix_str));
+  button->setText("Undo");
+  button->setStyleSheet(QString(c_menu_button_style_template_str));
+  //    .arg(c_menu_button_image_prefix_str));
 
   connect(button, &QPushButton::clicked, this,
           &FiltersWidget::OnCleanButtonClicked);
@@ -196,8 +222,8 @@ void FiltersWidget::CreateFilterButtons(Modules::IControlsMapPtr controls) {
       const int index = num % std::size(c_filter_buttons_text_color_str_arr);
       QString style_template(c_filter_button_style_template_str);
       QString style_with_args =
-          style_template.arg(c_filter_buttons_text_color_str_arr[index])
-              .arg(c_round_button_str);
+          style_template.arg(c_filter_buttons_text_color_str_arr[index]);
+      // .arg(c_round_button_str);
       button->setStyleSheet(style_with_args);
 
       // bind button with control
@@ -378,6 +404,7 @@ void RadioButton::OnButtonClicked(const bool checked) {
 ImageButton::ImageButton(const QString &text, QWidget *parent)
     : QPushButton(text, parent) {
   UNI_ASSERT(parent);
+  setAttribute(Qt::WA_TranslucentBackground);
 }
 
 void ImageButton::OnSignalEnable(const bool enable) { setEnabled(enable); }
