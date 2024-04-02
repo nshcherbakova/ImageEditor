@@ -37,6 +37,7 @@ public slots:
   void OnSignalOpenImage(const QString path);
   void OnSignalSaveImage(const QString path);
   void OnSignalUploadImage();
+  void OnSignalShareImage();
   void OnMenuButtonClicked();
   void OnCleanButtonClicked();
   void OnSignalCommandAppyed();

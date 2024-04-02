@@ -1,8 +1,5 @@
 #include "MainWindow.h"
 #include <stdafx.h>
-#ifdef Q_OS_ANDROID
-#include <QJniObject>
-#endif
 
 using namespace ImageEditor;
 using namespace UI;
@@ -19,26 +16,65 @@ static const char *c_image_server_def_host_port_str =
     "http://192.168.86.187:8081/";
 
 #ifdef Q_OS_ANDROID
-#ifdef REQUEST_PERMISSIONS_ON_ANDROID
-#include <QtAndroid>
-
 bool requestStoragePermission() {
-  using namespace QtAndroid;
+  const QVector<QString> permissions(
+      {"android.permission.WRITE_EXTERNAL_STORAGE",
+       "android.permission.READ_EXTERNAL_STORAGE",
+       "android.permission.READ_MEDIA_IMAGES"});
 
-  QString permission =
-      QStringLiteral("android.permission.WRITE_EXTERNAL_STORAGE");
-  const QHash<QString, PermissionResult> results =
-      requestPermissionsSync(QStringList({permission}));
-  if (!results.contains(permission) ||
-      results[permission] == PermissionResult::Denied) {
-    qWarning() << "Couldn't get permission: " << permission;
-    spdlog::error("Couldn't get a permission.");
-    return false;
+  for (const QString &permission : permissions) {
+    auto result = QtAndroidPrivate::checkPermission(permission);
+    if (result.result() == QtAndroidPrivate::PermissionResult::Denied) {
+      QFuture<QtAndroidPrivate::PermissionResult> resultHash =
+          QtAndroidPrivate::requestPermission(permission);
+      if (resultHash.result() == QtAndroidPrivate::PermissionResult::Denied)
+        return false;
+    }
   }
 
   return true;
 }
-#endif
+
+void accessAllFiles() {
+  if (QOperatingSystemVersion::current() <
+      QOperatingSystemVersion(QOperatingSystemVersion::Android, 11)) {
+    qDebug()
+        << "it is less then Android 11 - ALL FILES permission isn't possible!";
+    return;
+  }
+  // Here you have to set your PackageName
+
+  jboolean value = QJniObject::callStaticMethod<jboolean>(
+      "android/os/Environment", "isExternalStorageManager");
+  if (value == false) {
+    qDebug() << "requesting ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION";
+
+    QJniObject activity = QNativeInterface::QAndroidApplication::context();
+    QJniObject packageManager = activity.callObjectMethod(
+        "getPackageManager", "()Landroid/content/pm/PackageManager;");
+    QJniObject packageName =
+        activity.callObjectMethod("getPackageName", "()Ljava/lang/String;");
+
+    QJniObject ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION =
+        QJniObject::getStaticObjectField(
+            "android/provider/Settings",
+            "ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION",
+            "Ljava/lang/String;");
+    QJniObject intent("android/content/Intent", "(Ljava/lang/String;)V",
+                      ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION.object());
+    QJniObject jniPath =
+        QJniObject::fromString("package:" + packageName.toString());
+    QJniObject jniUri = QJniObject::callStaticObjectMethod(
+        "android/net/Uri", "parse", "(Ljava/lang/String;)Landroid/net/Uri;",
+        jniPath.object<jstring>());
+    QJniObject jniResult = intent.callObjectMethod(
+        "setData", "(Landroid/net/Uri;)Landroid/content/Intent;",
+        jniUri.object<jobject>());
+    QtAndroidPrivate::startActivity(intent, 0);
+  } else {
+    qDebug() << "SUCCESS ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION";
+  }
+}
 #endif
 
 int main(int argc, char *argv[]) {
@@ -71,10 +107,11 @@ int main(int argc, char *argv[]) {
   QFontDatabase::addApplicationFont(c_font_str);
 
 #ifdef Q_OS_ANDROID
-#ifdef REQUEST_PERMISSIONS_ON_ANDROID
-  if (!requestStoragePermission())
-    return -1;
-#endif
+  // #ifdef REQUEST_PERMISSIONS_ON_ANDROID
+  requestStoragePermission();
+  // #endif
+  // accessAllFiles();
+
   QJniObject activity = QNativeInterface::QAndroidApplication::context();
   if (activity.isValid()) {
     int orientation = QJniObject::getStaticField<int>(
@@ -104,6 +141,7 @@ int main(int argc, char *argv[]) {
   filters_widget->onShow(true);
 
   splash.finish(&main_window);
+
   auto exec_result = a.exec();
 
   spdlog::info("ImageEditor was closed");

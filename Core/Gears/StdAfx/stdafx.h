@@ -5,6 +5,7 @@
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/spdlog.h>
 
+#include <QDateTime>
 #include <QDir>
 #include <QFileDialog>
 #include <QFileInfo>
@@ -18,6 +19,11 @@
 #include <QWidget>
 #include <QtWidgets/QApplication>
 #include <QtWidgets>
+
+#ifdef Q_OS_ANDROID
+#include <QJniObject>
+#include <QtCore/private/qandroidextras_p.h>
+#endif
 
 #include <QOpenGLBuffer>
 #include <QOpenGLFramebufferObject>
