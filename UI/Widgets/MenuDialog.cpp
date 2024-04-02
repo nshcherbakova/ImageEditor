@@ -149,7 +149,7 @@ void MenuDialog::OnButtonOpenClicked() {
 void MenuDialog::OnButtonSaveClicked() {
   const QSettings settings(QSettings::Scope::UserScope);
   auto path =
-      QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
+      QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
 
   QString file =
       path + "/" + QString::number(QDateTime::currentSecsSinceEpoch()) + ".jpg";

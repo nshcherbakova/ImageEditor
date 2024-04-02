@@ -108,7 +108,7 @@ int main(int argc, char *argv[]) {
 
 #ifdef Q_OS_ANDROID
   // #ifdef REQUEST_PERMISSIONS_ON_ANDROID
-  requestStoragePermission();
+  // requestStoragePermission();
   // #endif
   // accessAllFiles();
 
