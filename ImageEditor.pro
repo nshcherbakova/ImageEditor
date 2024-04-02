@@ -3,6 +3,9 @@ TARGET = ImageEditor
 DESTDIR = ./x64/Debug
 CONFIG += debug
 QT = core gui widgets openglwidgets opengl network
+android {
+   QT += core-private
+}
 IMAGEEDITOR_PATH = $$PWD
 
 target.path = $$IMAGEEDITOR_PATH
@@ -27,6 +30,7 @@ unix:QMAKE_CXXFLAGS += -std=c++17
 
 include(ImageEditor.pri)
 
+android {
 DISTFILES += \
     android/AndroidManifest.xml \
     android/build.gradle \
@@ -36,6 +40,7 @@ DISTFILES += \
     android/gradlew \
     android/gradlew.bat \
     android/res/values/libs.xml
+}
 
 contains(ANDROID_TARGET_ARCH,arm64-v8a) {
     ANDROID_PACKAGE_SOURCE_DIR = \

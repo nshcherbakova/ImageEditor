@@ -27,6 +27,7 @@ signals:
   void SignalOpenImage(const QString file_name);
   void SignalSaveImage(const QString file_name);
   void SignalUploadImage();
+  void SignalShareImage();
 
 protected:
   void mouseReleaseEvent(QMouseEvent *event);
@@ -36,6 +37,7 @@ private slots:
   void OnButtonSaveClicked();
   void OnButtonUploadClicked();
   void OnButtonCancelClicked();
+  void OnButtonShareClicked();
 
 private:
   void CreateMenuButtons();

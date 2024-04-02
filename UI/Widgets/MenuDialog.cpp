@@ -4,6 +4,7 @@
 static const char *c_open_str = "Open";
 static const char *c_save_str = "Save";
 static const char *c_upload_str = "Upload";
+static const char *c_share_str = "Share";
 static const char *c_cancel_str = "Cancel";
 static const char *c_open_image_str = "Open Image";
 static const char *c_save_image_str = "Save Image";
@@ -77,12 +78,19 @@ void MenuDialog::CreateMenuButtons() {
   save_button_->setStyleSheet(c_button_style_str);
   save_button_->setMaximumHeight(button_height);
 
-  QPushButton *upload_button =
-      CreateButton(UIString(c_upload_str), button_height);
-  connect(upload_button, &QPushButton::clicked, this,
-          &MenuDialog::OnButtonUploadClicked);
-  upload_button->setStyleSheet(c_button_style_str);
-  upload_button->setMaximumHeight(button_height);
+  /* QPushButton *upload_button =
+       CreateButton(UIString(c_upload_str), button_height);
+   connect(upload_button, &QPushButton::clicked, this,
+           &MenuDialog::OnButtonUploadClicked);
+   upload_button->setStyleSheet(c_button_style_str);
+   upload_button->setMaximumHeight(button_height);*/
+
+  QPushButton *share_button =
+      CreateButton(UIString(c_share_str), button_height);
+  connect(share_button, &QPushButton::clicked, this,
+          &MenuDialog::OnButtonShareClicked);
+  share_button->setStyleSheet(c_button_style_str);
+  share_button->setMaximumHeight(button_height);
 
   /* QPushButton* canel_button = CreateButton(UIString(c_cancel_str),
    button_height); connect(canel_button, &QPushButton::clicked, this,
@@ -92,7 +100,8 @@ void MenuDialog::CreateMenuButtons() {
 
   filter_buttons_layout->addWidget(open_button);
   filter_buttons_layout->addWidget(save_button_);
-  filter_buttons_layout->addWidget(upload_button);
+  filter_buttons_layout->addWidget(share_button);
+  // filter_buttons_layout->addWidget(upload_button);
   // filter_buttons_layout->addWidget(canel_button);
 }
 
@@ -138,9 +147,15 @@ void MenuDialog::OnButtonOpenClicked() {
 }
 
 void MenuDialog::OnButtonSaveClicked() {
+  const QSettings settings(QSettings::Scope::UserScope);
+  auto path =
+      QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
+
+  QString file =
+      path + "/" + QString::number(QDateTime::currentSecsSinceEpoch()) + ".jpg";
+
   const QString file_name = QFileDialog::getSaveFileName(
-      this, UIString(c_save_image_str), image_file_name_,
-      UIString(c_file_types_str), 0, QFileDialog::DontUseNativeDialog);
+      this, UIString(c_save_image_str), file, UIString(c_file_types_str), 0);
 
   if (!file_name.isEmpty()) {
     image_file_name_ = file_name;
@@ -151,6 +166,11 @@ void MenuDialog::OnButtonSaveClicked() {
 
 void MenuDialog::OnButtonUploadClicked() {
   emit SignalUploadImage();
+  setVisible(false);
+}
+
+void MenuDialog::OnButtonShareClicked() {
+  emit SignalShareImage();
   setVisible(false);
 }
 

@@ -139,8 +139,10 @@ void FiltersWidget::OnMenuButtonClicked() {
             &FiltersWidget::OnSignalOpenImage);
     connect(*menu_, &MenuDialog::SignalSaveImage, this,
             &FiltersWidget::OnSignalSaveImage);
-    connect(*menu_, &MenuDialog::SignalUploadImage, this,
-            &FiltersWidget::OnSignalUploadImage);
+    /*connect(*menu_, &MenuDialog::SignalUploadImage, this,
+            &FiltersWidget::OnSignalUploadImage);*/
+    connect(*menu_, &MenuDialog::SignalShareImage, this,
+            &FiltersWidget::OnSignalShareImage);
   }
   (*menu_)->setVisible(true);
 }
@@ -247,6 +249,7 @@ void FiltersWidget::CreateFilterButtons(Modules::IControlsMapPtr controls) {
 
 void FiltersWidget::OnSignalOpenImage(const QString path) {
   spdlog::info("Open new image {0}", path.toStdString());
+
   RadioButton::UncheckAll(this, Modules::FILTER_BUTTON_TAG);
 
   QSettings settings(QSettings::Scope::UserScope);
@@ -269,19 +272,18 @@ void FiltersWidget::OnSignalOpenImage(const QString path) {
 
 void FiltersWidget::OnSignalSaveImage(const QString path) {
   UNI_ENSURE_RETURN(image_);
-  // QDir picDir =
-  // QDir(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
-  // QString filePath = picDir.filePath("test123.jpg");
 
-  if (image_->save(path)) {
+  if (image_->save(path, "JPG")) {
     spdlog::info("Image was saved {0}", path.toStdString());
+
   } else {
     spdlog::error("Fail to save image {0}", path.toStdString());
+    qWarning() << "Failed to save image";
   }
-  /*   QAndroidJniObject::callStaticMethod<void>("aha/androscanner/AndroScannerInJava",
-                                                "scanForPicture",
-                                                "(Ljava/lang/String;)V",
-                                                QAndroidJniObject::fromString(filePath).object<jstring>());*/
+  /* QJniObject::callStaticMethod<void>("aha/androscanner/AndroScannerInJava",
+                                              "scanForPicture",
+                                              "(Ljava/lang/String;)V",
+                                              QJniObject::fromString(path).object<jstring>());*/
 }
 
 void FiltersWidget::OnSignalUploadImage() {
@@ -299,6 +301,8 @@ void FiltersWidget::OnSignalUploadImage() {
         qWarning() << "OnSignalUploadImage POST request code " << error_code;
       });
 }
+
+void FiltersWidget::OnSignalShareImage() {}
 
 void FiltersWidget::OnSignalCommandAppyed() { UpdateImage(); }
 
