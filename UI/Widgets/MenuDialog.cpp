@@ -18,7 +18,8 @@ static const char *c_button_style_str =
     "border-color: rgba(190, 190, 190, 255);"
     "border-width: 5;"
     "}"
-    "QPushButton:pressed{background-color: rgba(239, 232, 225, 225);}";
+    "QPushButton:pressed{background-color: rgba(239, 232, 225, 225);}"
+    "QPushButton:disabled{color: rgba(190, 190, 190, 225);}";
 static const QColor c_background_color = QColor(250, 250, 247, 180);
 static const int c_buttons_margin = 5;
 static const int c_layout_margin_left = 50;
