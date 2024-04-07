@@ -25,6 +25,7 @@
         <file alias="round_button_android@2x">Images/2x/round_button_android@2x.png</file>
         <file alias="splash_screen">Images/default/splash_screen.png</file>
         <file alias="splash_screen@2x">Images/default/splash_screen.png</file>
+        <file alias="random">Images/default/random.png</file>
     </qresource>
     <qresource prefix="/Fonts">
         <file alias="buttons_font">Fonts/Typo_Round_Regular_Demo.otf</file>
