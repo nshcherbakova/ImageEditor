@@ -1,13 +1,16 @@
 #include "FiltersWidget.h"
+#include "Controls/ImageButton.h"
+#include "Controls/RadioButton.h"
 #include "MenuDialog.h"
+#include "UICommand.h"
 #include <stdafx.h>
 
 // widget settings
 static const char *c_last_opend_file_str = "last_opened_file";
 static const QColor c_widget_background_color = QColor(250, 250, 248);
-static const QColor c_widget_pen_color = QColor(Qt::white);
+static const QColor c_widget_pen_color = QColor(255, 255, 255);
 static const int c_widget_pen_width = 3;
-static const int c_widget_image_top_margin = 30;
+// static const int c_widget_image_top_margin = 30;
 static const int c_filter_buttons_bottom_margin = 20;
 static const int c_up_buttons_top_margin = 30;
 static const int c_up_buttons_side_margin = 12;
@@ -18,7 +21,6 @@ static const int c_menu_button_width = 80;
 static const int c_menu_button_height = 50;
 // #ifndef Q_OS_ANDROID
 static const int c_filter_button_width = 72;
-static const char *c_round_button_str = "round_button";
 /*#else
 static const int c_filter_button_width = 80;
 static const char *c_round_button_str = "round_button_android";
@@ -67,18 +69,6 @@ static const char *c_filter_buttons_text_color_str_arr[] = {
     "#308BB2",           // fourth button color
     "#8E2DB7"            // fifth button color
 };
-
-static const char *c_image_button_style_template_str =
-    "QPushButton{ "
-    "background-image: "
-    "url(:/Images/%1_button); "
-    "background-color: transparent;}"
-    "QPushButton:disabled{background-image: url(:/Images/%1_button_disabled)} "
-    "QPushButton:hover{background-image: url(:/Images/%1_button_pressed)}"
-    "QPushButton:pressed{background-image: url(:/Images/%1_button_pressed)}";
-
-static const char *c_menu_button_image_prefix_str = "menu";
-static const char *c_undo_button_image_prefix_str = "undo";
 
 namespace ImageEditor::UI {
 FiltersWidget::FiltersWidget(Parameters parameters)
@@ -255,15 +245,16 @@ void FiltersWidget::OnSignalOpenImage(const QString path) {
   QSettings settings(QSettings::Scope::UserScope);
   settings.setValue(c_last_opend_file_str, path);
 
-  image_ = std::make_shared<QImage>();
-
   QImageReader reader(path);
   reader.setAutoTransform(true);
+
+  image_ = std::make_shared<QImage>();
 
   if (reader.read(image_.get())) {
     editable_image_->SetOriginalImage(QtImageToIImage(*image_));
     update();
   } else {
+    image_.reset();
     spdlog::error("Fail to open image {0}", path.toStdString());
   }
   emit SignalEnableFilterButtons(image_ && !(image_->isNull()));
@@ -324,16 +315,21 @@ void FiltersWidget::paintEvent(QPaintEvent *event) {
   painter.drawImage(0, dirty_rect.height() - scaled_background_image.height(),
                     scaled_background_image);
 
-  if (image_) {
-    const auto new_image_height =
-        geometry().size().height() - c_widget_image_top_margin;
-    QImage image =
-        image_->scaledToHeight(new_image_height, Qt::SmoothTransformation);
+  if (image_ && !image_->isNull()) {
+    const auto geom_height = geometry().size().height();
+    const auto geom_width = geometry().size().width();
+
+    QImage image;
+    if (geom_height / geom_width > image_->height() / image_->width())
+      image = image_->scaledToWidth(geom_width);
+    else
+      image = image_->scaledToHeight(geom_height);
 
     dirty_rect.setLeft((dirty_rect.width() - image.rect().width()) / 2);
-    dirty_rect.setTop(c_widget_image_top_margin / 2);
+    dirty_rect.setTop((dirty_rect.height() - image.rect().height()) / 2);
     dirty_rect.setWidth(image.rect().width());
     dirty_rect.setHeight(image.rect().height());
+
     auto pen = painter.pen();
     pen.setColor(c_widget_pen_color);
     pen.setWidth(c_widget_pen_width);
@@ -351,114 +347,5 @@ void FiltersWidget::onShow(const bool visible) {
   }
 
   setEnabled(visible);
-}
-} // namespace ImageEditor::UI
-
-namespace ImageEditor::UI {
-UICommand::UICommand(QObject *parent, Modules::IControlPtr control)
-    : QObject(parent), control_(control) {
-  UNI_ENSURE_RETURN(control_);
-}
-
-void UICommand::OnButtonClicked() {
-  UNI_ENSURE_RETURN(control_);
-  control_->Activate(control_->Parameters());
-  emit SignalCommandAppyed();
-}
-
-void RadioButton::UncheckAll(QWidget *parent,
-                             const QString &button_group_name) {
-  UNI_ENSURE_RETURN(parent);
-
-  QList<QPushButton *> buttons =
-      parent->findChildren<QPushButton *>(button_group_name);
-  for (auto &button : buttons) {
-    if (button->isChecked()) {
-      button->setChecked(false);
-      button->update();
-      button->parentWidget()->update();
-    }
-  }
-}
-
-RadioButton::RadioButton(const QString &text, const QString &button_group_name,
-                         QWidget *parent)
-    : ImageButton(text, parent) {
-  setObjectName(button_group_name);
-  setCheckable(true);
-  connect(this, &QPushButton::clicked, this, &RadioButton::OnButtonClicked);
-}
-
-void RadioButton::OnButtonClicked(const bool checked) {
-  if (checked) {
-    QList<QPushButton *> buttons =
-        parentWidget()->findChildren<QPushButton *>(objectName());
-    for (auto &button : buttons) {
-      if (button != this && button->isChecked()) {
-        button->setChecked(false);
-      }
-    }
-  } else {
-    QPushButton::setChecked(true);
-  }
-  update();
-  parentWidget()->update();
-}
-
-ImageButton::ImageButton(const QString &text, QWidget *parent)
-    : QPushButton(text, parent) {
-  UNI_ASSERT(parent);
-  setAttribute(Qt::WA_TranslucentBackground);
-}
-
-void ImageButton::OnSignalEnable(const bool enable) { setEnabled(enable); }
-
-void ImageButton::keyPressEvent(QKeyEvent *e) {
-  UNI_ENSURE_RETURN(parentWidget());
-  update();
-  parentWidget()->update();
-  QPushButton::keyPressEvent(e);
-}
-
-void ImageButton::focusInEvent(QFocusEvent *e) {
-  UNI_ENSURE_RETURN(parentWidget());
-  update();
-  parentWidget()->update();
-  QPushButton::focusInEvent(e);
-}
-
-void ImageButton::focusOutEvent(QFocusEvent *e) {
-  UNI_ENSURE_RETURN(parentWidget());
-  update();
-  parentWidget()->update();
-  QPushButton::focusOutEvent(e);
-}
-
-void ImageButton::mousePressEvent(QMouseEvent *e) {
-  UNI_ENSURE_RETURN(parentWidget());
-  update();
-  parentWidget()->update();
-  QPushButton::mousePressEvent(e);
-}
-
-void ImageButton::mouseReleaseEvent(QMouseEvent *e) {
-  UNI_ENSURE_RETURN(parentWidget());
-  update();
-  parentWidget()->update();
-  QPushButton::mouseReleaseEvent(e);
-}
-
-void ImageButton::mouseMoveEvent(QMouseEvent *e) {
-  UNI_ENSURE_RETURN(parentWidget());
-  update();
-  parentWidget()->update();
-  QPushButton::mouseMoveEvent(e);
-}
-
-void ImageButton::leaveEvent(QEvent *e) {
-  UNI_ENSURE_RETURN(parentWidget());
-  update();
-  parentWidget()->update();
-  QWidget::leaveEvent(e);
 }
 } // namespace ImageEditor::UI

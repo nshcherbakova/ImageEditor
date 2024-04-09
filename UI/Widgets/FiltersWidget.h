@@ -62,51 +62,5 @@ private:
   Modules::INetworkPtr network_;
 };
 
-class UICommand final : public QObject {
-  Q_OBJECT
-public:
-  explicit UICommand(QObject *parent, Modules::IControlPtr control);
-  UICommand &operator=(const UICommand &) = delete;
-
-public slots:
-  void OnButtonClicked();
-
-signals:
-  void SignalCommandAppyed();
-
-private:
-  const Modules::IControlPtr control_;
-};
-
-class ImageButton : public QPushButton {
-  Q_OBJECT
-public:
-  ImageButton(const QString &text, QWidget *parent = nullptr);
-
-public slots:
-  void OnSignalEnable(const bool enable);
-
-protected:
-  virtual void keyPressEvent(QKeyEvent *) override final;
-  virtual void focusInEvent(QFocusEvent *) override final;
-  virtual void focusOutEvent(QFocusEvent *) override final;
-  virtual void mouseMoveEvent(QMouseEvent *e) override final;
-  virtual void mousePressEvent(QMouseEvent *e) override final;
-  virtual void mouseReleaseEvent(QMouseEvent *e) override final;
-  virtual void leaveEvent(QEvent *e) override final;
-};
-
-class RadioButton final : public ImageButton {
-  Q_OBJECT
-public:
-  RadioButton(const QString &text, const QString &button_group_name,
-              QWidget *parent = nullptr);
-
-public:
-  static void UncheckAll(QWidget *parent, const QString &button_group_name);
-
-protected slots:
-  void OnButtonClicked(const bool checked);
-};
 } // namespace ImageEditor::UI
 #endif // IMAGEEDITOR_UI_WIDGETS_FILTERSWIDGET_H
