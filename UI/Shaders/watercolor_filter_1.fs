@@ -1,6 +1,10 @@
+#version %1
+
+out mediump vec4 FragColor;
+in mediump vec2 io_texture_coordinates;
+
 uniform sampler2D in_texture;
 uniform highp vec2 in_resolution;
-varying mediump vec2 io_texture_coordinates;
 
 void Sort(inout highp float a, inout highp float b)
 {
@@ -36,12 +40,12 @@ lowp vec4 mediana1(lowp vec2 coordinates)
         {
                 for (lowp int j = -1; j <= 1; j++)
                 {
-                        mediump vec4 pixel = texture2D(in_texture, coordinates + vec2(float(i), float(j))/in_resolution);
+                        mediump vec4 pixel = texture(in_texture, coordinates + vec2(float(i), float(j))/in_resolution);
                        
                         r[k] =  pixel.r;
-			            g[k] =  pixel.g;
-			            b[k] =  pixel.b;
-			            k++;
+                        g[k] =  pixel.g;
+                        b[k] =  pixel.b;
+                        k++;
                 }
         }
         
@@ -92,5 +96,5 @@ lowp vec4 mediana()
 
 void main()
 {
-        gl_FragColor = mediana();
+        FragColor = mediana();
 }
