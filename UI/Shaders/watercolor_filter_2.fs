@@ -1,6 +1,10 @@
+#version %1
+
+out mediump vec4 FragColor;
+in mediump vec2 io_texture_coordinates;
+
 uniform sampler2D in_texture;
 uniform highp vec2 in_resolution;
-varying mediump vec2 io_texture_coordinates;
 
 void main() {
         mediump mat3 h = mat3(	vec3(0.0, -0.5, 0.0),
@@ -12,9 +16,9 @@ void main() {
         {
                 for (mediump int j = 0; j < 3; ++j)
                 {
-                        res += texture2D(in_texture, io_texture_coordinates + vec2(float(i) - 1.0, float(j) - 1.0)/in_resolution) * (h[i][j]);
+                        res += texture(in_texture, io_texture_coordinates + vec2(float(i) - 1.0, float(j) - 1.0)/in_resolution) * (h[i][j]);
                 }
         }
 
-    gl_FragColor =  vec4(res.xyz, 1.0);
+    FragColor =  vec4(res.xyz, 1.0);
 }
