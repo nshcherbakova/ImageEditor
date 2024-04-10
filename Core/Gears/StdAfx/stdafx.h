@@ -30,6 +30,7 @@
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
+#include <QOpenGLVertexArrayObject>
 
 #include <QHttpMultiPart>
 #include <QHttpPart>

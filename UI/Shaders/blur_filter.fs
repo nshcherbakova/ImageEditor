@@ -3,7 +3,7 @@ uniform highp vec2 in_resolution;
 varying mediump vec2 io_texture_coordinates;
 
 void main() {
-    highp float Pi = 6.28318530718;
+  /*  highp float Pi = 6.28318530718;
     
     highp float Directions = 16.0;
     highp float Quality = 4.0;
@@ -21,6 +21,6 @@ void main() {
         }
     }
 
-    Color /= Quality * Directions;
-    gl_FragColor =  vec4(Color.xyz, 1.0);
+    Color /= Quality * Directions;*/
+    gl_FragColor =  texture2D( in_texture, io_texture_coordinates, 5.0);
 }

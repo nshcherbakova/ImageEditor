@@ -1,8 +1,18 @@
+#version %1
+
+// Used part of Heartfelt - by Martijn Steinrucken aka BigWings - 2017
+// License Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+
+out mediump vec4 FragColor;
+
+in mediump vec2 io_texture_coordinates;
+
 uniform sampler2D in_texture;
-uniform highp vec2 in_resolution;
-varying highp vec2 io_texture_coordinates;
+uniform mediump vec2 in_resolution;
+
 
 #define S(a, b, t) smoothstep(a, b, t)
+
 
 highp vec3 N13(highp float p) {
     //  from DAVE HOSKINS
@@ -14,14 +24,14 @@ highp vec3 N13(highp float p) {
 highp vec4 N14(highp float t) {
         return fract(sin(t*vec4(123., 1024., 1456., 264.))*vec4(6547., 345., 8799., 1564.));
 }
-
 highp float N(highp float t) {
     return fract(sin(t*12345.564)*7658.76);
 }
 
-highp float Saw(highp float b, highp  float t) {
+highp float Saw(highp float b, highp float t) {
         return S(0., b, t)*S(1., b, t);
 }
+
 
 highp vec2 DropLayer2(highp vec2 uv, highp float t) {
     highp vec2 UV = uv;
@@ -67,10 +77,10 @@ highp vec2 DropLayer2(highp vec2 uv, highp float t) {
     highp float m = mainDrop+droplets*r*trailFront;
 
     //m += st.x>a.y*.45 || st.y>a.x*.165 ? 1.2 : 0.;
-    return vec2(m, trail);
+    return  vec2(m, trail);
 }
 
-highp float StaticDrops(highp vec2 uv, highp float t) {
+highp float StaticDrops(highp vec2 uv,highp  float t) {
         uv *= 40.;
 
     highp vec2 id = floor(uv);
@@ -79,7 +89,7 @@ highp float StaticDrops(highp vec2 uv, highp float t) {
     highp vec2 p = (n.xy-.5)*.7;
     highp float d = length(uv-p);
 
-    highp  float fade = Saw(.025, fract(t+n.z));
+    highp float fade = Saw(.025, fract(t+n.z));
     highp float c = S(.3, 0., d)*fract(n.z*10.)*fade;
     return c;
 }
@@ -92,33 +102,26 @@ highp vec2 Drops(highp vec2 uv, highp float t, highp float l0, highp float l1, h
     highp float c = s+m1.x+m2.x;
     c = S(.3, 1., c);
 
-    return vec2(c, max(m1.y*l0, m2.y*l1));
+    return  vec2(c, max(m1.y*l0, m2.y*l1));
 }
 
-void main(  )
+void main()
 {
-    highp vec2 fragCoord = io_texture_coordinates;
-    highp vec3 iMouse = vec3(0.0, 0.0, 0.0);
-    highp float iTime = 500.0;
-    highp vec2 uv = fragCoord;
-    uv.x = (uv.x -0.5)*in_resolution.x/in_resolution.y;
-    uv.y = uv.y - 0.5;
-    highp vec2 UV = fragCoord;
-    highp vec3 M = iMouse.xyz;
-    highp float T = iTime+M.x*2.;
+    highp vec2 fragCoord = io_texture_coordinates.xy*in_resolution.xy;
+    highp vec2 uv = (fragCoord.xy-.5*in_resolution.xy) / in_resolution.y;
+
+    highp vec2 UV = fragCoord.xy/in_resolution.xy;
+    highp vec3 M = vec3(1.0,2.0,0.0)/vec3(in_resolution, 1.0);
+   highp  float T = 2500.0+M.x*2.;
+
 
     highp float t = T*.2;
 
-    highp float rainAmount = iMouse.z>0. ? M.y : sin(T*.05)*.3+.7;
+    highp float rainAmount =  sin(T*.05)*.3+.7;
 
-    highp float maxBlur = 1.0;
-    highp float minBlur = 2.0;
+    highp float maxBlur = mix(3., 6., rainAmount);
+   highp  float minBlur = 2.;
 
-    highp float story = 0.;
-    highp float heart = 0.;
-
-
-    //float zoom = -cos(T*.2);
     highp float zoom = 1.0;
     uv *= .7+zoom*.3;
 
@@ -131,39 +134,15 @@ void main(  )
 
     highp vec2 c = Drops(uv, t, staticDrops, layer1, layer2);
 
-    highp vec2 e = vec2(.001, 0.);
-    highp float cx = Drops(uv+e, t, staticDrops, layer1, layer2).x;
-    highp float cy = Drops(uv+e.yx, t, staticDrops, layer1, layer2).x;
-    highp vec2 n = vec2(cx-c.x, cy-c.x);		// expensive normals
+        highp vec2 e = vec2(.001, 0.);
+        highp float cx = Drops(uv+e, t, staticDrops, layer1, layer2).x;
+        highp float cy = Drops(uv+e.yx, t, staticDrops, layer1, layer2).x;
+        highp vec2 n = vec2(cx-c.x, cy-c.x);		// expensive normals
+
+
 
     highp float focus = mix(maxBlur-c.y, minBlur, S(.1, .2, c.x));
-    highp vec3 col = texture2D(in_texture, UV+n, focus).rgb;
+    highp vec3 col = textureLod(in_texture, UV+n, focus).rgb;
 
-    //col = vec3(heart);
-    gl_FragColor = vec4(col, 1.);
+    FragColor = vec4(col, 1.);
 }
-
-/* variant 2
-uniform sampler2D in_texture;
-uniform sampler2D random_texture;
-uniform highp vec2 in_resolution;
-varying highp vec2 io_texture_coordinates;
-
-void main() {
-    highp vec2 uv = io_texture_coordinates.xy;
-    highp vec2 n = texture2D(random_texture, uv * .5).rg;
-    gl_FragColor = texture2D(in_texture, uv, 2.5   );
-    for (highp float r = 4.; r > 0.; r--) {
-        highp vec2 x = in_resolution.xy * r * .015;
-        highp vec2 p = 6.28 * uv * x + (n - .5) * 2.;
-        highp  vec2 s = sin(p);
-        highp vec4 d = texture2D(random_texture, floor(uv * x - 0.25 + 0.5) / x);
-        highp float t = (s.x + s.y) * max(0.,1.-fract(100.0 * (d.b+.1)+d.g) * 2.);
-
-        if (d.r < (5.-r) * .08 && t > .5) {
-            highp vec3 v = normalize(-vec3(cos(p), mix(.2, 2., t-.5)));
-            gl_FragColor = texture2D(in_texture, uv + v.xy * .3);
-        }
-    }
-}
-*/
