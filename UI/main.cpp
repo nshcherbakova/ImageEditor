@@ -1,4 +1,5 @@
 #include "MainWindow.h"
+#include <QOpenGLFunctions_4_0_Core>
 #include <stdafx.h>
 
 using namespace ImageEditor;
@@ -93,7 +94,15 @@ int main(int argc, char *argv[]) {
 
   QSurfaceFormat fmt;
   fmt.setSamples(16);
+#ifndef Q_OS_ANDROID
+  // fmt.setRenderableType(QSurfaceFormat::OpenGL);
+  fmt.setMajorVersion(3);
+  fmt.setMinorVersion(3);
+#endif
+  fmt.setProfile(QSurfaceFormat::OpenGLContextProfile::CoreProfile);
+
   QSurfaceFormat::setDefaultFormat(fmt);
+
   QApplication a(argc, argv);
 
   SplashScreen splash({c_splash_screen_image_str});
@@ -124,6 +133,7 @@ int main(int argc, char *argv[]) {
   }
 #endif
   MainWindow main_window;
+  // main_window.setFormat();
 
   auto image =
       Modules::InitEditableImageModule().create<Modules::IEditableImagePtr>();
