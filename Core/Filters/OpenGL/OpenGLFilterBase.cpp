@@ -8,6 +8,7 @@ static const char *c_texture_coord_attr_name_str = "in_texture_coord";
 static const char *c_texture_attr_name_str = "in_texture";
 static const char *c_rnd_texture_attr_name_str = "random_texture";
 static const char *c_resolution_attr_name_str = "in_resolution";
+static const char *c_random_attr_name_str = "in_random";
 
 // clang-format off
 // rectangle and texture vertexes
@@ -119,6 +120,7 @@ OpenGLFilterBase::Apply(const QImage &image,
   GLint screen_texture_uniform = 0;
   GLint screen_rnd_texture_uniform = 0;
   GLint screen_resolution_uniform = 0;
+  GLint random_uniform = 0;
 
   QOpenGLFramebufferObject fbo(QSize{image.width(), image.height()});
   QOpenGLBuffer vertex(QOpenGLBuffer::VertexBuffer);
@@ -147,6 +149,8 @@ OpenGLFilterBase::Apply(const QImage &image,
 
   screen_resolution_uniform =
       program.uniformLocation(c_resolution_attr_name_str);
+
+  random_uniform = program.uniformLocation(c_random_attr_name_str);
 
   auto gl_compatible_img =
       image.mirrored().convertToFormat(QImage::Format_RGBA8888);
@@ -178,6 +182,14 @@ OpenGLFilterBase::Apply(const QImage &image,
 
   program.setUniformValue(screen_resolution_uniform, image.width(),
                           image.height());
+
+  if (random_uniform != -1) {
+    // TODO make it more general. Now this code ajusted for drops filter
+    quint32 rv1 = QRandomGenerator::global()->bounded(1, image.width());
+    quint32 rv2 = QRandomGenerator::global()->bounded(1, image.height());
+    quint32 rv3 = QRandomGenerator::global()->bounded(1, 50000);
+    program.setUniformValue(random_uniform, rv1, rv2, rv3);
+  }
 
   // Create Buffer (Do not release until VAO is created)
   vertex.create();

@@ -9,6 +9,7 @@ in mediump vec2 io_texture_coordinates;
 
 uniform sampler2D in_texture;
 uniform mediump vec2 in_resolution;
+uniform mediump vec3 in_random;
 
 
 #define S(a, b, t) smoothstep(a, b, t)
@@ -111,8 +112,10 @@ void main()
     highp vec2 uv = (fragCoord.xy-.5*in_resolution.xy) / in_resolution.y;
 
     highp vec2 UV = fragCoord.xy/in_resolution.xy;
-    highp vec3 M = vec3(1.0,2.0,0.0)/vec3(in_resolution, 1.0);
-   highp  float T = 2500.0+M.x*2.;
+    highp float mx = float(int(in_random.x/in_resolution.x));
+    highp float my = float(int(in_random.y/in_resolution.y));
+    highp vec3 M = vec3(in_random.x - mx*in_resolution.x, in_random.y - my*in_resolution.y, 0.0) / vec3(in_resolution, 1.0);
+   highp  float T = in_random.z + M.x*2.;
 
 
     highp float t = T*.2;
