@@ -39,7 +39,7 @@ static const char *c_filter_button_style_template_str =
 
     "QPushButton:disabled{color: rgb(190, 190, 190);}"
     "QPushButton:hover{border-color: rgba(170, 170, 170, 255);}"
-    "QPushButton:checked{background-color: rgba(239, 232, 225, 220);}"
+    "QPushButton:checked{background-color: rgba(227, 215, 203, 220);}"
     "QPushButton:checked:pressed {border-color: rgba(170, 170, 170, 255);}"
     "QPushButton:pressed{background-color: rgba(239, 232, 225, 220);}";
 
@@ -51,14 +51,15 @@ static const char *c_menu_button_style_template_str =
     //   "font-weight: bold; "
     "font-family: Typo Round Regular Demo;"
     "border-style: solid;"
-    "border-radius: 10;"
-    //        "border-color: rgba(190, 190, 190, 255);"
-    "border-width: 0;"
+    "border-radius: 20;"
+    "border-color: rgba(210, 210, 210, 255);"
+    "border-width: 4;"
     "}"
 
     "QPushButton:disabled{"
-    "color: rgba(80, 80, 80, 200);"
+    "color: rgba(160, 160, 160, 200);"
     "background-color: rgba(255, 255, 225, 85);"
+    "border-color: rgba(240, 240, 240, 255);"
     "}"
     "QPushButton:pressed{background-color: rgba(239, 232, 225, 220);}";
 
