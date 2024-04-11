@@ -18,6 +18,6 @@ const std::string OpenGLWaterColorFilter::Description() const {
 
 OpenGLWaterColorFilter::Parameters
 OpenGLWaterColorFilter::FilterParameters() const {
-  return {true, {720, 720}};
+  return {true, {360, 360}};
 }
 } // namespace ImageEditor::Core
