@@ -312,7 +312,7 @@ void FiltersWidget::paintEvent(QPaintEvent *event) {
   QPainter painter(this);
 
   // Draw background
-  QRectF dirty_rect = event->rect();
+  QRectF dirty_rect = geometry().toRectF();
   QImage scaled_background_image = background_image_.scaledToWidth(
       dirty_rect.width(), Qt::SmoothTransformation);
   painter.drawImage(0, dirty_rect.height() - scaled_background_image.height(),

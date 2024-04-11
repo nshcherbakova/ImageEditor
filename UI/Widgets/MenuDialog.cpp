@@ -1,4 +1,5 @@
 #include "MenuDialog.h"
+#include "Controls/ImageButton.h"
 #include <stdafx.h>
 
 static const char *c_open_str = "Open";
@@ -20,6 +21,7 @@ static const char *c_button_style_str =
     "}"
     "QPushButton:pressed{background-color: rgba(239, 232, 225, 225);}"
     "QPushButton:disabled{color: rgba(190, 190, 190, 225);}";
+
 static const QColor c_background_color = QColor(250, 250, 247, 180);
 static const int c_buttons_margin = 5;
 static const int c_layout_margin_left = 50;
@@ -108,7 +110,7 @@ void MenuDialog::CreateMenuButtons() {
 
 QPushButton *MenuDialog::CreateButton(const QString name,
                                       const int button_height) {
-  QPushButton *button = new QPushButton(name, this);
+  QPushButton *button = new ImageButton(name, this);
   const QRect menu_button_rect = QRect(0, 0, 0, button_height);
   button->setGeometry(menu_button_rect);
   button->setMinimumHeight(button_height);
