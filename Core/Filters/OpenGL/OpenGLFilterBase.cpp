@@ -6,10 +6,14 @@ static const char *c_texture_attr_name_str = "in_texture";
 static const char *c_rnd_texture_attr_name_str = "random_texture";
 static const char *c_resolution_attr_name_str = "in_resolution";
 
+// clang-format off
 static const GLfloat sg_vertexes[] = {
-    1.0f,  1.0f,  0.0f, 1.0f, 1.0f, 1.0f,  -1.0f, 0.0f, 1.0f, 0.0f,
-    -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f,  0.0f, 0.0f, 1.0f,
+     1.0f,  1.0f, 0.0f,      1.0f, 1.0f,
+     1.0f, -1.0f, 0.0f,      1.0f, 0.0f,
+    -1.0f, -1.0f, 0.0f,      0.0f, 0.0f,
+    -1.0f,  1.0f, 0.0f,      0.0f, 1.0f,
 };
+// clang-format on
 
 unsigned int indices[] = {
     0, 1, 3, // first triangle
