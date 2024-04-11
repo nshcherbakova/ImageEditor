@@ -13,6 +13,7 @@
 #include <QImage>
 #include <QImageReader>
 #include <QPushButton>
+#include <QRandomGenerator>
 #include <QSettings>
 #include <QSplashScreen>
 #include <QVariant>
