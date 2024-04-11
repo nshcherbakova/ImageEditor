@@ -58,7 +58,7 @@ static const char *c_menu_button_style_template_str =
 
     "QPushButton:disabled{"
     "color: rgba(160, 160, 160, 200);"
-    "background-color: rgba(255, 255, 225, 85);"
+    "background-color: rgba(255, 255, 255, 85);"
     "border-color: rgba(240, 240, 240, 255);"
     "}"
     "QPushButton:pressed{background-color: rgba(239, 232, 225, 220);}";
