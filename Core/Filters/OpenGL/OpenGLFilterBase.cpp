@@ -187,7 +187,7 @@ OpenGLFilterBase::Apply(const QImage &image,
     // TODO make it more general. Now this code ajusted for drops filter
     quint32 rv1 = QRandomGenerator::global()->bounded(1, image.width());
     quint32 rv2 = QRandomGenerator::global()->bounded(1, image.height());
-    quint32 rv3 = QRandomGenerator::global()->bounded(1, 50000);
+    quint32 rv3 = QRandomGenerator::global()->bounded(1, 1000);
     program.setUniformValue(random_uniform, rv1, rv2, rv3);
   }
 
