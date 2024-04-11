@@ -9,7 +9,7 @@
 static const char *c_last_opend_file_str = "last_opened_file";
 static const QColor c_widget_background_color = QColor(250, 250, 248);
 static const QColor c_widget_pen_color = QColor(255, 255, 255);
-static const int c_widget_pen_width = 3;
+static const int c_widget_pen_width = 5;
 // static const int c_widget_image_top_margin = 30;
 static const int c_filter_buttons_bottom_margin = 20;
 static const int c_up_buttons_top_margin = 30;
@@ -309,33 +309,42 @@ void FiltersWidget::UpdateImage() {
 
 void FiltersWidget::paintEvent(QPaintEvent *event) {
   QPainter painter(this);
-  QRect dirty_rect = event->rect();
+
+  // Draw background
+  QRectF dirty_rect = event->rect();
   QImage scaled_background_image = background_image_.scaledToWidth(
       dirty_rect.width(), Qt::SmoothTransformation);
   painter.drawImage(0, dirty_rect.height() - scaled_background_image.height(),
                     scaled_background_image);
 
+  // Draw Image
   if (image_ && !image_->isNull()) {
-    const auto geom_height = geometry().size().height();
-    const auto geom_width = geometry().size().width();
+    const auto geom_height = dirty_rect.height();
+    const auto geom_width = dirty_rect.width();
 
-    QImage image;
-    if (geom_height / geom_width > image_->height() / image_->width())
-      image = image_->scaledToWidth(geom_width);
-    else
-      image = image_->scaledToHeight(geom_height);
-
-    dirty_rect.setLeft((dirty_rect.width() - image.rect().width()) / 2);
-    dirty_rect.setTop((dirty_rect.height() - image.rect().height()) / 2);
-    dirty_rect.setWidth(image.rect().width());
-    dirty_rect.setHeight(image.rect().height());
+    QRectF paint_rect;
+    if (geom_height / geom_width > image_->height() / image_->width()) {
+      paint_rect.setWidth(geom_width - 2.0 * c_widget_pen_width);
+      paint_rect.setHeight(image_->height() * paint_rect.width() /
+                           image_->width());
+      paint_rect.moveTop((dirty_rect.height() - paint_rect.height()) / 2.0);
+      paint_rect.moveLeft(c_widget_pen_width);
+    } else {
+      paint_rect.setHeight(geom_height - 2.0 * c_widget_pen_width);
+      paint_rect.setWidth(image_->width() * paint_rect.height() /
+                          image_->height());
+      paint_rect.moveLeft((dirty_rect.width() - paint_rect.width()) / 2.0);
+      paint_rect.moveTop(c_widget_pen_width);
+    }
 
     auto pen = painter.pen();
     pen.setColor(c_widget_pen_color);
     pen.setWidth(c_widget_pen_width);
     painter.setPen(pen);
-    painter.drawRect(dirty_rect);
-    painter.drawImage(dirty_rect, image, image.rect());
+    painter.drawRect(paint_rect);
+
+    painter.drawImage(paint_rect, *image_, image_->rect(),
+                      Qt::AutoColor | Qt::DiffuseDither);
   }
 }
 
