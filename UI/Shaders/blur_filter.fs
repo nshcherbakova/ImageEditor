@@ -8,7 +8,7 @@ uniform highp vec2 in_resolution;
 
 
 void main() {
-    highp float Pi = 6.28318530718;
+/*    highp float Pi = 6.28318530718;
     
     highp float Directions = 16.0;
     highp float Quality = 4.0;
@@ -26,6 +26,6 @@ void main() {
         }
     }
 
-    Color /= Quality * Directions;
-    FragColor =  texture( in_texture, io_texture_coordinates);
+    Color /= Quality * Directions;*/
+    FragColor =  textureLod( in_texture, io_texture_coordinates, 3.0);
 }
