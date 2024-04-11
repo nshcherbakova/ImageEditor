@@ -27,5 +27,5 @@ void main() {
     }
 
     Color /= Quality * Directions;
-    FragColor =  textureLod( in_texture, io_texture_coordinates);
+    FragColor =  texture( in_texture, io_texture_coordinates);
 }
