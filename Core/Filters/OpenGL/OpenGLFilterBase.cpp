@@ -25,17 +25,6 @@ unsigned int indices[] = {
     1, 2, 3  // second triangle
 };
 
-} // namespace
-namespace ImageEditor::Core {
-std::unique_ptr<QOpenGLFunctions> OpenGLFilterBase::ogl_functions_;
-
-void OpenGLFilterBase::InitializeOpenGL() {
-  if (!ogl_functions_) {
-    ogl_functions_ = std::make_unique<QOpenGLFunctions>();
-    ogl_functions_->initializeOpenGLFunctions();
-  }
-}
-
 QString shaderDataFromFile(QString file_name) {
   // shader file has no glsl version
   // add version  dependend of platform
@@ -48,8 +37,27 @@ QString shaderDataFromFile(QString file_name) {
   auto text = QTextStream(&file).readAll();
   file.close();
 
-  QString version = GLPlatform::GLSLVersion();
+  QString version = ImageEditor::Core::GLPlatform::GLSLVersion();
   return text.arg(version);
+}
+
+QImage resizeImage(QImage image, QSize size) {
+  QImage new_image(size, image.format());
+  QRect rect({0, 0}, size);
+  QPainter(&new_image)
+      .drawImage(rect, image, image.rect(), Qt::AutoColor | Qt::DiffuseDither);
+  return new_image;
+}
+} // namespace
+
+namespace ImageEditor::Core {
+std::unique_ptr<QOpenGLFunctions> OpenGLFilterBase::ogl_functions_;
+
+void OpenGLFilterBase::InitializeOpenGL() {
+  if (!ogl_functions_) {
+    ogl_functions_ = std::make_unique<QOpenGLFunctions>();
+    ogl_functions_->initializeOpenGLFunctions();
+  }
 }
 
 IImagePtr OpenGLFilterBase::Apply(const IImagePtr image_src,
@@ -64,26 +72,30 @@ IImagePtr OpenGLFilterBase::Apply(const IImagePtr image_src,
                image_src->Height(), image_src->BytesPerLine(),
                QImage::Format(image_src->Format()));
 
-  // const qreal retinaScale = QApplication::activeWindow()->devicePixelRatio();
-  // qWarning() << "*********** " << image.height();
-  //  qWarning() << "*********** " << image.width();
-  /* if(720 / 1280 < image.height()/ image.width())
-       image = image.scaledToWidth(2560, Qt::SmoothTransformation);
-   else
-       image = image.scaledToHeight(1440, Qt::SmoothTransformation);*/
+  auto filter_parameters = FilterParameters();
+  if (filter_parameters.resize_befor_applying) {
+    // resize image to sutable for this filter size
+    auto new_size = filter_parameters.filtered_image_size;
 
-  // qWarning() << "*********** " << image.height();
-  // qWarning() << "*********** " << image.width();
-
-  /* QImage image(image_src->Data().data(), image_src->Width(),
-                image_src->Height(), image_src->BytesPerLine(),
-                QImage::Format(image_src->Format()));*/
+    if (float(image.width()) / float(image.height()) > 1.0) {
+      new_size.setWidth(image.width() * new_size.height() / image.height());
+    } else {
+      new_size.setHeight(image.height() * new_size.width() / image.width());
+    }
+    image = resizeImage(image, new_size);
+  }
 
   ogl_functions_->glViewport(0, 0, image.width(), image.height());
 
   const auto filters = TransformFilters();
   for (unsigned int i = 0; i < filters.size(); i++) {
     image = Apply(image, filters[i], parameters);
+  }
+
+  if (filter_parameters.resize_befor_applying) {
+    // resize image back
+    image =
+        resizeImage(image, {int(image_src->Width()), int(image_src->Height())});
   }
 
   Core::IImagePtr new_image =
@@ -212,4 +224,9 @@ OpenGLFilterBase::Apply(const QImage &image,
   spdlog::info("Image processed");
   return QImage(fbo.toImage()).convertToFormat(image.format());
 }
+
+OpenGLFilterBase::Parameters OpenGLFilterBase::FilterParameters() const {
+  return Parameters();
+}
+
 } // namespace ImageEditor::Core
