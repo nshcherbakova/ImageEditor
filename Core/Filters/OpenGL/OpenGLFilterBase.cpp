@@ -1,5 +1,8 @@
 #include "OpenGLFilterBase.h"
+#include "platform/GLPlatform.h"
 #include <stdafx.h>
+
+namespace {
 
 static const char *c_texture_coord_attr_name_str = "in_texture_coord";
 static const char *c_texture_attr_name_str = "in_texture";
@@ -7,6 +10,7 @@ static const char *c_rnd_texture_attr_name_str = "random_texture";
 static const char *c_resolution_attr_name_str = "in_resolution";
 
 // clang-format off
+// rectangle and texture vertexes
 static const GLfloat sg_vertexes[] = {
      1.0f,  1.0f, 0.0f,      1.0f, 1.0f,
      1.0f, -1.0f, 0.0f,      1.0f, 0.0f,
@@ -15,11 +19,13 @@ static const GLfloat sg_vertexes[] = {
 };
 // clang-format on
 
+// triangles indexes  to draw rectangle for texture
 unsigned int indices[] = {
     0, 1, 3, // first triangle
     1, 2, 3  // second triangle
 };
 
+} // namespace
 namespace ImageEditor::Core {
 std::unique_ptr<QOpenGLFunctions> OpenGLFilterBase::ogl_functions_;
 
@@ -28,6 +34,22 @@ void OpenGLFilterBase::InitializeOpenGL() {
     ogl_functions_ = std::make_unique<QOpenGLFunctions>();
     ogl_functions_->initializeOpenGLFunctions();
   }
+}
+
+QString shaderDataFromFile(QString file_name) {
+  // shader file has no glsl version
+  // add version  dependend of platform
+  // right now shader code crossplatfom, but version of GLSL are different
+  QFile file(file_name);
+  if (!file.open(QFile::ReadOnly | QFile::Text)) {
+    spdlog::error("Can't open shader file {0}", file_name.toStdString());
+    UNI_ASSERT(false);
+  }
+  auto text = QTextStream(&file).readAll();
+  file.close();
+
+  QString version = GLPlatform::GLSLVersion();
+  return text.arg(version);
 }
 
 IImagePtr OpenGLFilterBase::Apply(const IImagePtr image_src,
@@ -94,25 +116,10 @@ OpenGLFilterBase::Apply(const QImage &image,
   // Create Shader (Do not release until VAO is created)
   QOpenGLShaderProgram program;
 
-  QFile vfile(filter.first);
-  vfile.open(QFile::ReadOnly | QFile::Text);
-  auto vtext = QTextStream(&vfile).readAll();
-  vfile.close();
-
-  QFile ffile(filter.second);
-  ffile.open(QFile::ReadOnly | QFile::Text);
-  auto ftext = QTextStream(&ffile).readAll();
-  ffile.close();
-
-  QString version;
-#ifdef Q_OS_ANDROID
-  version = "320 es";
-#else
-  version = "330 core";
-#endif
-
-  program.addShaderFromSourceCode(QOpenGLShader::Vertex, vtext.arg(version));
-  program.addShaderFromSourceCode(QOpenGLShader::Fragment, ftext.arg(version));
+  program.addShaderFromSourceCode(QOpenGLShader::Vertex,
+                                  shaderDataFromFile(filter.first));
+  program.addShaderFromSourceCode(QOpenGLShader::Fragment,
+                                  shaderDataFromFile(filter.second));
   program.link();
   program.bind();
 
@@ -186,17 +193,18 @@ OpenGLFilterBase::Apply(const QImage &image,
 
   // Render using our shader
   program.bind();
-
   object.bind();
   fbo.bind();
-  ogl_functions_->glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-  fbo.release();
 
+  ogl_functions_->glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+  fbo.release();
   object.release();
   index.release();
   vertex.release();
   program.release();
   texture.release();
+
   if (screen_rnd_texture_uniform != -1) {
     rnd_texture.release();
   }
