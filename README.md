@@ -101,4 +101,8 @@ There are several goals of this project:
 - Natalya Shcherbakova 
 - Anton Shcherbakov 
 - Olga Demidova  
-- Shutterstock 
+- Shutterstock
+
+**Licenses:**
+- LGPL
+- used shader by Martijn Steinrucken License Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License
