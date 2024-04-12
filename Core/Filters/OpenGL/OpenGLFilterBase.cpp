@@ -47,6 +47,11 @@ QImage resizeImage(QImage image, QSize size) {
   QRect rect({0, 0}, size);
   QPainter(&new_image)
       .drawImage(rect, image, image.rect(), Qt::AutoColor | Qt::DiffuseDither);
+
+  // qWarning() << "Image resizing" << " " << image.width() << " " <<
+  // image.height(); qWarning() << "New image size" << " " << new_image.width()
+  // << " " << new_image.height();
+
   return new_image;
 }
 } // namespace
@@ -185,10 +190,11 @@ OpenGLFilterBase::Apply(const QImage &image,
 
   if (random_uniform != -1) {
     // TODO make it more general. Now this code ajusted for drops filter
-    quint32 rv1 = QRandomGenerator::global()->bounded(1, image.width());
-    quint32 rv2 = QRandomGenerator::global()->bounded(1, image.height());
-    quint32 rv3 = QRandomGenerator::global()->bounded(1, 1000);
-    program.setUniformValue(random_uniform, rv1, rv2, rv3);
+    // quint32 rv1 = QRandomGenerator::global()->bounded(1, image.width());
+    // quint32 rv2 = QRandomGenerator::global()->bounded(1, image.height());
+    quint32 rv3 = QRandomGenerator::global()->bounded(1, 2000);
+    program.setUniformValue(random_uniform, 1, 1, rv3);
+    // qWarning() << rv1 << " " << rv2 << " " << rv3;
   }
 
   // Create Buffer (Do not release until VAO is created)

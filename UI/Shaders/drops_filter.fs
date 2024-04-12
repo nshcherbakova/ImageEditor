@@ -3,7 +3,7 @@
 // Used part of Heartfelt - by Martijn Steinrucken aka BigWings - 2017
 // License Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 
-out mediump vec4 FragColor;
+out highp vec4 FragColor;
 
 in mediump vec2 io_texture_coordinates;
 
@@ -30,7 +30,7 @@ highp float N(highp float t) {
 }
 
 highp float Saw(highp float b, highp float t) {
-        return S(0., b, t)*S(1., b, t);
+    return S(0., b, t)*S(1., b, t);
 }
 
 
@@ -115,7 +115,7 @@ void main()
     highp float mx = float(int(in_random.x/in_resolution.x));
     highp float my = float(int(in_random.y/in_resolution.y));
     highp vec3 M = vec3(in_random.x - mx*in_resolution.x, in_random.y - my*in_resolution.y, 0.0) / vec3(in_resolution, 1.0);
-   highp  float T = in_random.z + M.x*2.;
+    highp  float T = in_random.z + M.x*2.;
 
 
     highp float t = T*.2;
@@ -123,7 +123,7 @@ void main()
     highp float rainAmount =  sin(T*.05)*.3+.7;
 
     highp float maxBlur = mix(3., 6., rainAmount);
-   highp  float minBlur = 2.;
+    highp  float minBlur = 2.;
 
     highp float zoom = 1.0;
     uv *= .7+zoom*.3;
@@ -137,11 +137,11 @@ void main()
 
     highp vec2 c = Drops(uv, t, staticDrops, layer1, layer2);
 
-        highp vec2 e = vec2(.001, 0.);
-        highp float cx = Drops(uv+e, t, staticDrops, layer1, layer2).x;
-        highp float cy = Drops(uv+e.yx, t, staticDrops, layer1, layer2).x;
-        highp vec2 n = vec2(cx-c.x, cy-c.x);		// expensive normals
-
+    highp vec2 n = vec2(dFdx(c.x), dFdy(c.x));
+   /* highp vec2 e = vec2(.001, 0.);
+    highp        float cx = Drops(uv+e, t, staticDrops, layer1, layer2).x;
+     highp       float cy = Drops(uv+e.yx, t, staticDrops, layer1, layer2).x;
+     highp       vec2 n = vec2(cx-c.x, cy-c.x);		// expensive normals*/
 
 
     highp float focus = mix(maxBlur-c.y, minBlur, S(.1, .2, c.x));
