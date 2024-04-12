@@ -82,7 +82,7 @@ IImagePtr OpenGLFilterBase::Apply(const IImagePtr image_src,
   if (filter_parameters.resize_befor_applying) {
     // resize image to sutable for this filter size
     auto new_size = filter_parameters.filtered_image_size;
-
+    // qWarning() << " new size " << new_size;
     if (float(image.width()) / float(image.height()) > 1.0) {
       new_size.setWidth(image.width() * new_size.height() / image.height());
     } else {
