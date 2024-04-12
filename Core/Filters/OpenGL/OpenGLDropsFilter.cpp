@@ -17,7 +17,7 @@ const std::string OpenGLDropsFilter::Description() const {
 }
 
 OpenGLDropsFilter::Parameters OpenGLDropsFilter::FilterParameters() const {
-  return {true, {720, 720}};
+  return {true, {1280, 10280}};
 }
 
 } // namespace ImageEditor::Core

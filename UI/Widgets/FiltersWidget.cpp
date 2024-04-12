@@ -39,7 +39,7 @@ static const char *c_filter_button_style_template_str =
 
     "QPushButton:disabled{color: rgb(190, 190, 190);}"
     "QPushButton:hover{border-color: rgba(170, 170, 170, 255);}"
-    "QPushButton:checked{background-color: rgba(242, 229, 199, 220);}"
+    "QPushButton:checked{background-color: rgba(246, 228, 215, 220);}"
     "QPushButton:checked:pressed {border-color: rgba(170, 170, 170, 255);}"
     "QPushButton:pressed{background-color: rgba(239, 232, 225, 220);}";
 
