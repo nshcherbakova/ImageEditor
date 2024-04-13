@@ -9,6 +9,8 @@
 #include <UI/types.h>
 
 class QPushButton;
+class QLabel;
+
 namespace ImageEditor::UI {
 class UICommand;
 
@@ -41,11 +43,13 @@ private slots:
 
 private:
   void CreateMenuButtons();
+  void CreateAbout();
   QPushButton *CreateButton(const QString name, const int button_width);
 
 private:
   QString image_file_name_;
   QPushButton *save_button_ = nullptr;
+  QLabel *about_ = nullptr;
 };
 } // namespace ImageEditor::UI
 #endif // IMAGEEDITOR_UI_WIDGETS_MENUDIALOG_H

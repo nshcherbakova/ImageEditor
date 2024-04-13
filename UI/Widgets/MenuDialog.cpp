@@ -32,6 +32,17 @@ static const int c_buttons_vmargin = 60;
 static const QStringList c_mime_type_filters({"image/jpeg", "image/pjpeg",
                                               "image/png", "image/bmp"});
 
+static const int c_about_margin_left = 20;
+static const int c_about_margin_bottom = 105;
+static const char *c_about_style_str =
+    "QLabel{"
+    "font-size: 20; font-family: Typo Round Regular Demo;"
+    "}";
+static const char *c_about_font_color_str = "#669692";
+static const char *c_about_link_str =
+    "\"https://github.com/nshcherbakova/ImageEditor\" ";
+static const char *c_about_text_str = "About Image Editor";
+
 namespace ImageEditor::UI {
 MenuDialog::MenuDialog(const Parameters parameters)
     : QWidget(parameters.parent), image_file_name_(parameters.image_file_name) {
@@ -46,6 +57,7 @@ MenuDialog::MenuDialog(const Parameters parameters)
   setPalette(palette);
 
   CreateMenuButtons();
+  CreateAbout();
 }
 
 void MenuDialog::CreateMenuButtons() {
@@ -60,12 +72,12 @@ void MenuDialog::CreateMenuButtons() {
       parent_rect.width(), button_height * 3 + c_buttons_vmargin));
 
   // buttons layput
-  auto filter_buttons_layout = new QVBoxLayout(buttons_widget);
-  filter_buttons_layout->setContentsMargins(
-      c_layout_margin_left, c_layout_margin_top, c_layout_margin_right,
-      c_layout_margin_bottom);
+  auto buttons_layout = new QVBoxLayout(buttons_widget);
+  buttons_layout->setContentsMargins(c_layout_margin_left, c_layout_margin_top,
+                                     c_layout_margin_right,
+                                     c_layout_margin_bottom);
 
-  buttons_widget->setLayout(filter_buttons_layout);
+  buttons_widget->setLayout(buttons_layout);
 
   // create buttons
   QPushButton *open_button = CreateButton(UIString(c_open_str), button_height);
@@ -101,9 +113,10 @@ void MenuDialog::CreateMenuButtons() {
    canel_button->setStyleSheet(c_button_style_str);
    canel_button->setMaximumHeight(button_height);*/
 
-  filter_buttons_layout->addWidget(open_button);
-  filter_buttons_layout->addWidget(save_button_);
-  filter_buttons_layout->addWidget(share_button);
+  buttons_layout->addWidget(open_button);
+  buttons_layout->addWidget(save_button_);
+  buttons_layout->addWidget(share_button);
+
   // filter_buttons_layout->addWidget(upload_button);
   // filter_buttons_layout->addWidget(canel_button);
 }
@@ -117,6 +130,29 @@ QPushButton *MenuDialog::CreateButton(const QString name,
   button->setContentsMargins(0, 0, 0, 0);
 
   return button;
+}
+
+void MenuDialog::CreateAbout() {
+  const QRect parent_rect = geometry();
+
+  about_ = new QLabel(this);
+  about_->setStyleSheet(c_about_style_str);
+
+  QString text("<a style=text-decoration:none style=color:%1 href=%2>%3</a>");
+  text = text.arg(c_about_font_color_str, c_about_link_str, c_about_text_str);
+
+  about_->setText(text);
+  about_->setOpenExternalLinks(true);
+
+  about_->adjustSize();
+
+  QRect rect;
+  rect.setHeight(about_->height());
+  rect.setWidth(about_->width());
+  rect.moveTopLeft(
+      {c_about_margin_left,
+       parent_rect.height() - about_->height() - c_about_margin_bottom});
+  about_->setGeometry(rect);
 }
 
 void MenuDialog::OnButtonOpenClicked() {
