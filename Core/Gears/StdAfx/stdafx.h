@@ -6,7 +6,9 @@
 #include <spdlog/spdlog.h>
 
 #include <QDateTime>
+#include <QDebug>
 #include <QDir>
+#include <QFile>
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QHBoxLayout>
@@ -16,6 +18,7 @@
 #include <QRandomGenerator>
 #include <QSettings>
 #include <QSplashScreen>
+#include <QStandardPaths>
 #include <QVariant>
 #include <QWidget>
 #include <QtWidgets/QApplication>
@@ -24,6 +27,7 @@
 #ifdef Q_OS_ANDROID
 #include <QJniObject>
 #include <QtCore/private/qandroidextras_p.h>
+#include <jni.h>
 #endif
 
 #include <QOpenGLBuffer>

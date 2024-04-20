@@ -1,22 +1,18 @@
 
-#include <jni.h>
-
-#include <QDateTime>
-#include <QDebug>
-#include <QDir>
-#include <QFile>
-#include <QFileInfo>
-#include <QJniObject>
-#include <QStandardPaths>
-#include <QUrl>
+#include <stdafx.h>
+#ifdef Q_OS_ANDROID
+#include "AndroidShareUtils.h"
+#else
+#include "DummyShareUtils.h"
+#endif
 
 #include "ShareUtilsCpp.h"
 
+namespace ShareUtils {
+
 ShareUtilsCpp::ShareUtilsCpp(QObject *parent) : QObject(parent) {
-#if defined(Q_OS_IOS)
-  mPlatformShareUtils = new IosShareUtils(this);
-#elif defined(Q_OS_ANDROID)
-  mPlatformShareUtils = new AndroidShareUtils(this);
+#ifdef Q_OS_ANDROID
+  mPlatformShareUtils = new Android::AndroidShareUtils(this);
 #else
   // NOTE: The dummy is here so that the object compiles well for desktop \
     // builds, however, since this project is meant for iOS and Android native \
@@ -24,7 +20,7 @@ ShareUtilsCpp::ShareUtilsCpp(QObject *parent) : QObject(parent) {
     // methods for desktop as well. If you're interested in accessing files on \
     // desktop, Qt provides `QFileDialog` for this explicit purpose, and this \
     // class better matches the desktop design pattern.
-  mPlatformShareUtils = new DummyShareUtils(this);
+  mPlatformShareUtils = new Dummy::DummyShareUtils(this);
 #endif
 
   connect(mPlatformShareUtils, SIGNAL(shareFinished(int)), this,
@@ -49,11 +45,6 @@ void ShareUtilsCpp::sendFile(const QString &filePath, const QString &title,
   mPlatformShareUtils->sendFile(filePath, title, mimeType, requestId);
 }
 
-/*void ShareUtilsCpp::viewFile(const QString &filePath, const QString &title,
-const QString &mimeType, const int &requestId) {
-    mPlatformShareUtils->viewFile(filePath, title, mimeType, requestId);
-}*/
-
 void ShareUtilsCpp::checkPendingIntents() {
   mPlatformShareUtils->checkPendingIntents();
 }
@@ -75,3 +66,4 @@ void ShareUtilsCpp::onShareError(int requestCode, QString message) {
 void ShareUtilsCpp::onFileUrlReceived(QString url) {
   emit fileUrlReceived(url);
 }
+} // namespace ShareUtils

@@ -296,11 +296,11 @@ void FiltersWidget::OnSignalUploadImage() {
 
 void FiltersWidget::OnSignalShareImage() {
   if (!share_utiles_) {
-    share_utiles_ = std::make_shared<ShareUtilsCpp>();
+    share_utiles_ = std::make_shared<ShareUtils::ShareUtilsCpp>();
   }
   auto tmp_path = QStandardPaths::writableLocation(
                       QStandardPaths::StandardLocation::PicturesLocation) +
-                  "/tmp.jpg";
+                  "/ie_tmp.jpg";
   image_->save(tmp_path, "JPG");
 
   share_utiles_->sendFile(tmp_path, "View File", "image/jpg", 0);

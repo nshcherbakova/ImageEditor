@@ -28,9 +28,8 @@ RCC_DIR += .
 win32:QMAKE_CXXFLAGS += /std:c++17
 unix:QMAKE_CXXFLAGS += -std=c++17
 
-include(ImageEditor.pri)
-
 android {
+
 DISTFILES += \
     android/AndroidManifest.xml \
     android/build.gradle \
@@ -39,7 +38,11 @@ DISTFILES += \
     android/gradle/wrapper/gradle-wrapper.properties \
     android/gradlew \
     android/gradlew.bat \
-    android/res/values/libs.xml
+    android/res/values/libs.xml \
+    android/res/xml/filepaths.xml \
+    android/src/org/nshcherbakova/activity/QShareActivity.java \
+    android/src/org/nshcherbakova/utils/QSharePathResolver.java \
+    android/src/org/nshcherbakova/utils/QShareUtils.java
 }
 
 contains(ANDROID_TARGET_ARCH,arm64-v8a) {
@@ -52,8 +55,9 @@ contains(ANDROID_TARGET_ARCH,x86_64) {
         $$PWD/android
 }
 
-DISTFILES += \
-    android/res/xml/filepaths.xml \
-    android/src/org/nshcherbakova/activity/QShareActivity.java \
-    android/src/org/nshcherbakova/utils/QSharePathResolver.java \
-    android/src/org/nshcherbakova/utils/QShareUtils.java
+include(ImageEditor.pri)
+
+!android {
+HEADERS -= $$IMAGEEDITOR_PATH/Core/shareutils/AndroidShareUtils.h
+SOURCES -= $$IMAGEEDITOR_PATH/Core/shareutils/AndroidShareUtils.cpp
+}
