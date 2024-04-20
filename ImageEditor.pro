@@ -51,3 +51,9 @@ contains(ANDROID_TARGET_ARCH,x86_64) {
     ANDROID_PACKAGE_SOURCE_DIR = \
         $$PWD/android
 }
+
+DISTFILES += \
+    android/res/xml/filepaths.xml \
+    android/src/org/nshcherbakova/activity/QShareActivity.java \
+    android/src/org/nshcherbakova/utils/QSharePathResolver.java \
+    android/src/org/nshcherbakova/utils/QShareUtils.java

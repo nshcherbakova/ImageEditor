@@ -8,6 +8,8 @@
 #include <UI/Widgets/IWidget.h>
 #include <UI/types.h>
 
+class ShareUtilsCpp;
+
 namespace ImageEditor::UI {
 class UICommand;
 class MenuDialog;
@@ -60,6 +62,7 @@ private:
   QImage background_image_;
 
   Modules::INetworkPtr network_;
+  std::shared_ptr<ShareUtilsCpp> share_utiles_;
 };
 
 } // namespace ImageEditor::UI

@@ -45,6 +45,7 @@
 #include <Core/Gears/Injector.h>
 #include <Core/Image/IImage.h>
 #include <Core/Image/ImageModule.h>
+#include <Core/shareutils/ShareUtilsCpp.h>
 #include <Core/types.h>
 
 #include <Modules/EditableImage/EditableImageModule.h>
