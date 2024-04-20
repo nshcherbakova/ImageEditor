@@ -5,11 +5,9 @@
 #include <QDebug>
 #include <QObject>
 
-#include "PlatformShareUtils.h"
+namespace ShareUtils {
 
-#if defined(Q_OS_ANDROID)
-#include <QtCore/private/qandroidextras_p.h>
-#endif // Q_OS_ANDROID
+class IPlatformShareUtils;
 
 /*!
  * \brief The ShareUtils class interfaces the various ShareUtils for each
@@ -24,30 +22,24 @@ class ShareUtilsCpp : public QObject {
   Q_OBJECT
 
 public:
-  /// constructor, the `PlatformShareUtils` will be different in different OSes.
+  /// constructor, the `IPlatformShareUtils` will be different in different
+  /// OSes.
   explicit ShareUtilsCpp(QObject *parent = nullptr);
 
-  /// @copydoc PlatformShareUtils::checkMimeTypeView(const QString&)
+  /// @copydoc IPlatformShareUtils::checkMimeTypeView(const QString&)
   bool checkMimeTypeView(const QString &mimeType);
 
 public slots:
 
-  /// @copydoc PlatformShareUtils::sendFile(const QString&, const QString&,
+  /// @copydoc IPlatformShareUtils::sendFile(const QString&, const QString&,
   /// const QString&, int)
   void sendFile(const QString &filePath, const QString &title,
                 const QString &mimeType, const int &requestId);
 
-  /* /// @copydoc PlatformShareUtils::viewFile(const QString&, const QString&,
-   /// const QString&, int)
-   void viewFile(const QString& filePath,
-                 const QString& title,
-                 const QString& mimeType,
-                 const int& requestId);*/
-
-  /// @copydoc PlatformShareUtils::checkPendingIntents()
+  /// @copydoc IPlatformShareUtils::checkPendingIntents()
   void checkPendingIntents();
 
-  /// @copydoc PlatformShareUtils::clearTempDir();
+  /// @copydoc IPlatformShareUtils::clearTempDir();
   void clearTempDir();
 
 signals:
@@ -85,7 +77,8 @@ private:
   /*! the object that is used to handle the native share interface. This object
    * will be a different class depending on what OS the Qt code is compiled for.
    */
-  PlatformShareUtils *mPlatformShareUtils;
+  IPlatformShareUtils *mPlatformShareUtils;
 };
 
+} // namespace ShareUtils
 #endif // SHAREUTILSCPP_H

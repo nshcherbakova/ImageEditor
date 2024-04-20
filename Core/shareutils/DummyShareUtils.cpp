@@ -4,7 +4,9 @@
 // my blog about Qt for mobile: http://j.mp/qt-x
 // see also /COPYRIGHT and /LICENSE
 
-#include <jni.h>
+#include <stdafx.h>
+
+#if defined(Q_OS_ANDROID)
 
 #include <QDateTime>
 #include <QDebug>
@@ -100,31 +102,6 @@ void AndroidShareUtils::sendFile(const QString &filePath, const QString &title,
   }
 }
 
-/*
- * If a requestId was set we want to get the Activity Result back (recommended)
- * We need the Request Id and Result Id to control our workflow
- */
-/*void AndroidShareUtils::viewFile(const QString& filePath,
-                                 const QString& title,
-                                 const QString& mimeType,
-                                 int requestId) {
-    QJniObject jsPath = QJniObject::fromString(filePath);
-    QJniObject jsTitle = QJniObject::fromString(title);
-    QJniObject jsMimeType = QJniObject::fromString(mimeType);
-    jboolean ok = QJniObject::callStaticMethod<jboolean>(
-        "org/nshcherbakova/utils/QShareUtils",
-        "viewFile",
-        "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)Z",
-        jsPath.object<jstring>(),
-        jsTitle.object<jstring>(),
-        jsMimeType.object<jstring>(),
-        requestId);
-    if (!ok) {
-        qWarning() << "Unable to resolve activity from Java";
-        emit shareNoAppAvailable(requestId);
-    }
-}
-*/
 // used from QAndroidActivityResultReceiver
 void AndroidShareUtils::handleActivityResult(int receiverRequestCode,
                                              int resultCode,
@@ -263,4 +240,5 @@ Java_org_nshcherbakova_activity_QShareActivity_fireActivityResult(
 
 #ifdef __cplusplus
 }
+#endif
 #endif
