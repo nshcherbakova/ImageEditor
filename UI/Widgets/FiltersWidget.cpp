@@ -71,6 +71,18 @@ static const char *c_filter_buttons_text_color_str_arr[] = {
     "#8E2DB7"            // fifth button color
 };
 
+static const char *c_open_image_style_str =
+    "QPushButton{"
+    "background: transparent;"
+    "color: rgba(142, 199, 89, 255); "
+    "font-size: 45px; "
+    "font-family: Typo Round Regular Demo;"
+    "border: none;"
+    "}"
+    "QPushButton:pressed{color: rgba(128, 184, 76, 255);}";
+
+static const char *c_open_image_text_str = "Open Image";
+
 namespace ImageEditor::UI {
 FiltersWidget::FiltersWidget(Parameters parameters)
     : QWidget(&(parameters.parent)),
@@ -89,11 +101,13 @@ FiltersWidget::FiltersWidget(Parameters parameters)
   CreateMenuButton();
   CreateCleanButton();
   CreateFilterButtons(parameters.filters_frame->Controls());
+  CreateOpenImageButton();
+  CreateMenu();
 
   spdlog::info("FiltersWidget UI created");
 
   onShow(false);
-  emit SignalEnableFilterButtons(false);
+  emit SignalImageOpened(false);
   emit SignalEnableCleanButton(false);
 }
 
@@ -119,24 +133,31 @@ void FiltersWidget::CreateMenuButton() {
 
   connect(menu_button, &QPushButton::clicked, this,
           &FiltersWidget::OnMenuButtonClicked);
+
+  connect(this, &FiltersWidget::SignalImageOpened, menu_button,
+          &QPushButton::setEnabled);
 }
 
-void FiltersWidget::OnMenuButtonClicked() {
-  if (!menu_) {
-    QSettings settings(QSettings::Scope::UserScope);
-    const QString last_file = settings.value(c_last_opend_file_str).toString();
-    menu_ = new MenuDialog(MenuDialog::Parameters{this, last_file});
-    connect(*menu_, &MenuDialog::SignalOpenImage, this,
-            &FiltersWidget::OnSignalOpenImage);
-    connect(*menu_, &MenuDialog::SignalSaveImage, this,
-            &FiltersWidget::OnSignalSaveImage);
-    connect(*menu_, &MenuDialog::SignalUploadImage, this,
-            &FiltersWidget::OnSignalUploadImage);
-    connect(*menu_, &MenuDialog::SignalShareImage, this,
-            &FiltersWidget::OnSignalShareImage);
-  }
-  (*menu_)->setVisible(true);
+void FiltersWidget::CreateMenu() {
+
+  QSettings settings(QSettings::Scope::UserScope);
+  const QString last_file = settings.value(c_last_opend_file_str).toString();
+  menu_ = new MenuDialog(MenuDialog::Parameters{this, last_file});
+  connect(menu_, &MenuDialog::SignalOpenImage, this,
+          &FiltersWidget::OnSignalOpenImage);
+  connect(menu_, &MenuDialog::SignalSaveImage, this,
+          &FiltersWidget::OnSignalSaveImage);
+  connect(menu_, &MenuDialog::SignalUploadImage, this,
+          &FiltersWidget::OnSignalUploadImage);
+  connect(menu_, &MenuDialog::SignalShareImage, this,
+          &FiltersWidget::OnSignalShareImage);
+  connect(open_image_button_, &QPushButton::clicked, menu_,
+          &MenuDialog::OnButtonOpenClicked);
+
+  menu_->setVisible(false);
 }
+
+void FiltersWidget::OnMenuButtonClicked() { menu_->setVisible(true); }
 
 void FiltersWidget::CreateCleanButton() {
   // create clean button
@@ -226,7 +247,7 @@ void FiltersWidget::CreateFilterButtons(Modules::IControlsMapPtr controls) {
       connect(ui_command, &UICommand::SignalCommandAppyed, this,
               &FiltersWidget::OnSignalCommandAppyed);
 
-      connect(this, &FiltersWidget::SignalEnableFilterButtons, button,
+      connect(this, &FiltersWidget::SignalImageOpened, button,
               &ImageButton::OnSignalEnable);
 
       // add button to layout
@@ -236,6 +257,28 @@ void FiltersWidget::CreateFilterButtons(Modules::IControlsMapPtr controls) {
       num++;
     }
   }
+}
+
+void FiltersWidget::CreateOpenImageButton() {
+  const QRect parent_rect = geometry();
+
+  open_image_button_ = new QPushButton(c_open_image_text_str, this);
+  open_image_button_->setStyleSheet(c_open_image_style_str);
+
+  open_image_button_->adjustSize();
+
+  QRect rect;
+  rect.setHeight(open_image_button_->height());
+  rect.setWidth(open_image_button_->width());
+  rect.moveTopLeft({(parent_rect.width() - open_image_button_->width()) / 2,
+                    (parent_rect.height() - open_image_button_->height()) / 2});
+
+  open_image_button_->setGeometry(rect);
+  connect(this, &FiltersWidget::SignalImageOpened, open_image_button_,
+          [&](bool opened) {
+            open_image_button_->setEnabled(!opened);
+            open_image_button_->setVisible(!opened);
+          });
 }
 
 void FiltersWidget::OnSignalOpenImage(const QString path) {
@@ -258,7 +301,7 @@ void FiltersWidget::OnSignalOpenImage(const QString path) {
     image_.reset();
     spdlog::error("Fail to open image {0}", path.toStdString());
   }
-  emit SignalEnableFilterButtons(image_ && !(image_->isNull()));
+  emit SignalImageOpened(image_ && !(image_->isNull()));
   emit SignalEnableCleanButton(false);
 }
 

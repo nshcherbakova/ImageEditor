@@ -34,8 +34,10 @@ signals:
 protected:
   void mouseReleaseEvent(QMouseEvent *event);
 
-private slots:
+public slots:
   void OnButtonOpenClicked();
+
+private slots:
   void OnButtonSaveClicked();
   void OnButtonUploadClicked();
   void OnButtonCancelClicked();
