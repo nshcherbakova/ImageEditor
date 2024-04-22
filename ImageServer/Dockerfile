@@ -5,4 +5,4 @@ COPY main.py main.py
 COPY docker/requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 EXPOSE 8081
-ENTRYPOINT ["python3", "main.py", "0.0.0.0" , "8081"]
+ENTRYPOINT ["python3", "main.py", "http://ie.antonsh.me/" , "81"]

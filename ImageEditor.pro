@@ -18,6 +18,7 @@ INCLUDEPATH +=$$IMAGEEDITOR_PATH/Core/Gears/StdAfx/ \
     $$IMAGE_EDITOR_THIRDPARTY/uniassert/include/ \
     $$IMAGE_EDITOR_THIRDPARTY/Boost/ \
     $$IMAGE_EDITOR_THIRDPARTY/spdlog/include/
+
 LIBS += -L"."
 PRECOMPILED_HEADER = Core/Gears/StdAfx/stdafx.h
 DEPENDPATH += .
@@ -27,6 +28,8 @@ UI_DIR += .
 RCC_DIR += .
 win32:QMAKE_CXXFLAGS += /std:c++17
 unix:QMAKE_CXXFLAGS += -std=c++17
+
+DEFINES += IMAGE_EDITOR_NO_UPLPAD
 
 android {
 

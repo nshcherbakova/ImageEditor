@@ -66,3 +66,6 @@ qrc_*.cpp
 ui_*.h
 Makefile*
 *.pri
+
+# GIT #
+tocken.rtf
