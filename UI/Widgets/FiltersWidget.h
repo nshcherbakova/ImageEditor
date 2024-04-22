@@ -34,7 +34,7 @@ public: // IWidget
   virtual void onShow(const bool visible) override final;
 
 signals:
-  void SignalEnableFilterButtons(const bool enable);
+  void SignalImageOpened(const bool enable);
   void SignalEnableCleanButton(const bool enable);
 
 public slots:
@@ -51,13 +51,16 @@ private: // QWidget
 
 private:
   void CreateMenuButton();
+  void CreateMenu();
   void CreateCleanButton();
   void CreateFilterButtons(Modules::IControlsMapPtr controls);
+  void CreateOpenImageButton();
 
   void UpdateImage();
 
 private:
-  std::optional<MenuDialog *> menu_;
+  MenuDialog *menu_ = nullptr;
+  QPushButton *open_image_button_ = nullptr;
 
   Modules::IEditableImagePtr editable_image_;
   std::shared_ptr<QImage> image_;
