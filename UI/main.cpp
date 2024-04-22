@@ -12,9 +12,11 @@ static const char *c_splash_screen_image_str = ":/Images/splash_screen";
 static const char *c_log_str = "/logs/ImageEditorLog.txt";
 static const char *c_logger_str = "logger";
 
+#ifndef IMAGE_EDITOR_NO_UPLPAD
 static const char *c_settings_image_server_str = "ImageServer";
 static const char *c_image_server_def_host_port_str =
-    "http://192.168.86.187:8081/";
+    "http://ie.antonsh.me:81/";
+#endif
 
 #ifdef Q_OS_ANDROID
 bool requestStoragePermission() {
@@ -110,8 +112,11 @@ int main(int argc, char *argv[]) {
 
   QCoreApplication::setOrganizationName(c_org_str);
   QCoreApplication::setApplicationName(c_app_str);
+
+#ifndef IMAGE_EDITOR_NO_UPLPAD
   QSettings(QSettings::Scope::UserScope)
       .setValue(c_settings_image_server_str, c_image_server_def_host_port_str);
+#endif
 
   QFontDatabase::addApplicationFont(c_font_str);
 

@@ -62,14 +62,14 @@ MenuDialog::MenuDialog(const Parameters parameters)
 
 void MenuDialog::CreateMenuButtons() {
   const QRect parent_rect = geometry();
-  const int button_height = parent_rect.height() / 7;
+  const int button_height = parent_rect.height() / 9;
 
   // buttons widget
   QWidget *buttons_widget = new QWidget(this);
   buttons_widget->setContentsMargins(0, 0, 0, c_buttons_margin);
   buttons_widget->setGeometry(QRect(
       0, (parent_rect.height() - button_height * 3) / 2 - c_buttons_vmargin,
-      parent_rect.width(), button_height * 3 + c_buttons_vmargin));
+      parent_rect.width(), button_height * 4 + c_buttons_vmargin));
 
   // buttons layput
   auto buttons_layout = new QVBoxLayout(buttons_widget);
@@ -93,12 +93,14 @@ void MenuDialog::CreateMenuButtons() {
   save_button_->setStyleSheet(c_button_style_str);
   save_button_->setMaximumHeight(button_height);
 
-  /* QPushButton *upload_button =
-       CreateButton(UIString(c_upload_str), button_height);
-   connect(upload_button, &QPushButton::clicked, this,
-           &MenuDialog::OnButtonUploadClicked);
-   upload_button->setStyleSheet(c_button_style_str);
-   upload_button->setMaximumHeight(button_height);*/
+#ifndef IMAGE_EDITOR_NO_UPLPAD
+  QPushButton *upload_button =
+      CreateButton(UIString(c_upload_str), button_height);
+  connect(upload_button, &QPushButton::clicked, this,
+          &MenuDialog::OnButtonUploadClicked);
+  upload_button->setStyleSheet(c_button_style_str);
+  upload_button->setMaximumHeight(button_height);
+#endif
 
   QPushButton *share_button =
       CreateButton(UIString(c_share_str), button_height);
@@ -116,6 +118,10 @@ void MenuDialog::CreateMenuButtons() {
   buttons_layout->addWidget(open_button);
   buttons_layout->addWidget(save_button_);
   buttons_layout->addWidget(share_button);
+
+#ifndef IMAGE_EDITOR_NO_UPLPAD
+  buttons_layout->addWidget(upload_button);
+#endif
 
   // filter_buttons_layout->addWidget(upload_button);
   // filter_buttons_layout->addWidget(canel_button);

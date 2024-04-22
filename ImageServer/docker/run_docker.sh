@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DEST_SERVER="192.168.126.107:8081"
+DEST_SERVER="127.0.0.1:8081"
 DOCKER_PORT="8081"
 
 echo "Build docker"

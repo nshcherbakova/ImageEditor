@@ -130,8 +130,8 @@ void FiltersWidget::OnMenuButtonClicked() {
             &FiltersWidget::OnSignalOpenImage);
     connect(*menu_, &MenuDialog::SignalSaveImage, this,
             &FiltersWidget::OnSignalSaveImage);
-    /*connect(*menu_, &MenuDialog::SignalUploadImage, this,
-            &FiltersWidget::OnSignalUploadImage);*/
+    connect(*menu_, &MenuDialog::SignalUploadImage, this,
+            &FiltersWidget::OnSignalUploadImage);
     connect(*menu_, &MenuDialog::SignalShareImage, this,
             &FiltersWidget::OnSignalShareImage);
   }
@@ -279,7 +279,7 @@ void FiltersWidget::OnSignalSaveImage(const QString path) {
 }
 
 void FiltersWidget::OnSignalUploadImage() {
-
+#ifndef IMAGE_EDITOR_NO_UPLPAD
   QByteArray byte_arr;
   QBuffer buffer(&byte_arr);
   buffer.open(QIODevice::WriteOnly);
@@ -292,6 +292,7 @@ void FiltersWidget::OnSignalUploadImage() {
         spdlog::info("OnSignalUploadImage POST request code {0}", error_code);
         qWarning() << "OnSignalUploadImage POST request code " << error_code;
       });
+#endif
 }
 
 void FiltersWidget::OnSignalShareImage() {
