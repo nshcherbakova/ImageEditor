@@ -26,6 +26,8 @@
         <file alias="splash_screen">Images/default/splash_screen.png</file>
         <file alias="splash_screen@2x">Images/default/splash_screen.png</file>
         <file alias="random">Images/default/random.png</file>
+        <file alias="share">Images/default/share.svg</file>
+        <file alias="share@2x">Images/default/share.svg</file>
     </qresource>
     <qresource prefix="/Fonts">
         <file alias="buttons_font">Fonts/Typo_Round_Regular_Demo.otf</file>

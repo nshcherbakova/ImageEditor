@@ -11,7 +11,7 @@ static const QColor c_widget_background_color = QColor(250, 250, 248);
 static const QColor c_widget_pen_color = QColor(255, 255, 255);
 static const int c_widget_pen_width = 5;
 // static const int c_widget_image_top_margin = 30;
-static const int c_filter_buttons_bottom_margin = 20;
+
 static const int c_up_buttons_top_margin = 30;
 static const int c_up_buttons_side_margin = 12;
 static const char *c_widget_background_image_str = ":/Images/widget_background";
@@ -20,6 +20,8 @@ static const char *c_widget_background_image_str = ":/Images/widget_background";
 static const int c_menu_button_width = 80;
 static const int c_menu_button_height = 50;
 // #ifndef Q_OS_ANDROID
+
+static const int c_filter_buttons_bottom_margin = 20;
 static const int c_filter_button_width = 72;
 /*#else
 static const int c_filter_button_width = 80;
@@ -83,6 +85,28 @@ static const char *c_open_image_style_str =
 
 static const char *c_open_image_text_str = "Open Image";
 
+static const char *c_share_image_style_str =
+    "QPushButton{"
+    "background: transparent;"
+    "border: none;"
+    "}"
+    "QPushButton:pressed{"
+    "background-color: rgba(239, 232, 225, 220);"
+    "border-color: rgba(239, 232, 225, 220);"
+    "border-radius: 20;"
+    "border-width: 4;"
+    "border-style: solid;"
+    "}";
+
+static const char *c_share_image_str = ":/Images/share";
+static const QSize c_share_image_size(32, 32);
+static const QSize c_share_size(50, 50);
+
+static const char *c_share_image_tmp_name_str = "/ie_tmp.jpg";
+static const char *c_save_share_image_format_str = "JPG";
+static const char *c_share_image_extension_str = "jpg";
+static const char *c_share_image_mime_type_str = "image/jpg";
+
 namespace ImageEditor::UI {
 FiltersWidget::FiltersWidget(Parameters parameters)
     : QWidget(&(parameters.parent)),
@@ -102,6 +126,7 @@ FiltersWidget::FiltersWidget(Parameters parameters)
   CreateCleanButton();
   CreateFilterButtons(parameters.filters_frame->Controls());
   CreateOpenImageButton();
+  CreateShareButton();
   CreateMenu();
 
   spdlog::info("FiltersWidget UI created");
@@ -129,7 +154,6 @@ void FiltersWidget::CreateMenuButton() {
   menu_button->setMaximumWidth(button_width);
   menu_button->setText("Menu");
   menu_button->setStyleSheet(QString(c_menu_button_style_template_str));
-  //    .arg(c_menu_button_image_prefix_str));
 
   connect(menu_button, &QPushButton::clicked, this,
           &FiltersWidget::OnMenuButtonClicked);
@@ -281,6 +305,35 @@ void FiltersWidget::CreateOpenImageButton() {
           });
 }
 
+void FiltersWidget::CreateShareButton() {
+  const QRect parent_rect = geometry();
+
+  QPushButton *share_button = new QPushButton(this);
+  share_button->setStyleSheet(c_share_image_style_str);
+
+  share_button->setIconSize(c_share_image_size);
+  share_button->setIcon(QIcon(c_share_image_str));
+
+  share_button->adjustSize();
+
+  QRect rect;
+  rect.setHeight(c_share_size.height());
+  rect.setWidth(c_share_size.width());
+
+  rect.moveTopLeft(
+      {(parent_rect.width() - rect.width() - c_menu_button_width -
+        c_up_buttons_side_margin * 2),
+       c_up_buttons_top_margin + (c_menu_button_height - rect.height()) / 2});
+
+  share_button->setGeometry(rect);
+  connect(this, &FiltersWidget::SignalImageOpened, share_button,
+          &QPushButton::setVisible);
+  connect(this, &FiltersWidget::SignalImageOpened, share_button,
+          &QPushButton::setEnabled);
+  connect(share_button, &QPushButton::clicked, this,
+          &FiltersWidget::OnSignalShareImage);
+}
+
 void FiltersWidget::OnSignalOpenImage(const QString path) {
   spdlog::info("Open new image {0}", path.toStdString());
 
@@ -308,7 +361,7 @@ void FiltersWidget::OnSignalOpenImage(const QString path) {
 void FiltersWidget::OnSignalSaveImage(const QString path) {
   UNI_ENSURE_RETURN(image_);
 
-  if (image_->save(path, "JPG")) {
+  if (image_->save(path, c_save_share_image_format_str)) {
     spdlog::info("Image was saved {0}", path.toStdString());
 
   } else {
@@ -326,10 +379,11 @@ void FiltersWidget::OnSignalUploadImage() {
   QByteArray byte_arr;
   QBuffer buffer(&byte_arr);
   buffer.open(QIODevice::WriteOnly);
-  image_->save(&buffer, "JPG");
+  image_->save(&buffer, c_save_share_image_format_str);
 
   Modules::Network::HttpPostBinary(
-      network_.get(), network_->ImageServerUrl(), "image/jpeg", "1.jpg",
+      network_.get(), network_->ImageServerUrl(), c_share_image_mime_type_str,
+      QString("1.%1").arg(c_share_image_extension_str).toStdString(),
       std::vector<char>(byte_arr.cbegin(), byte_arr.cend()),
       [](int error_code) {
         spdlog::info("OnSignalUploadImage POST request code {0}", error_code);
@@ -344,10 +398,11 @@ void FiltersWidget::OnSignalShareImage() {
   }
   auto tmp_path = QStandardPaths::writableLocation(
                       QStandardPaths::StandardLocation::PicturesLocation) +
-                  "/ie_tmp.jpg";
-  image_->save(tmp_path, "JPG");
+                  c_share_image_tmp_name_str;
+  image_->save(tmp_path, c_save_share_image_format_str);
 
-  share_utiles_->sendFile(tmp_path, "View File", "image/jpg", 0);
+  share_utiles_->sendFile(tmp_path, "View File", c_share_image_mime_type_str,
+                          0);
 }
 
 void FiltersWidget::OnSignalCommandAppyed() { UpdateImage(); }

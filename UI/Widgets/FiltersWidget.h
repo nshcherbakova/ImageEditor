@@ -55,6 +55,7 @@ private:
   void CreateCleanButton();
   void CreateFilterButtons(Modules::IControlsMapPtr controls);
   void CreateOpenImageButton();
+  void CreateShareButton();
 
   void UpdateImage();
 

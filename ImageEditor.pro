@@ -2,7 +2,7 @@ TEMPLATE = app
 TARGET = ImageEditor
 DESTDIR = ./x64/Debug
 CONFIG += debug
-QT = core gui widgets openglwidgets opengl network
+QT = core gui widgets openglwidgets opengl network svg
 android {
    QT += core-private
 }
