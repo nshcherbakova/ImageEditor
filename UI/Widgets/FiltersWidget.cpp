@@ -93,13 +93,13 @@ static const char *c_share_image_style_str =
     "QPushButton:pressed{"
     "background-color: rgba(239, 232, 225, 220);"
     "border-color: rgba(239, 232, 225, 220);"
-    "border-radius: 20;"
+    "border-radius: 15;"
     "border-width: 4;"
     "border-style: solid;"
     "}";
 
 static const char *c_share_image_str = ":/Images/share";
-static const QSize c_share_image_size(32, 32);
+static const QSize c_share_image_size(37, 37);
 static const QSize c_share_size(50, 50);
 
 static const char *c_share_image_tmp_name_str = "/ie_tmp.jpg";
