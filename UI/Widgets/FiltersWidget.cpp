@@ -99,7 +99,7 @@ static const char *c_share_image_style_str =
     "}";
 
 static const char *c_share_image_str = ":/Images/share";
-static const QSize c_share_image_size(37, 37);
+static const QSize c_share_image_size(32, 32);
 static const QSize c_share_size(50, 50);
 
 static const char *c_share_image_tmp_name_str = "/ie_tmp.jpg";
