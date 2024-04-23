@@ -5,7 +5,6 @@
 static const char *c_open_str = "Open";
 static const char *c_save_str = "Save";
 static const char *c_upload_str = "Upload";
-static const char *c_share_str = "Share";
 static const char *c_cancel_str = "Cancel";
 static const char *c_open_image_str = "Open Image";
 static const char *c_save_image_str = "Save Image";
@@ -62,7 +61,7 @@ MenuDialog::MenuDialog(const Parameters parameters)
 
 void MenuDialog::CreateMenuButtons() {
   const QRect parent_rect = geometry();
-  const int button_height = parent_rect.height() / 9;
+  const int button_height = parent_rect.height() / 7;
 
   // buttons widget
   QWidget *buttons_widget = new QWidget(this);
@@ -102,13 +101,6 @@ void MenuDialog::CreateMenuButtons() {
   upload_button->setMaximumHeight(button_height);
 #endif
 
-  QPushButton *share_button =
-      CreateButton(UIString(c_share_str), button_height);
-  connect(share_button, &QPushButton::clicked, this,
-          &MenuDialog::OnButtonShareClicked);
-  share_button->setStyleSheet(c_button_style_str);
-  share_button->setMaximumHeight(button_height);
-
   /* QPushButton* canel_button = CreateButton(UIString(c_cancel_str),
    button_height); connect(canel_button, &QPushButton::clicked, this,
    &MenuDialog::OnButtonCancelClicked);
@@ -117,7 +109,6 @@ void MenuDialog::CreateMenuButtons() {
 
   buttons_layout->addWidget(open_button);
   buttons_layout->addWidget(save_button_);
-  buttons_layout->addWidget(share_button);
 
 #ifndef IMAGE_EDITOR_NO_UPLPAD
   buttons_layout->addWidget(upload_button);
@@ -211,11 +202,6 @@ void MenuDialog::OnButtonSaveClicked() {
 
 void MenuDialog::OnButtonUploadClicked() {
   emit SignalUploadImage();
-  setVisible(false);
-}
-
-void MenuDialog::OnButtonShareClicked() {
-  emit SignalShareImage();
   setVisible(false);
 }
 

@@ -41,7 +41,6 @@ private slots:
   void OnButtonSaveClicked();
   void OnButtonUploadClicked();
   void OnButtonCancelClicked();
-  void OnButtonShareClicked();
 
 private:
   void CreateMenuButtons();
