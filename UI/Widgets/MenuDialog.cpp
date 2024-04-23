@@ -68,7 +68,7 @@ void MenuDialog::CreateMenuButtons() {
   buttons_widget->setContentsMargins(0, 0, 0, c_buttons_margin);
   buttons_widget->setGeometry(QRect(
       0, (parent_rect.height() - button_height * 3) / 2 - c_buttons_vmargin,
-      parent_rect.width(), button_height * 4 + c_buttons_vmargin));
+      parent_rect.width(), button_height * 3 + c_buttons_vmargin));
 
   // buttons layput
   auto buttons_layout = new QVBoxLayout(buttons_widget);

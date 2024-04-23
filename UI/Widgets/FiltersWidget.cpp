@@ -105,7 +105,7 @@ static const QSize c_share_size(50, 50);
 static const char *c_share_image_tmp_name_str = "/ie_tmp.jpg";
 static const char *c_save_share_image_format_str = "JPG";
 static const char *c_share_image_extension_str = "jpg";
-static const char *c_share_image_mime_type_str = "image/jpg";
+static const char *c_share_image_mime_type_str = "image/jpeg";
 
 namespace ImageEditor::UI {
 FiltersWidget::FiltersWidget(Parameters parameters)
