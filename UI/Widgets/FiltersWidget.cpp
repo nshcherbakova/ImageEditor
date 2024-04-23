@@ -76,12 +76,13 @@ static const char *c_filter_buttons_text_color_str_arr[] = {
 static const char *c_open_image_style_str =
     "QPushButton{"
     "background: transparent;"
-    "color: rgba(142, 199, 89, 255); "
-    "font-size: 45px; "
+    "color: rgba(145, 183, 124, 255); "
+    "font-size: 37px; "
     "font-family: Typo Round Regular Demo;"
     "border: none;"
+    "text-decoration: underline;"
     "}"
-    "QPushButton:pressed{color: rgba(128, 184, 76, 255);}";
+    "QPushButton:pressed{color: rgba(117, 154, 97, 255);}";
 
 static const char *c_open_image_text_str = "Open Image";
 
@@ -337,13 +338,24 @@ void FiltersWidget::CreateShareButton() {
 void FiltersWidget::OnSignalOpenImage(const QString path) {
   spdlog::info("Open new image {0}", path.toStdString());
 
+  QFileInfo fi(path);
+  if (!fi.exists(path) || !fi.isFile() || !fi.isReadable()) {
+    spdlog::warn("file does not exist {0}", path.toStdString());
+    return;
+  }
+
+  QImageReader reader(path);
+  if (!reader.canRead()) {
+    spdlog::warn("Can't read file {0}", path.toStdString());
+    return;
+  }
+
+  reader.setAutoTransform(true);
+
   RadioButton::UncheckAll(this, Modules::FILTER_BUTTON_TAG);
 
   QSettings settings(QSettings::Scope::UserScope);
   settings.setValue(c_last_opend_file_str, path);
-
-  QImageReader reader(path);
-  reader.setAutoTransform(true);
 
   image_ = std::make_shared<QImage>();
 
