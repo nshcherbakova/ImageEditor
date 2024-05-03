@@ -46,5 +46,7 @@
         <file alias="drops_filter_vs">Shaders/drops_filter.vs</file>
         <file alias="watercolor_filter_1_fs">Shaders/watercolor_filter_1.fs</file>
         <file alias="watercolor_filter_2_fs">Shaders/watercolor_filter_2.fs</file>
+        <file alias="dith_filter_fs">Shaders/dith_filter.fs</file>
+        <file alias="dith_filter_vs">Shaders/dith_filter.vs</file>
     </qresource>
 </RCC>
