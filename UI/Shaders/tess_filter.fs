@@ -7,7 +7,7 @@ uniform sampler2D in_texture;
 uniform highp vec2 in_resolution;
 
 void main() {
-        highp vec4 res;
+        highp vec4 res = vec4(0.0, 0.0, 0.0, 0.0);
         highp float coord = 1.0;
         highp vec2 r = coord/in_resolution.xy;
         highp vec2 uv = io_texture_coordinates;
