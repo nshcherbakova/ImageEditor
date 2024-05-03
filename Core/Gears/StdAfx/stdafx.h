@@ -67,3 +67,16 @@
 #include <UI/Widgets/IWidget.h>
 #include <UI/Widgets/SplashScreen.h>
 #include <UI/Widgets/WidgetsModule.h>
+
+#include <Core/Filters/GrayFilter.h>
+#include <Core/Filters/OpenGL/OpenGLBlurFilter.h>
+#include <Core/Filters/OpenGL/OpenGLDitheringFilter.h>
+#include <Core/Filters/OpenGL/OpenGLDropsFilter.h>
+#include <Core/Filters/OpenGL/OpenGLGrayFilter.h>
+#include <Core/Filters/OpenGL/OpenGLSepiaFilter.h>
+#include <Core/Filters/OpenGL/OpenGLTessFilter.h>
+#include <Core/Filters/OpenGL/OpenGLWatercolorFilter.h>
+#include <Core/Filters/SepiaFilter.h>
+#include <Core/Filters/SmoothFilter.h>
+#include <Core/Filters/TessFilter.h>
+#include <Core/Filters/WatercolorFilter.h>

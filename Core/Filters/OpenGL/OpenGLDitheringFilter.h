@@ -1,13 +1,13 @@
 #pragma once
-#ifndef IMAGEEDITOR_CORE_OPEN_GL_TESS_FILTER_FILTERS_H
-#define IMAGEEDITOR_CORE_OPEN_GL_TESS_FILTER_FILTERS_H
+#ifndef IMAGEEDITOR_CORE_OPEN_GL_DITHERING_FILTER_FILTERS_H
+#define IMAGEEDITOR_CORE_OPEN_GL_DITHERING_FILTER_FILTERS_H
 #include <Core/Filters/OpenGL/OpenGLFilterBase.h>
 
 namespace ImageEditor::Core {
-class OpenGLTessFilter final : public OpenGLFilterBase {
+class OpenGLDitheringFilter final : public OpenGLFilterBase {
 public:
-  explicit OpenGLTessFilter() = default;
-  OpenGLTessFilter &operator=(const OpenGLTessFilter &) = delete;
+  explicit OpenGLDitheringFilter() = default;
+  OpenGLDitheringFilter &operator=(const OpenGLDitheringFilter &) = delete;
 
 public: // IFilter
   virtual const std::string Description() const override final;
@@ -21,4 +21,4 @@ private: // OpenGLFilterBase
 };
 } // namespace ImageEditor::Core
 
-#endif // IMAGEEDITOR_CORE_OPEN_GL_TESS_FILTER_FILTERS_H
+#endif // IMAGEEDITOR_CORE_OPEN_GL_DITHERING_FILTER_FILTERS_H
