@@ -24,4 +24,6 @@ void main() {
     FragColor.r += (round(color.r * colors - dither) / colors) * c;
     FragColor.g += (round(color.g * colors - dither) / colors) * c;
     FragColor.b += (round(color.b * colors - dither) / colors) * c;
+
+    FragColor.a = 1.0;
 }
