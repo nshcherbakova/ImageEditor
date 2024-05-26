@@ -2,7 +2,13 @@
 #include <limits>
 #include <optional>
 
-#include <spdlog/sinks/basic_file_sink.h>
+#ifdef Q_OS_ANDROID
+#include "spdlog/sinks/android_sink.h"
+#else
+#include <spdlog/sinks/stdout_sinks.h>
+#endif
+#include <spdlog/sinks/rotating_file_sink.h>
+
 #include <spdlog/spdlog.h>
 
 #include <QDateTime>

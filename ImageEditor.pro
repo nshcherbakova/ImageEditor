@@ -63,7 +63,7 @@ contains(ANDROID_TARGET_ARCH,x86_64) {
         $$PWD/android
 }
 
-include(ImageEditor.pri)
+#include(ImageEditor.pri)
 
 HEADERS += \
     Core/Filters/FilterBase.h \
@@ -91,6 +91,7 @@ HEADERS += \
     Core/shareutils/AndroidShareUtils.h \
     Core/shareutils/IPlatformShareUtils.h \
     Core/shareutils/ShareUtilsCpp.h \
+    Core/shareutils/DummyShareUtils.h \
     Core/types.h \
     Modules/EditableImage/EditableImage.h \
     Modules/EditableImage/EditableImageModule.h \
@@ -155,6 +156,10 @@ SOURCES += \
     UI/Widgets/WidgetsModule.cpp \
     UI/main.cpp
 
+!android {
+HEADERS -= Core/shareutils/AndroidShareUtils.h
+SOURCES -= Core/shareutils/AndroidShareUtils.cpp
+}
 
 RESOURCES += \
     UI/ImageEditor.qrc
@@ -162,7 +167,4 @@ RESOURCES += \
 FORMS += \
     UI/ImageEditor.ui
 
-!android {
-HEADERS -= $$IMAGEEDITOR_PATH/Core/shareutils/AndroidShareUtils.h
-SOURCES -= $$IMAGEEDITOR_PATH/Core/shareutils/AndroidShareUtils.cpp
-}
+
