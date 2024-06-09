@@ -1,7 +1,7 @@
 #include "OpenGLDitheringFilter.h"
 #include <stdafx.h>
 
-static const char *c_filter_name_str = "Dither";
+static const char *c_filter_name_str = "8-Bit";
 static const char *c_filter_vs_str = ":/Shaders/dith_filter_vs";
 static const char *c_filter_fs_str = ":/Shaders/dith_filter_fs";
 namespace ImageEditor::Core {

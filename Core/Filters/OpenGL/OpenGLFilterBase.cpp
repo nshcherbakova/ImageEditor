@@ -9,6 +9,7 @@ static const char *c_texture_attr_name_str = "in_texture";
 static const char *c_rnd_texture_attr_name_str = "random_texture";
 static const char *c_resolution_attr_name_str = "in_resolution";
 static const char *c_random_attr_name_str = "in_random";
+static const char *c_noise_texture_attr_name_str = "noise_texture";
 
 // clang-format off
 // rectangle and texture vertexes
@@ -124,6 +125,7 @@ OpenGLFilterBase::Apply(const QImage &image,
   GLint texture_attr = 0;
   GLint screen_texture_uniform = 0;
   GLint screen_rnd_texture_uniform = 0;
+  GLint screen_noise_texture_uniform = 0;
   GLint screen_resolution_uniform = 0;
   GLint random_uniform = 0;
 
@@ -152,6 +154,9 @@ OpenGLFilterBase::Apply(const QImage &image,
   screen_rnd_texture_uniform =
       program.uniformLocation(c_rnd_texture_attr_name_str);
 
+  screen_noise_texture_uniform =
+      program.uniformLocation(c_noise_texture_attr_name_str);
+
   screen_resolution_uniform =
       program.uniformLocation(c_resolution_attr_name_str);
 
@@ -166,9 +171,18 @@ OpenGLFilterBase::Apply(const QImage &image,
   auto gl_compatible_random_img = QImage(":/Images/random")
                                       .mirrored()
                                       .convertToFormat(QImage::Format_RGBA8888);
+
+  auto gl_compatible_noise_img = QImage(":/Images/noise")
+                                     .mirrored()
+                                     .convertToFormat(QImage::Format_RGBA8888);
+
   QOpenGLTexture rnd_texture(gl_compatible_random_img);
   rnd_texture.setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
   rnd_texture.setMagnificationFilter(QOpenGLTexture::Linear);
+
+  QOpenGLTexture noise_texture(gl_compatible_noise_img);
+  noise_texture.setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
+  noise_texture.setMagnificationFilter(QOpenGLTexture::Linear);
 
   ogl_functions_->glActiveTexture(GL_TEXTURE0);
   texture.bind(0);
@@ -178,11 +192,24 @@ OpenGLFilterBase::Apply(const QImage &image,
     rnd_texture.bind(1);
   }
 
+  auto screen_noise_texture_id =
+      screen_rnd_texture_uniform != -1 ? GL_TEXTURE2 : GL_TEXTURE1;
+  if (screen_noise_texture_uniform != -1) {
+
+    ogl_functions_->glActiveTexture(screen_noise_texture_id);
+    noise_texture.bind(1);
+  }
+
   program.bind();
   program.setUniformValue(screen_texture_uniform, 0);
   if (screen_rnd_texture_uniform != -1) {
     program.setUniformValue(screen_rnd_texture_uniform,
                             GL_TEXTURE1 - GL_TEXTURE0);
+  }
+
+  if (screen_noise_texture_uniform != -1) {
+    program.setUniformValue(screen_noise_texture_uniform,
+                            screen_noise_texture_id - GL_TEXTURE0);
   }
 
   program.setUniformValue(screen_resolution_uniform, image.width(),
@@ -239,6 +266,9 @@ OpenGLFilterBase::Apply(const QImage &image,
     rnd_texture.release();
   }
 
+  if (screen_noise_texture_uniform != -1) {
+    noise_texture.release();
+  }
   spdlog::info("Image processed");
   return QImage(fbo.toImage()).convertToFormat(image.format());
 }

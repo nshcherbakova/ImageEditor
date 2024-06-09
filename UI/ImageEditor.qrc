@@ -26,6 +26,7 @@
         <file alias="splash_screen">Images/default/splash_screen.png</file>
         <file alias="splash_screen@2x">Images/default/splash_screen.png</file>
         <file alias="random">Images/default/random.png</file>
+        <file alias="noise">Images/default/noise.png</file>
         <file alias="share">Images/default/share.svg</file>
         <file alias="share@2x">Images/default/share.svg</file>
     </qresource>
