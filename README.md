@@ -4,13 +4,13 @@
             
               
              
-A Simple client/server cross-platform image editor application for **Windows**, **Android OS**, **Mac**, and **iOS** with **OpenGL** filters.
+A Simple client/server(a server feature is under development) cross-platform image editor application for **Windows**, **Android OS**, **Mac**, and **iOS** with **OpenGL** filters.
 
 The client app can edit images using self written and open source OpenGL filters. 
 
 The client app can upload images to the server.
 
-The server keeps collection of uploaded images and shows it in a web gallery.
+The server will keep collection of uploaded images and will show it in a web gallery.
 
 
 - Used QT, OpenGL technologies and spdlog, gTest c++ libraries for the app
