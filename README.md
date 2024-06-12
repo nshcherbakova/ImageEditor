@@ -8,7 +8,7 @@ A Simple client/server(a server feature is under development) cross-platform ima
 
 The client app can edit images using self written and open source OpenGL filters. 
 
-The client app can upload images to the server.
+The client app will upload images to the server.
 
 The server will keep collection of uploaded images and will show it in a web gallery.
 
