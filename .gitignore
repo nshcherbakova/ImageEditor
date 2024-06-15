@@ -57,6 +57,7 @@ ImageServer/data/images/**
 build-Tests-Qt_6_4_2_for_macOS-Debug/**
 debug/**
 Tests/Tests.app/**
+build/**
 
 # Qt #
 ######################

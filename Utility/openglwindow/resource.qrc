@@ -8,7 +8,6 @@
         <file alias="drops_filter_fs">data/drops_filter.fs</file>
         <file alias="drops_filter_vs">data/drops_filter.vs</file>
         <file alias="drops_filter2_fs">data/drops_filter2.fs</file>
-        <file alias="filter_33_Vs">data/filter 33.vs</file>
         <file alias="filter_fs">data/filter.fs</file>
         <file alias="filter_vs">data/filter.vs</file>
     </qresource>
