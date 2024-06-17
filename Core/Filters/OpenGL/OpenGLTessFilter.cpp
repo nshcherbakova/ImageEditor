@@ -1,7 +1,7 @@
 #include "OpenGLTessFilter.h"
 #include <stdafx.h>
 
-static const char *c_filter_name_str = "Emboss";
+static const char *c_filter_name_str = "Tess";
 static const char *c_filter_vs_str = ":/Shaders/tess_filter_vs";
 static const char *c_filter_fs_str = ":/Shaders/tess_filter_fs";
 namespace ImageEditor::Core {

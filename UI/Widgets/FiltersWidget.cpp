@@ -99,6 +99,16 @@ static const char *c_share_image_style_str =
     "border-style: solid;"
     "}";
 
+static const char *c_filter_widget_style_str = "QWidget{"
+                                               "background: transparent;"
+                                               "border: none;"
+                                               "}";
+
+static const char *c_scroll_style_str = "QScrollArea{"
+                                        "background: transparent;"
+                                        "border: none;"
+                                        "}";
+
 static const char *c_share_image_str = ":/Images/share";
 static const QSize c_share_image_size(32, 32);
 static const QSize c_share_size(50, 50);
@@ -225,17 +235,51 @@ void FiltersWidget::CreateFilterButtons(Modules::IControlsMapPtr controls) {
   const int button_width = c_filter_button_width;
 
   // buttons widget
-  QWidget *filter_buttons_widget = new QWidget(this);
+  QWidget *filter_buttons_widget = new QWidget();
   filter_buttons_widget->setContentsMargins(0, 0, 0, 0);
-  filter_buttons_widget->setGeometry(QRect(
+  filter_buttons_widget->setStyleSheet(c_filter_widget_style_str);
+  /*  filter_buttons_widget->setGeometry(QRect(
+        0, parent_rect.height() - button_width - c_filter_buttons_bottom_margin,
+        parent_rect.width(), button_width));*/
+
+  QScrollArea *sa(new QScrollArea(this));
+  sa->setStyleSheet(c_scroll_style_str);
+  sa->setGeometry(geometry());
+  sa->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  sa->setContentsMargins(0, 0, 0, 0);
+  sa->setGeometry(QRect(
       0, parent_rect.height() - button_width - c_filter_buttons_bottom_margin,
       parent_rect.width(), button_width));
+  QScroller::grabGesture(sa, QScroller::LeftMouseButtonGesture);
+  QScrollerProperties properties =
+      QScroller::scroller(sa)->scrollerProperties();
+  properties.setScrollMetric(QScrollerProperties::VerticalOvershootPolicy,
+                             QScrollerProperties::OvershootAlwaysOff);
+  properties.setScrollMetric(QScrollerProperties::HorizontalOvershootPolicy,
+                             QScrollerProperties::OvershootAlwaysOff);
+  properties.setScrollMetric(QScrollerProperties::DragVelocitySmoothingFactor,
+                             0.6);
+  properties.setScrollMetric(QScrollerProperties::MinimumVelocity, 0.0);
+  properties.setScrollMetric(QScrollerProperties::MaximumVelocity, 0.5);
+  properties.setScrollMetric(QScrollerProperties::AcceleratingFlickMaximumTime,
+                             0.4);
+  properties.setScrollMetric(
+      QScrollerProperties::AcceleratingFlickSpeedupFactor, 1.2);
+  properties.setScrollMetric(QScrollerProperties::SnapPositionRatio, 0.2);
+  properties.setScrollMetric(QScrollerProperties::MaximumClickThroughVelocity,
+                             0);
+  properties.setScrollMetric(QScrollerProperties::DragStartDistance, 0.001);
+  properties.setScrollMetric(QScrollerProperties::MousePressEventDelay, 0.5);
+
+  QScroller::scroller(sa)->setScrollerProperties(properties);
+
+  QScroller::grabGesture(sa, QScroller::LeftMouseButtonGesture);
 
   // buttons layput
   auto filter_buttons_layout = new QHBoxLayout(filter_buttons_widget);
   filter_buttons_layout->setContentsMargins(0, 0, 0, 0);
-
-  filter_buttons_widget->setLayout(filter_buttons_layout);
+  filter_buttons_layout->setSpacing(5);
+  // filter_buttons_widget->setLayout(filter_buttons_layout);
 
   // bind button with controls, add to layout
   int num = 0;
@@ -282,6 +326,8 @@ void FiltersWidget::CreateFilterButtons(Modules::IControlsMapPtr controls) {
       num++;
     }
   }
+  sa->setWidget(filter_buttons_widget);
+  sa->show();
 }
 
 void FiltersWidget::CreateOpenImageButton() {
