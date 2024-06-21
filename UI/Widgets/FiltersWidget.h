@@ -16,6 +16,7 @@ namespace ImageEditor::UI {
 class UICommand;
 class MenuDialog;
 class Button;
+class FiltersScrollWidget;
 
 class FiltersWidget final : public QWidget, public IWidget {
   Q_OBJECT
@@ -58,10 +59,12 @@ private:
   void CreateShareButton();
 
   void UpdateImage();
+  void DrawImage();
 
 private:
   MenuDialog *menu_ = nullptr;
   QPushButton *open_image_button_ = nullptr;
+  FiltersScrollWidget *filter_scroll_ = nullptr;
 
   Modules::IEditableImagePtr editable_image_;
   std::shared_ptr<QImage> image_;
@@ -69,6 +72,8 @@ private:
 
   Modules::INetworkPtr network_;
   std::shared_ptr<ShareUtils::ShareUtilsCpp> share_utiles_;
+
+  QPixmap image_to_draw_;
 };
 
 } // namespace ImageEditor::UI

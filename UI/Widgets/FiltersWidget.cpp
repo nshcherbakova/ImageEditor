@@ -1,8 +1,8 @@
 #include "FiltersWidget.h"
 #include "Controls/ImageButton.h"
 #include "Controls/RadioButton.h"
+#include "FiltersScrollWidget.h"
 #include "MenuDialog.h"
-#include "UICommand.h"
 #include <stdafx.h>
 
 // widget settings
@@ -22,28 +22,6 @@ static const int c_menu_button_height = 50;
 // #ifndef Q_OS_ANDROID
 
 static const int c_filter_buttons_bottom_margin = 20;
-static const int c_filter_button_width = 72;
-/*#else
-static const int c_filter_button_width = 80;
-static const char *c_round_button_str = "round_button_android";
-#endif*/
-static const char *c_filter_button_style_template_str =
-    "QPushButton{"
-    "background-color: rgba(255, 255, 255, 200);"
-    "color: %1; "
-    "font-size: 23px; "
-    "font-family: Typo Round Regular Demo;"
-    "border-style: solid;"
-    "border-radius: 36;"
-    "border-color: rgba(190, 190, 190, 255);"
-    "border-width: 4;"
-    "}"
-
-    "QPushButton:disabled{color: rgb(190, 190, 190);}"
-    "QPushButton:hover{border-color: rgba(170, 170, 170, 255);}"
-    "QPushButton:checked{background-color: rgba(246, 228, 215, 220);}"
-    "QPushButton:checked:pressed {border-color: rgba(170, 170, 170, 255);}"
-    "QPushButton:pressed{background-color: rgba(239, 232, 225, 220);}";
 
 static const char *c_menu_button_style_template_str =
     "QPushButton{"
@@ -64,14 +42,6 @@ static const char *c_menu_button_style_template_str =
     "border-color: rgba(240, 240, 240, 255);"
     "}"
     "QPushButton:pressed{background-color: rgba(239, 232, 225, 220);}";
-
-static const char *c_filter_buttons_text_color_str_arr[] = {
-    "rgb(95, 120, 180)", // first button color
-    "#D1854F",           // second button color
-    "#6F9B00",           // third button color
-    "#308BB2",           // fourth button color
-    "#8E2DB7"            // fifth button color
-};
 
 static const char *c_open_image_style_str =
     "QPushButton{"
@@ -98,16 +68,6 @@ static const char *c_share_image_style_str =
     "border-width: 4;"
     "border-style: solid;"
     "}";
-
-static const char *c_filter_widget_style_str = "QWidget{"
-                                               "background: transparent;"
-                                               "border: none;"
-                                               "}";
-
-static const char *c_scroll_style_str = "QScrollArea{"
-                                        "background: transparent;"
-                                        "border: none;"
-                                        "}";
 
 static const char *c_share_image_str = ":/Images/share";
 static const QSize c_share_image_size(32, 32);
@@ -145,6 +105,12 @@ FiltersWidget::FiltersWidget(Parameters parameters)
   onShow(false);
   emit SignalImageOpened(false);
   emit SignalEnableCleanButton(false);
+
+  background_image_ = background_image_.scaledToWidth(
+      geometry().toRectF().width(), Qt::SmoothTransformation);
+
+  image_to_draw_ = QPixmap(geometry().size() * devicePixelRatio());
+  image_to_draw_.setDevicePixelRatio(devicePixelRatio());
 }
 
 void FiltersWidget::CreateMenuButton() {
@@ -232,102 +198,18 @@ void FiltersWidget::CreateFilterButtons(Modules::IControlsMapPtr controls) {
   UNI_ENSURE_RETURN(controls);
 
   const QRect parent_rect = geometry();
-  const int button_width = c_filter_button_width;
+  const int button_width = FiltersScrollWidget::c_filter_button_width;
 
-  // buttons widget
-  QWidget *filter_buttons_widget = new QWidget();
-  filter_buttons_widget->setContentsMargins(0, 0, 0, 0);
-  filter_buttons_widget->setStyleSheet(c_filter_widget_style_str);
-  /*  filter_buttons_widget->setGeometry(QRect(
-        0, parent_rect.height() - button_width - c_filter_buttons_bottom_margin,
-        parent_rect.width(), button_width));*/
+  filter_scroll_ = new FiltersScrollWidget(this, controls);
+  connect(filter_scroll_, &FiltersScrollWidget::SignalCommandAppyed, this,
+          &FiltersWidget::OnSignalCommandAppyed);
 
-  QScrollArea *sa(new QScrollArea(this));
-  sa->setStyleSheet(c_scroll_style_str);
-  sa->setGeometry(geometry());
-  sa->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  sa->setContentsMargins(0, 0, 0, 0);
-  sa->setGeometry(QRect(
+  filter_scroll_->setGeometry(QRect(
       0, parent_rect.height() - button_width - c_filter_buttons_bottom_margin,
       parent_rect.width(), button_width));
-  QScroller::grabGesture(sa, QScroller::LeftMouseButtonGesture);
-  QScrollerProperties properties =
-      QScroller::scroller(sa)->scrollerProperties();
-  properties.setScrollMetric(QScrollerProperties::VerticalOvershootPolicy,
-                             QScrollerProperties::OvershootAlwaysOff);
-  properties.setScrollMetric(QScrollerProperties::HorizontalOvershootPolicy,
-                             QScrollerProperties::OvershootAlwaysOff);
-  properties.setScrollMetric(QScrollerProperties::DragVelocitySmoothingFactor,
-                             0.6);
-  properties.setScrollMetric(QScrollerProperties::MinimumVelocity, 0.0);
-  properties.setScrollMetric(QScrollerProperties::MaximumVelocity, 0.5);
-  properties.setScrollMetric(QScrollerProperties::AcceleratingFlickMaximumTime,
-                             0.4);
-  properties.setScrollMetric(
-      QScrollerProperties::AcceleratingFlickSpeedupFactor, 1.2);
-  properties.setScrollMetric(QScrollerProperties::SnapPositionRatio, 0.2);
-  properties.setScrollMetric(QScrollerProperties::MaximumClickThroughVelocity,
-                             0);
-  properties.setScrollMetric(QScrollerProperties::DragStartDistance, 0.001);
-  properties.setScrollMetric(QScrollerProperties::MousePressEventDelay, 0.5);
 
-  QScroller::scroller(sa)->setScrollerProperties(properties);
-
-  QScroller::grabGesture(sa, QScroller::LeftMouseButtonGesture);
-
-  // buttons layput
-  auto filter_buttons_layout = new QHBoxLayout(filter_buttons_widget);
-  filter_buttons_layout->setContentsMargins(0, 0, 0, 0);
-  filter_buttons_layout->setSpacing(5);
-  // filter_buttons_widget->setLayout(filter_buttons_layout);
-
-  // bind button with controls, add to layout
-  int num = 0;
-  auto buttons_it = controls->find(Modules::FILTER_BUTTON_TAG);
-  if (buttons_it != controls->end()) {
-    while (buttons_it != controls->end() &&
-           buttons_it->first == Modules::FILTER_BUTTON_TAG) {
-      auto control = buttons_it->second;
-      UNI_ENSURE_RETURN(control);
-
-      // create buttons
-      const auto button =
-          new RadioButton(UIString(control->Parameters()),
-                          Modules::FILTER_BUTTON_TAG, filter_buttons_widget);
-      QRect button_rect = QRect(0, 0, button_width - 10, button_width);
-      button->setGeometry(button_rect);
-      button->setMinimumWidth(button_width);
-      button->setMinimumHeight(button_width);
-      button->setMaximumHeight(button_width);
-      button->setMaximumWidth(button_width);
-      button->setFlat(true);
-
-      const int index = num % std::size(c_filter_buttons_text_color_str_arr);
-      QString style_template(c_filter_button_style_template_str);
-      QString style_with_args =
-          style_template.arg(c_filter_buttons_text_color_str_arr[index]);
-      // .arg(c_round_button_str);
-      button->setStyleSheet(style_with_args);
-
-      // bind button with control
-      const auto ui_command = new UICommand(this, control);
-      connect(button, &QPushButton::clicked, ui_command,
-              &UICommand::OnButtonClicked);
-      connect(ui_command, &UICommand::SignalCommandAppyed, this,
-              &FiltersWidget::OnSignalCommandAppyed);
-
-      connect(this, &FiltersWidget::SignalImageOpened, button,
-              &ImageButton::OnSignalEnable);
-
-      // add button to layout
-      filter_buttons_layout->addWidget(button);
-
-      buttons_it++;
-      num++;
-    }
-  }
-  sa->setWidget(filter_buttons_widget);
-  sa->show();
+  connect(this, &FiltersWidget::SignalImageOpened, this,
+          [&](bool opened) { filter_scroll_->setEnabled(opened); });
 }
 
 void FiltersWidget::CreateOpenImageButton() {
@@ -412,6 +294,7 @@ void FiltersWidget::OnSignalOpenImage(const QString path) {
     image_.reset();
     spdlog::error("Fail to open image {0}", path.toStdString());
   }
+  UpdateAllImage();
   emit SignalImageOpened(image_ && !(image_->isNull()));
   emit SignalEnableCleanButton(false);
 }
@@ -470,16 +353,20 @@ void FiltersWidget::UpdateImage() {
 
   image_ = std::make_shared<QImage>(IImageToQtImage(editable_image_->Image()));
 
+  DrawImage();
   emit SignalEnableCleanButton(true);
 
   update();
 }
 
-void FiltersWidget::paintEvent(QPaintEvent *) {
-  QPainter painter(this);
+void FiltersWidget::DrawImage() {
+
+  QPainter painter(&image_to_draw_);
 
   // Draw background
   QRectF dirty_rect = geometry().toRectF();
+  painter.fillRect(dirty_rect, c_widget_background_color);
+
   QImage scaled_background_image = background_image_.scaledToWidth(
       dirty_rect.width(), Qt::SmoothTransformation);
   painter.drawImage(0, dirty_rect.height() - scaled_background_image.height(),
@@ -534,8 +421,26 @@ void FiltersWidget::paintEvent(QPaintEvent *) {
   painter.setPen(pen);
 
   painter.drawImage(paint_rect, *image_, image_->rect(),
-                    Qt::AutoColor | Qt::DiffuseDither);
+                    Qt::AutoColor | Qt::AutoDither);
   painter.drawRoundedRect(boder_rect, 10, 10);
+  // image_to_draw_.s()
+}
+
+void FiltersWidget::paintEvent(QPaintEvent *) {
+  QPainter painter(this);
+
+  // Draw background
+  QRectF dirty_rect = geometry().toRectF();
+
+  if (!image_ || image_->isNull()) {
+
+    painter.drawImage(0, dirty_rect.height() - background_image_.height(),
+                      background_image_);
+
+    return;
+  }
+
+  painter.drawPixmap(dirty_rect, image_to_draw_, image_to_draw_.rect());
 }
 
 void FiltersWidget::onShow(const bool visible) {

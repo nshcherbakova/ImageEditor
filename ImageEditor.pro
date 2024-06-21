@@ -110,6 +110,7 @@ HEADERS += \
     UI/UIString.h \
     UI/Widgets/Controls/ImageButton.h \
     UI/Widgets/Controls/RadioButton.h \
+    UI/Widgets/FiltersScrollWidget.h \
     UI/Widgets/FiltersWidget.h \
     UI/Widgets/IWidget.h \
     UI/Widgets/MenuDialog.h \
@@ -149,6 +150,7 @@ SOURCES += \
     UI/QtConverts.cpp \
     UI/Widgets/Controls/ImageButton.cpp \
     UI/Widgets/Controls/RadioButton.cpp \
+    UI/Widgets/FiltersScrollWidget.cpp \
     UI/Widgets/FiltersWidget.cpp \
     UI/Widgets/MenuDialog.cpp \
     UI/Widgets/SplashScreen.cpp \
