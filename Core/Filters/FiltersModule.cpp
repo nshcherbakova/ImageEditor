@@ -21,20 +21,28 @@ IFilterInjector module() noexcept {
 IFilterInjector OpenGLmodule() noexcept {
   return boost::di::make_injector(
       boost::di::bind<IFilter *[]>()
-          .to<OpenGLSepiaFilter, /*OpenGLTessFilter,*/ OpenGLDropsFilter,
-              OpenGLWaterColorFilter, OpenGLDitheringFilter>(),
+          .to<OpenGLSepiaFilter, OpenGLDropsFilter, OpenGLWaterColorFilter,
+              OpenGLDitheringFilter, OpenGLTessFilter, OpenGLGrayFilter,
+              OpenGLBlurFilter>(),
       boost::di::bind<IFilter>().to<OpenGLSepiaFilter>(),
       boost::di::bind<IFilter>()
           .named<class OpenGLWaterColorFilter>()
           .to<OpenGLWaterColorFilter>(),
-      // boost::di::bind<IFilter>().named<class
-      // OpenGLTessFilter>().to<OpenGLTessFilter>(),
       boost::di::bind<IFilter>()
           .named<class OpenGLDitheringFilter>()
           .to<OpenGLDitheringFilter>(),
       boost::di::bind<IFilter>()
           .named<class OpenGLDropsFilter>()
-          .to<OpenGLDropsFilter>());
+          .to<OpenGLDropsFilter>(),
+      boost::di::bind<IFilter>()
+          .named<class OpenGLTessFilter>()
+          .to<OpenGLTessFilter>(),
+      boost::di::bind<IFilter>()
+          .named<class OpenGLGrayFilter>()
+          .to<OpenGLGrayFilter>(),
+      boost::di::bind<IFilter>()
+          .named<class OpenGLBlurFilter>()
+          .to<OpenGLBlurFilter>());
 }
 } // namespace
 
