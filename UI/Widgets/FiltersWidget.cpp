@@ -294,7 +294,7 @@ void FiltersWidget::OnSignalOpenImage(const QString path) {
     image_.reset();
     spdlog::error("Fail to open image {0}", path.toStdString());
   }
-  UpdateAllImage();
+  DrawImage();
   emit SignalImageOpened(image_ && !(image_->isNull()));
   emit SignalEnableCleanButton(false);
 }
