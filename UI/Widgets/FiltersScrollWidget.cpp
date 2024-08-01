@@ -85,13 +85,13 @@ void FiltersScrollWidget::CreateFilterButtons(
 
   // buttons widget
   QWidget *filter_buttons_widget = new QWidget();
-  filter_buttons_widget->setContentsMargins(0, 0, 0, 0);
+  filter_buttons_widget->setContentsMargins(3, 0, 3, 0);
   filter_buttons_widget->setStyleSheet(c_filter_widget_style_str);
 
   // buttons layput
   auto filter_buttons_layout = new QHBoxLayout(filter_buttons_widget);
   filter_buttons_layout->setContentsMargins(0, 0, 0, 0);
-  filter_buttons_layout->setSpacing(5);
+  filter_buttons_layout->setSpacing(7);
   // filter_buttons_widget->setLayout(filter_buttons_layout);
 
   // bind button with controls, add to layout
